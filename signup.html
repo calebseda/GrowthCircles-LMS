@@ -1,0 +1,146 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrowthCircles LMS - Sign Up</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .signup-container {
+      max-width: 480px;
+      margin: 40px auto;
+      background-color: #FAF9F6;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    }
+    .signup-title {
+      font-size: 26px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #19486A;
+      animation: fadeUp 1s ease-out;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .input {
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-size: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .role-select {
+      margin-bottom: 16px;
+    }
+    .cta-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    .btn-primary {
+      background-color: #f97316;
+      color: #fff;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s ease;
+    }
+    .btn-primary:hover {
+      transform: scale(1.05);
+    }
+  .btn-secondary {
+      background-color: #94945C;
+      color: #fff;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s ease;
+    }
+    .btn-secondary:hover {
+      transform: scale(1.05);
+    }
+    .consent {
+      font-size: 16px;
+      color: #3A3A3A;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+<div class="signup-container">
+  <h1 class="signup-title">Join GrowthCircles LMS</h1>
+  <form id="facilitatorForm">
+    
+    <!-- Step 1 -->
+    <div class="form-step active">
+      <input type="text" class="input" placeholder="Full Name" required>
+      <input type="email" class="input" placeholder="Email Address" required>
+      <input type="tel" class="input" placeholder="Phone Number" required>
+      <input type="text" class="input" placeholder="Country" required>
+      <input type="text" class="input" placeholder="Details of Location (City, County, Sub-County, Ward, Village or equivalent)" required>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="form-step">
+      <select class="input" required>
+        <option value="">Highest Level of Education</option>
+        <option>Secondary</option>
+        <option>Diploma</option>
+        <option>Bachelor</option>
+        <option>Master</option>
+        <option>PhD</option>
+      </select>
+      <input type="text" class="input" placeholder="Field of Study">
+      <input type="text" class="input" placeholder="Current Occupation / Role">
+      <input type="number" class="input" placeholder="Years of Experience">
+      <input type="text" class="input" placeholder="Key Skills (comma-separated)">
+    </div>
+
+    <!-- Step 3 -->
+    <div class="form-step">
+      <input type="text" class="input" placeholder="Hobbies / Interests">
+      <input type="url" class="input" placeholder="LinkedIn Profile">
+      <input type="text" class="input" placeholder="Twitter / X Handle">
+      <input type="tel" class="input" placeholder="WhatsApp Contact (optional)">
+</div>
+
+    <!-- Step 4 -->
+    <div class="form-step">
+      <select class="input" required>
+        <option value="">Select Your Role</option>
+        <option value="facilitator">Facilitator</option>
+        <option value="trainee">Youth Trainee</option>
+      </select>
+      <div class="consent">
+        <input type="checkbox" required> I agree to the data use policy and consent to GrowthCircles LMS storing my information.
+      </div>
+      <div class="cta-row">
+        <button type="button" class="btn-secondary prev-btn">Back</button>
+        <button type="submit" class="btn-primary">Finish</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Upload Window -->
+<div class="form-step">
+  <label class="title">Upload Testimonials & Verifying Artefacts</label>
+  <input type="file" class="input" id="uploadFiles" multiple 
+         accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip">
+  <p class="notice-text">
+    You may upload certificates, recommendation letters, prototype screenshots, or other supporting documents.
+  </p>
+  <div class="cta-row">
+    <button type="button" class="btn-secondary prev-btn">Back</button>
+    <button type="button" class="btn-primary next-btn">Next</button>
+  </div>
+</div>

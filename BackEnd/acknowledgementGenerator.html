@@ -1,0 +1,31 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $fullname = $_POST['fullname'];
+    $email = $_POST['email'];
+    $subject = $_POST['subject'];
+    $details = $_POST['details'];
+
+    // Acknowledgement message with structured format
+    $message = "Dear $fullname,\n\n".
+               "Thank you for contacting Growth Circles. We have received your message and will respond shortly.\n\n".
+               "Here are the details of your submission:\n".
+               "----------------------------------------\n".
+               "Full Name: $fullname\n".
+               "Email Address: $email\n".
+               "Subject: $subject\n".
+               "Details:\n$details\n".
+               "----------------------------------------\n\n".
+               "Best regards,\nGrowth Circles Team";
+
+    $headers = "From: no-reply@growthcircles.org";
+
+    // Send acknowledgement to user
+    mail($email, "Acknowledgement: $subject", $message, $headers);
+
+    // Send copy to admin
+    $adminEmail = "admin@growthcircles.org";
+    mail($adminEmail, "New Contact Submission", $message, $headers);
+
+    echo "Submission successful.";
+}
+?>

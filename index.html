@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Circles LMS</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./css/template.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0d0d0d;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 1rem;   /* spacing without forcing layout */
+      min-height: 70vh;     /* allow natural downward growth */
+    }
+
+    .sparkling-text {
+      font-size: 3rem;
+      font-weight: bold;
+      background: linear-gradient(
+        270deg,
+        #ff6ec4,
+        #7873f5,
+        #4ade80,
+        #facc15,
+        #f97316,
+        #c084fc
+      );
+      background-size: 1200% 1200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 20s ease infinite, fadeIn 6s ease forwards;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .line {
+      opacity: 0;
+      animation: fadeIn 4s ease forwards;
+    }
+
+    .line:nth-child(1) { animation-delay: 1s; }
+    .line:nth-child(2) { animation-delay: 5s; }
+    .line:nth-child(3) { animation-delay: 9s; }
+    .line:nth-child(4) { animation-delay: 13s; }
+
+    footer {
+      margin-top: auto; /* let template.css handle branding */
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="./assets/logo1.png" alt="Growth Circles Logo">
+    </div>
+    <div class="nav-links">
+      <a href="./home.html">Home</a>
+      <a href="./aboutus.html">About Us</a>
+      <a href="./services.html">Services</a>
+      <a href="./contactus.html">Contact Us</a>
+      <a href="./signup.html" class="btn-primary">Sign Up</a>
+      <a href="./signin.html" class="btn-secondary">Sign In</a>
+    </div>
+  </nav>
+
+  <!-- Secondary Navigation -->
+  <div class="subnav">
+    <a href="./youthempowerment.html">Youth Empowerment</a>
+    <a href="./facilitatordevelopment.html">Facilitator Development</a>
+    <a href="./msmeincubation.html">MSME Incubation</a>
+    <a href="./hubhostmanagement.html">Hub Host Engagement</a>
+    <a href="./expertiseprocurement.html">Expertise Procurement</a>
+    <a href="./marketlinkages.html">Market Linkages</a>
+    <a href="./internshipopprtunities.html">Internship Opportunities</a>
+  </div>
+
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="sparkling-text line">Dreams Revived</div>
+    <div class="sparkling-text line">Scaled</div>
+    <div class="sparkling-text line">Unleashed into Digital Production</div>
+    <div class="sparkling-text line">We are Youth and MSME Digital Explorers and Innovators</div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2026 Growth Circles Digital Generation
+  </footer>
+</body>
+</html>

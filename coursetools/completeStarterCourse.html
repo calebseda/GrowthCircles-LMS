@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dreamer Track Learning Area</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 16px;
+      color: #333;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .learningArea { display: flex; flex-direction: column; gap: 20px; }
+    .sidebar {
+      background-color: #FAF9F6;
+      border-left: 6px solid #19486A;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .sidebar h2 { font-size: 24px; font-weight: 700; margin-bottom: 12px; color: #19486A; }
+    .sidebar .card {
+      background: #eee; border-radius: 6px; padding: 14px; margin-bottom: 12px;
+      cursor: pointer; font-size: 18px;
+    }
+    .sidebar .card:hover { background: #ddd; }
+    .mainArea {
+      background-color: #FAF9F6;
+      border-left: 8px solid #8DC63F;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .mainArea h3 { font-size: 26px; font-weight: bold; margin-bottom: 16px; color: #19486A; }
+    .subCard {
+      background: #fff; border-radius: 8px; padding: 16px; margin-bottom: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+    .descCard { border-left: 6px solid #FF3A21; }
+    .exampleCard { border-left: 6px solid #FDB913; }
+    .instructionsCard { border-left: 6px solid #00AED9; }
+    .xpCard { border-left: 6px solid #8DC63F; }
+    .feedbackCard { border-left: 6px solid #A21942; }
+    .learnerCard { border-left: 6px solid #4CAF50; }
+    .instructionTitle { font-weight: bold; margin-top: 8px; color: #374151; }
+    .btn {
+      font-size: 18px; margin-top: 14px; padding: 14px; border: none; border-radius: 6px;
+      cursor: pointer; background-color: #19486A; color: #fff; font-weight: bold; width: 100%;
+    }
+    @media (min-width: 768px) {
+      .learningArea { flex-direction: row; }
+      .sidebar { max-width: 280px; }
+      .mainArea { flex: 1; margin-left: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="learningArea">
+    <!-- Sidebar -->
+    <div class="sidebar" id="lessonList">
+      <h2>Dreamer Track</h2>
+      <div class="card" onclick="showWelcome()">🌟 Welcome</div>
+    </div>
+
+    <!-- Main infoCard -->
+    <div class="mainArea" id="lessonDetail"></div>
+  </div>
+
+  <script>
+    const lessonsData = {
+      lessons: [
+        { id:1, title:"You Are More Than You Think", description:"Affirm your self-worth and recognize hidden strengths.", example:"Write down three qualities you admire in yourself.", instructions:{experience:"Recall a moment when you overcame a challenge.",reflection:"How did it feel to succeed?",conceptualization:"What does this reveal about your strengths?",experimentation:"Try sharing one strength with a peer."}, xpAward:15, northPoleReminder:"Unlock your potential.", badgeReminder:"Visionary Inspirer Badge awaits.", learnerReport:{} },
+        { id:2, title:"The Power of Imagination", description:"Discover how imagination fuels innovation and resilience.", example:"Create a vision board of your future goals.", instructions:{experience:"Picture yourself leading a project.",reflection:"What role are you playing?",conceptualization:"How does imagination fuel innovation?",experimentation:"Build a small prototype of your idea."}, xpAward:20, northPoleReminder:"Unlock your potential.", badgeReminder:"Visionary Inspirer Badge awaits.", learnerReport:{} },
+        { id:3, title:"Dreams into Goals", description:"Learn to transform dreams into actionable goals.", example:"Break down a big dream into 3 steps.", instructions:{experience:"Think of a dream you have.",reflection:"Why does it matter to you?",conceptualization:"How can it be broken into steps?",experimentation:"Write 3 steps toward achieving it."}, xpAward:20, northPoleReminder:"Stay focused on your journey.", badgeReminder:"Visionary Inspirer Badge awaits.", learnerReport:{} },
+        { id:4, title:"Resilience in Action", description:"Build resilience by learning from setbacks.", example:"Journal about a time you bounced back.", instructions:{experience:"Recall a setback you faced.",reflection:"What did you learn?",conceptualization:"How does resilience help growth?",experimentation:"Share your story with a peer."}, xpAward:20, northPoleReminder:"Resilience builds strength.", badgeReminder:"Visionary Inspirer Badge awaits.", learnerReport:{} },
+        { id:5, title:"Collaboration and Teamwork", description:"Discover the power of working together.", example:"Plan a small project with friends.", instructions:{experience:"Work with a peer on a task.",reflection:"How did collaboration help?",conceptualization:"Why is teamwork important?",experimentation:"Plan a group activity."}, xpAward:20, northPoleReminder:"Together we achieve more.", badgeReminder:"Visionary Inspirer Badge awaits.", learnerReport:{} },
+        { id:6, title:"Innovation Sparks", description:"Learn how small ideas spark innovation.", example:"Sketch a new solution to a problem.", instructions:{experience:"Think of a problem you face.",reflection:"What ideas come to mind?",conceptualization:"How can small ideas grow?",experimentation:"Sketch a solution."}, xpAward:20, northPoleReminder:"Innovation starts small.", badgeReminder:"Visionary Inspirer Badge awaits.", learnerReport:{} },
+        { id:7, title:"Digital Confidence", description:"Build confidence using digital tools.", example:"Try a new app for productivity.", instructions:{experience:"Download a new app.",reflection:"Was it easy to use?",conceptualization:"How do digital tools empower?",experimentation:"Use it for a task."}, xpAward:20, northPoleReminder:"Digital skills unlock opportunities.", badgeReminder:"Visionary Inspirer Badge awaits.", learnerReport:{} },
+        { id:8, title:"Entrepreneurial Mindset", description:"Think like an entrepreneur.", example:"Identify a local need and solution.", instructions:{experience:"Observe your community.",reflection:"What needs do you see?",conceptualization:"How can you solve them?",experimentation:"Draft a business idea."}, xpAward:20, northPoleReminder:"Entrepreneurship drives change.", badgeReminder:"Visionary Inspirer Badge awaits.", learnerReport:{} },
+        { id:9, title:"Leadership in Practice", description:"Develop leadership skills through practice.", example:"Lead a small group activity.", instructions:{experience:"Take charge of a task.",reflection:"How did others respond?",conceptualization:"What makes effective leadership?",experimentation:"Lead a peer activity."}, xpAward:20, northPoleReminder:"Leadership inspires others.", badgeReminder:"Visionary Inspirer Badge awaits.", learnerReport:{} },
+        { id:10, title:"Problem-Solving Power", description:"Sharpen your problem-solving skills.", example:"Solve a puzzle or challenge.", instructions:{experience:"Face a tricky problem.",reflection:"What strategies worked?",conceptualization:"How do you approach challenges?",experimentation:"Apply problem-solving to a real issue."}, xpAward:20, northPoleReminder:"Every problem has a solution.", badgeReminder:"Visionary Inspirer Badge awaits.", learnerReport:{} },
+        { id:11, title:"Visionary Inspirer Badge", description:"Celebrate your journey and achievements.", example:"Reflect on your growth.", instructions:{experience:"Review all lessons completed.",reflection:"What have you learned?",conceptualization:"How has this journey changed you?",experimentation:"Share your story with others."}, xpAward:30, northPoleReminder:"You’ve reached the summit.", badgeReminder:"Badge unlocked!", learnerReport:{} }
+      ]
+    };
+
+    let completedLessons = [];
+    let xpTotal = 0;
+
+    function showWelcome() {
+      const detail = document.getElementById('lessonDetail');
+      detail.innerHTML = `
+        <h3>Welcome to the Dreamer Track</h3>
+        <div class="subCard descCard">
+          <p>These 11 lessons will awaken your dreams, build resilience, and guide you step by step.</p>
+          <p>Each activity is simple, practical, and designed to unlock your potential as a digital engineer or entrepreneur.</p>
+          <p>Complete all lessons to earn the Visionary Inspirer Badge and celebrate your transformation.</p>
+          <button class="btn" onclick="showLesson(lessonsData.lessons[0])">🚀 Start Lesson 1</button>
+        </div>
+      `;
+    }
+
+    function showLesson(lesson) {
+      const detail = document.getElementById('lessonDetail');
+      detail.innerHTML = `
+        <h3>${lesson.title}</h3>
+        <div class="subCard descCard"><p>${lesson.description}</p></div>
+        <div class="subCard exampleCard"><p>💡 Example: ${lesson.example}</p></div>
+        <div class="subCard instructionsCard">
+          <div class="instructionTitle">Experience:</div><div>${lesson.instructions.experience}</div>
+          <div class="instructionTitle">Reflection:</div><div>${lesson.instructions.reflection}</div>
+          <div class="instructionTitle">Conceptualization:</div><div>${lesson.instructions.conceptualization}</div>
+          <div class="instructionTitle">Experimentation:</div><div>${lesson.instructions.experimentation}</div>
+        </div>
+        <div class="subCard learnerCard">
+          <p>Learner Report:</p>
+          <textarea id="report-${lesson.id}" style="width:100%;height:120px;padding:10px;" 
+            placeholder="Write your reflection here"></textarea>
+          <p>Upload evidence (audio/video/image):</p>
+          <input type="file" id="file-${lesson.id}" accept="audio/*,video/*,image/*" style="margin-bottom:10px;">
+          <textarea id="caption-${lesson.id}" style="width:100%;height:80px;padding:10px;" 
+            placeholder="Add a narration caption for your file"></textarea>
+          <button class="btn" onclick="submitReport(${lesson.id})">Submit Report</button>
+        </div>
+        <div class="subCard xpCard">
+          <div class="xp">🏆 XP Award: ${lesson.xpAward}</div>
+          <div class="reminder">${lesson.northPoleReminder}</div>
+          <div class="reminder">${lesson.badgeReminder}</div>
+          <button class="btn" onclick="approveLesson(${lesson.id})">Manager Approval</button>
+        </div>
+        <div class="subCard feedbackCard">
+          <p>Optional Peer Feedback:</p>
+          <input type="text" placeholder="Peers can leave encouragement here" 
+            style="width:100%;padding:10px;margin-bottom:10px;">
+          <p>Optional Facilitator Feedback:</p>
+          <input type="text" placeholder="Facilitator can add comments here" 
+            style="width:100%;padding:10px;margin-bottom:10px;">
+        </div>
+      `;
+    }
+
+    function submitReport(lessonId) {
+      const lesson = lessonsData.lessons.find(l => l.id === lessonId);
+      const reportText = document.getElementById(`report-${lessonId}`).value.trim();
+      const fileInput = document.getElementById(`file-${lessonId}`);
+      const captionText = document.getElementById(`caption-${lessonId}`).value.trim();
+
+      if (!reportText && !fileInput.files.length) {
+        alert("Please provide either a reflection or upload a file.");
+        return;
+      }
+
+      lesson.learnerReport = {
+        text: reportText,
+        fileName: fileInput.files.length ? fileInput.files[0].name : null,
+        caption: captionText
+      };
+
+      alert("Report submitted with evidence. Awaiting Manager Approval.");
+    }
+
+    function approveLesson(lessonId) {
+      const lesson = lessonsData.lessons.find(l => l.id === lessonId);
+      if (lesson.learnerReport && (lesson.learnerReport.text || lesson.learnerReport.fileName)) {
+        if (!completedLessons.includes(lessonId)) {
+          completedLessons.push(lessonId);
+          xpTotal += lesson.xpAward;
+          alert(`Lesson ${lessonId} approved. XP total: ${xpTotal}`);
+        }
+      } else {
+        alert("Learner must submit a report before approval.");
+      }
+    }
+
+    // Populate sidebar with all lessons
+    const lessonList = document.getElementById('lessonList');
+    lessonsData.lessons.forEach(lesson => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.textContent = lesson.title;
+      card.onclick = () => showLesson(lesson);
+      lessonList.appendChild(card);
+    });
+
+    // Render welcome on page load
+    showWelcome();
+  </script>
+</body>
+</html>

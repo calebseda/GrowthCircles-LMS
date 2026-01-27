@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dreamer Track Onboarding & Lessons</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    /* InfoCard style */
+    .infoCard {
+      background-color: #FAF9F6; /* cream base */
+      border-left: 6px solid #19486A; /* SDG deep blue accent */
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      text-align: left; /* enforce left alignment */
+    }
+
+    .infoCard h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #19486A;
+    }
+
+    .infoCard p {
+      font-size: 14px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #8A2BE2; /* badge purple accent */
+    }
+
+    /* Lesson cards styled as infoCards */
+    .lessonCard {
+      background-color: #FAF9F6;
+      border-left: 6px solid #8DC63F; /* SDG green accent */
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      text-align: left;
+    }
+
+    .lessonCard h3 {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #19486A;
+    }
+
+    .lessonCard .description {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .lessonCard .example {
+      font-size: 13px;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+
+    .instructions {
+      margin-top: 10px;
+    }
+
+    .instructionTitle {
+      font-weight: bold;
+      margin-top: 6px;
+      color: #374151;
+    }
+
+    .instruction {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .xp {
+      margin-top: 12px;
+      font-weight: bold;
+      color: #19486A;
+    }
+
+    .reminder {
+      font-size: 12px;
+      margin-top: 4px;
+      color: #555;
+    }
+
+    .locked {
+      font-size: 14px;
+      font-style: italic;
+      color: #999;
+    }
+
+    .feedbackLabel {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 6px;
+    }
+
+    .btn {
+      margin-top: 10px;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #19486A;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .badge {
+      margin-top: 20px;
+      padding: 16px;
+      background-color: #8A2BE2;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .badgeText {
+      color: #fff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <!-- Onboarding InfoCard -->
+  <div class="infoCard">
+    <h2>Welcome to the Dreamer Track</h2>
+    <p>These <span class="highlight">11 lessons</span> will awaken your dreams, build resilience, and guide you step by step.</p>
+    <p>Each activity is simple, practical, and designed to unlock your potential as a <span class="highlight">digital engineer or entrepreneur</span>.</p>
+    <p>Remember: every skill you learn here can be turned into real opportunities — from online shops to climate‑smart farming, from coding clubs to community enterprises.</p>
+    <p>Complete all lessons to earn the <span class="highlight">Visionary Inspirer Badge</span> and celebrate your transformation.</p>
+  </div>
+
+  <!-- Lessons -->
+  <div class="infoCard">
+    <h2>🌟 Dreamer Track Lessons</h2>
+    <p>Total XP: <span id="xpTotal">0</span></p>
+  </div>
+  <div id="lessonsContainer"></div>
+  <div id="finalBadge" class="badge" style="display:none;">
+    <div class="badgeText">🏅 Visionary Inspirer Badge Unlocked!</div>
+  </div>
+
+  <script>
+    // Paste your full lessons JSON here
+    const lessonsData = {
+      lessons: [
+        // Insert lessons 1–11 JSON objects here
+      ],
+      finalBadge: {
+        badgeName: "Visionary Inspirer Badge",
+        badgeColor: "#8A2BE2",
+        badgeMeaning: "Learner has awakened dreams, dismantled barriers, ignited passion, and is now ready to inspire others.",
+        unlockTrigger: "Completion of all 11 lessons with required feedback",
+        xpAward: 50
+      }
+    };
+
+    let completedLessons = [];
+    let xpTotal = 0;
+
+    function renderLessons() {
+      const container = document.getElementById('lessonsContainer');
+      container.innerHTML = '';
+
+      lessonsData.lessons.forEach((lesson) => {
+        const unlocked = lesson.id === 1 || completedLessons.includes(lesson.id - 1);
+
+        const card = document.createElement('div');
+        card.className = 'lessonCard';
+
+        card.innerHTML = `
+          <h3>${lesson.title}</h3>
+          <div class="description">${lesson.description}</div>
+          <div class="example">💡 Example: ${lesson.example}</div>
+        `;
+
+        if (unlocked) {
+          const instructions = document.createElement('div');
+          instructions.className = 'instructions';
+          instructions.innerHTML = `
+            <div class="instructionTitle">Experience:</div>
+            <div class="instruction">${lesson.instructions.experience}</div>
+            <div class="instructionTitle">Reflection:</div>
+            <div class="instruction">${lesson.instructions.reflection}</div>
+            <div class="instructionTitle">Conceptualization:</div>
+            <div class="instruction">${lesson.instructions.conceptualization}</div>
+            <div class="instructionTitle">Experimentation:</div>
+            <div class="instruction">${lesson.instructions.experimentation}</div>
+          `;
+          card.appendChild(instructions);
+
+          const xp = document.createElement('div');
+          xp.className = 'xp';
+          xp.textContent = `🏆 XP Award: ${lesson.xpAward}`;
+          card.appendChild(xp);
+
+          const reminder = document.createElement('div');
+          reminder.className = 'reminder';
+          reminder.textContent = lesson.northPoleReminder;
+          card.appendChild(reminder);
+
+          const badgeReminder = document.createElement('div');
+          badgeReminder.className = 'reminder';
+          badgeReminder.textContent = lesson.badgeReminder;
+          card.appendChild(badgeReminder);
+
+          // Optional feedback inputs
+          const peerLabel = document.createElement('div');
+          peerLabel.className = 'feedbackLabel';
+          peerLabel.textContent = 'Optional Peer Feedback:';
+          card.appendChild(peerLabel);
+
+          const peerInput = document.createElement('input');
+          peerInput.className = 'input';
+          peerInput.placeholder = 'Peers can leave encouragement here';
+          card.appendChild(peerInput);
+
+          const facLabel = document.createElement('div');
+          facLabel.className = 'feedbackLabel';
+          facLabel.textContent = 'Optional Facilitator Feedback:';
+          card.appendChild(facLabel);
+
+          const facInput = document.createElement('input');
+          facInput.className = 'input';
+          facInput.placeholder = 'Facilitator can add comments here';
+          card.appendChild(facInput);
+
+          // Submit button simulates Quality Manager approval
+          const btn = document.createElement('button');
+          btn.className = 'btn';
+          btn.textContent = 'Submit for Manager Approval';
+          btn.onclick = () => {
+            if (!completedLessons.includes(lesson.id)) {
+              completedLessons.push(lesson.id);
+              xpTotal += lesson.xpAward;
+              document.getElementById('xpTotal').textContent = xpTotal;
+              renderLessons();
+              if (completedLessons.length === lessonsData.lessons.length) {
+                document.getElementById('finalBadge').style.display = 'block';
+              }
+            }
+          };
+          card.appendChild(btn);
+        } else {
+          const locked = document.createElement('

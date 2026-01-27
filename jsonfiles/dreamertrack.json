@@ -1,0 +1,320 @@
+{
+  "lessons": [
+    {
+      "id": 1,
+      "title": "You Are More Than You Think",
+      "description": "Affirm your self-worth and discover hidden strengths. Begin to believe in your potential.",
+      "instructions": {
+        "experience": "Recall a moment when you helped someone, even in a small way.",
+        "reflection": "How did that make you feel? Did you realize you already have influence?",
+        "conceptualization": "Understand that small acts reveal hidden strengths.",
+        "experimentation": "Write down three personal qualities that could grow into career or enterprise skills."
+      },
+      "careerHobbyInclination": "Self-awareness skills useful in leadership, entrepreneurship, and hobbies like mentoring.",
+      "example": "A learner who recognizes their strengths can later lead a team or start an enterprise.",
+      "color": "#19486A",
+      "xpAward": 15,
+      "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+      "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+      "gate": {
+        "requiresApproval": true,
+        "approvalBy": "Quality Manager",
+        "unlockTrigger": "Reflection submitted and approved",
+        "feedbackForms": [
+          { "type": "peerComment", "visibility": "optional" },
+          { "type": "facilitatorComment", "visibility": "optional" },
+          { "type": "managerApproval", "visibility": "mandatory" }
+        ],
+        "nextActivityId": 2
+      }
+    },
+    {
+      "id": 2,
+      "title": "The Power of Imagination",
+      "description": "Discover how imagination fuels innovation and opens doors to future careers.",
+      "instructions": {
+        "experience": "Close your eyes and picture yourself five years from now.",
+        "reflection": "What role are you playing? Innovator? Entrepreneur? Community leader?",
+        "conceptualization": "Dreams are the seeds of reality — imagination fuels innovation.",
+        "experimentation": "Create a vision board or sketch of your dream career/enterprise."
+      },
+      "careerHobbyInclination": "Imagination skills useful in creative industries, design, and hobbies like art or storytelling.",
+      "example": "A learner who imagines building a digital solution may one day create a startup.",
+      "color": "#FD9D24",
+      "xpAward": 20,
+      "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+      "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+      "gate": {
+        "requiresApproval": true,
+        "approvalBy": "Quality Manager",
+        "unlockTrigger": "Reflection submitted and approved",
+        "feedbackForms": [
+          { "type": "peerComment", "visibility": "optional" },
+          { "type": "facilitatorComment", "visibility": "optional" },
+          { "type": "managerApproval", "visibility": "mandatory" }
+        ],
+        "nextActivityId": 3
+      }
+    },
+    {
+      "id": 3,
+      "title": "Breaking Limiting Beliefs",
+      "description": "Identify and replace limiting beliefs with empowering affirmations.",
+      "instructions": {
+        "experience": "Write down one negative thought you’ve had about yourself.",
+        "reflection": "Where did it come from? How has it held you back?",
+        "conceptualization": "Recognize that beliefs are not facts — they can be rewritten.",
+        "experimentation": "Replace each limiting belief with a positive affirmation."
+      },
+      "careerHobbyInclination": "Mindset shifts support personal growth, leadership, and innovation.",
+      "example": "A learner who replaces 'I'm not smart enough' with 'I'm learning fast' builds confidence.",
+      "color": "#F15A29",
+      "xpAward": 25,
+      "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+      "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+      "gate": {
+        "requiresApproval": true,
+        "approvalBy": "Quality Manager",
+        "unlockTrigger": "Reflection submitted and approved",
+        "feedbackForms": [
+          { "type": "peerComment", "visibility": "optional" },
+          { "type": "facilitatorComment", "visibility": "optional" },
+          { "type": "managerApproval", "visibility": "mandatory" }
+        ],
+        "nextActivityId": 4
+      }
+    },
+    {
+      "id": 4,
+      "title": "Discovering Passion",
+      "description": "Explore your interests and connect them to meaningful opportunities.",
+      "instructions": {
+        "experience": "List activities that make you lose track of time.",
+        "reflection": "Why do these excite you? What energy do they give you?",
+        "conceptualization": "Passion is the fuel that powers careers and enterprises.",
+        "experimentation": "Connect one passion to a possible digital or enterprise opportunity."
+      },
+      "careerHobbyInclination": "Passion discovery supports career alignment and entrepreneurial drive.",
+      "example": "A learner who loves fixing things may pursue engineering or tech repair.",
+      "color": "#8DC63F",
+      "xpAward": 15,
+      "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+      "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+      "gate": {
+        "requiresApproval": true,
+        "approvalBy": "Quality Manager",
+        "unlockTrigger": "Reflection submitted and approved",
+        "feedbackForms": [
+          { "type": "peerComment", "visibility": "optional" },
+          { "type": "facilitatorComment", "visibility": "optional" },
+          { "type": "managerApproval", "visibility": "mandatory" }
+        ],
+        "nextActivityId": 5
+      }
+    },
+    {
+      "id": 5,
+      "title": "From Dream to Vision",
+      "description": "Craft a personal vision statement to guide your journey.",
+      "instructions": {
+        "experience": "Share your dream with a peer or facilitator.",
+        "reflection": "How did they respond? Did it inspire them?",
+        "conceptualization": "A vision becomes stronger when shared.",
+        "experimentation": "Write a one-sentence vision statement: 'I want to build...'"
+      },
+      "careerHobbyInclination": "Vision crafting is essential for goal setting and enterprise planning.",
+      "example": "A learner who writes 'I want to build apps that help farmers' now has a guiding vision.",
+      "color": "#00AEEF",
+      "xpAward": 20,
+      "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+      "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+      "gate": {
+        "requiresApproval": true,
+        "approvalBy": "Quality Manager",
+        "unlockTrigger": "Reflection submitted and approved",
+        "feedbackForms": [
+          { "type": "peerComment", "visibility": "optional" },
+          { "type": "facilitatorComment", "visibility": "optional" },
+          { "type": "managerApproval", "visibility": "mandatory" }
+        ],
+        "nextActivityId": 6
+      }
+    },
+    {
+      "id": 6,
+      "title": "Welcome & Self-Discovery",
+      "description": "Reflect on your strengths and begin your growth journey.",
+      "instructions": {
+        "experience": "Write down three personal achievements, however small.",
+        "reflection": "How did these moments show your strengths?",
+        "conceptualization": "Self-discovery builds confidence and clarity.",
+        "experimentation": "Create a 'strengths profile' to guide your journey."
+      },
+      "careerHobbyInclination": "Knowing your strengths helps in career planning and team roles.",
+      "example": "A learner who sees they’re good at organizing may pursue project management.",
+      "color": "#662D91",
+      "xpAward": 25,
+      "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+      "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+      "gate": {
+        "requiresApproval": true,
+        "approvalBy": "Quality Manager",
+        "unlockTrigger": "Reflection submitted and approved",
+        "feedbackForms": [
+          { "type": "peerComment", "visibility": "optional" },
+          { "type": "facilitatorComment", "visibility": "optional" },
+          { "type": "managerApproval", "visibility": "mandatory" }
+        ],
+        "nextActivityId": 7
+      }
+    },
+    {
+{
+  "id": 7,
+  "title": "Understanding Maladjustments",
+  "description": "Recognize and name the barriers that have held you back.",
+  "instructions": {
+    "experience": "Recall a time you felt discouraged or blocked.",
+    "reflection": "What emotions did you feel? What patterns do you notice?",
+    "conceptualization": "Recognize maladjustments as temporary barriers, not permanent truths.",
+    "experimentation": "Write a short plan for how you’ll respond differently next time."
+  },
+  "careerHobbyInclination": "Understanding barriers helps in resilience and emotional intelligence.",
+  "example": "A learner who identifies peer pressure as a barrier can build strategies to overcome it.",
+  "color": "#D4145A",
+  "xpAward": 15,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 8
+  }
+},
+{
+  "id": 8,
+  "title": "Reframing & Renewal",
+  "description": "Transform past failures into stepping stones for growth.",
+  "instructions": {
+    "experience": "Take one past failure and describe it.",
+    "reflection": "What did you learn from it?",
+    "conceptualization": "Failures are lessons — reframing them unlocks growth.",
+    "experimentation": "Rewrite the story of that failure as a stepping stone."
+  },
+  "careerHobbyInclination": "Reframing failure is key in entrepreneurship and innovation.",
+  "example": "A learner who failed a test but learned to study better grows stronger.",
+  "color": "#27AAE1",
+  "xpAward": 20,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 9
+  }
+},
+{
+  "id": 9,
+  "title": "Passion Ignition",
+  "description": "Connect your passions to real-world problems and opportunities.",
+  "instructions": {
+    "experience": "Identify one community problem that excites you to solve.",
+    "reflection": "Why does this matter to you?",
+    "conceptualization": "Passion aligned with community needs creates powerful enterprises.",
+    "experimentation": "Draft a simple idea to address the problem."
+  },
+  "careerHobbyInclination": "Passion-driven ideas lead to sustainable enterprises.",
+  "example": "A learner who cares about clean water may start a water filtration project.",
+  "color": "#FBB03B",
+  "xpAward": 25,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 10
+  }
+},
+{
+  "id": 10,
+  "title": "Resilience & Emotional Balance",
+  "description": "Learn how to stay emotionally balanced and resilient through challenges.",
+  "instructions": {
+    "experience": "Recall a time you faced stress or failure.",
+    "reflection": "How did you cope? What worked, what didn’t?",
+    "conceptualization": "Resilience is the ability to bounce back stronger.",
+    "experimentation": "Create a personal 'resilience toolkit' (affirmations, coping strategies)."
+  },
+  "careerHobbyInclination": "Emotional balance is essential for leadership and teamwork.",
+  "example": "A learner who journals their stress can better manage future challenges.",
+  "color": "#92278F",
+  "xpAward": 15,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 11
+  }
+},
+{
+  "id": 11,
+  "title": "Vision to Action",
+  "description": "Turn your vision into a simple, actionable roadmap.",
+  "instructions": {
+    "experience": "Review your vision statement from Lesson 5.",
+    "reflection": "How does it connect to your strengths and passions?",
+    "conceptualization": "A vision becomes real when broken into steps.",
+    "experimentation": "Draft a 3-step roadmap toward your dream career or enterprise."
+  },
+  "careerHobbyInclination": "Roadmapping is a core skill in project management and entrepreneurship.",
+  "example": "A learner who maps out steps to start a coding club is ready to lead change.",
+  "color": "#39B54A",
+  "xpAward": 20,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Visionary Inspirer Badge awaits when you complete all 11 lessons.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": null
+  }
+}
+],
+"finalBadge": {
+  "badgeName": "Visionary Inspirer Badge",
+  "badgeColor": "#8A2BE2",
+  "badgeMeaning": "Learner has awakened dreams, dismantled barriers, ignited passion, and is now ready to inspire others as a digital engineer or entrepreneur.",
+  "unlockTrigger": "Completion of all 11 lessons with required feedback",
+  "xpAward": 50
+}
+}
