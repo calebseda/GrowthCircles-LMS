@@ -1,0 +1,132 @@
+<!-- MSME Confirmation Page -->
+<div class="msme-confirmation-container">
+  <h2>Thank You for Registering Your MSME</h2>
+  <p>Your enterprise profile has been successfully submitted to the Growth Circles Hub Program.</p>
+
+  <div class="confirmation-card">
+    <h3>Enterprise Summary</h3>
+    <ul>
+      <li><strong>Enterprise Name:</strong> [Auto-filled]</li>
+      <li><strong>Sector:</strong> [Auto-filled]</li>
+      <li><strong>Location:</strong> [Auto-filled]</li>
+      <li><strong>Monthly Revenue:</strong> [Auto-filled]</li>
+      <li><strong>Employees:</strong> [Auto-filled]</li>
+      <li><strong>Community Contribution:</strong> [Auto-filled]</li>
+    </ul>
+  </div>
+
+  <div class="confirmation-card">
+    <h3>Next Steps</h3>
+    <ul>
+      <li>✅ Your profile is under review by our Hub Coordination Team</li>
+      <li>📄 You’ll receive onboarding materials via email and WhatsApp</li>
+      <li>📊 Your data will contribute to MEL baseline tracking</li>
+      <li>🤝 You’ll be matched with facilitators and prototype support</li>
+    </ul>
+  </div>
+
+  <p class="motivational">Together, we build resilient, tech-driven MSMEs for inclusive growth across Africa.</p>
+
+  <div class="button-row">
+    <button class="btn-back" onclick="window.location.href='./msmesignup.html'">Back to Sign Up</button>
+    <button class="btn-dashboard" onclick="window.location.href='./msmeincubation.html'">Go to MSME Dashboard</button>
+  </div>
+</div>
+
+<!-- Scoped Styles -->
+<style>
+  .msme-confirmation-container {
+    width: 40%;
+    margin: 40px auto;
+    background-color: #fdfaf6;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+  }
+
+  .msme-confirmation-container h2 {
+    color: #002244;
+    margin-bottom: 10px;
+  }
+
+  .msme-confirmation-container p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .confirmation-card {
+    background-color: #fff;
+    border-left: 8px solid #2a9d8f; /* SDG Teal accent */
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .confirmation-card h3 {
+    margin-bottom: 10px;
+    color: #19486A;
+  }
+
+  .confirmation-card ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .confirmation-card li {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+  }
+
+  .confirmation-card li strong {
+    color: #002244;
+  }
+
+  .motivational {
+    font-style: italic;
+    color: #555;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .btn-back {
+    background-color: #19486A;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-dashboard {
+    background-color: #ff6600;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-back:hover {
+    background-color: #163b5c;
+  }
+
+  .btn-dashboard:hover {
+    background-color: #e65c00;
+  }
+
+  @media (max-width: 768px) {
+    .msme-confirmation-container {
+      width: 90%;
+      padding: 20px;
+    }
+  }
+</style>

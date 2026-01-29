@@ -19,11 +19,18 @@ body {
   background-color: #002244;
   color: #fff;
   padding: 1rem 2rem;
+  flex-wrap: wrap; /* allow wrapping on mobile */
 }
 
 .navbar .logo {
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .nav-links a {
@@ -58,19 +65,34 @@ body {
   background-color: #27F579;
 }
 
+.nav-links .btn-donor {
+  background-color: #54079C; /* Lilac */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-links .btn-donor:hover {
+  background-color: #9127F5;
+}
+
+
 /* Subnav Styles */
 .subnav {
   display: flex;
   justify-content: center;
   background-color: #F9CD90;
   padding: 0.5rem;
+  flex-wrap: wrap; /* allow wrapping */
 }
 
 .subnav a {
   margin: 0 1rem;
   color: #121;
   text-decoration: none;
-  font-size: 1.0rem;
+  font-size: 1rem;
 }
 
 /* Main Content Section */
@@ -93,52 +115,17 @@ body {
 }
 
 /* Responsive Picture Container */
+.content-header {
+  display: inline-block; /* container wraps image width */
+}
 .content-header img {
-  width: 80%;       /* 80% of screen width */
-  height: auto;     /* maintain aspect ratio */
-  max-width: 1200px; /* optional max width for large screens */
+  width: 80%;            /* responsive scaling */
+  height: auto;          /* maintain aspect ratio */
+  max-width: 1200px;     /* optional max width */
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   margin-bottom: 20px;
-}
-
-/* Infocards3D for Content List */
-.main-content .content-list {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  list-style: none;
-  padding: 0;
-}
-
-/* Main Content Section */
-.main-content {
-  text-align: center;
-  padding: 2rem;
-  background-color: #fdfaf6; /* cream/beige background */
-}
-
-.main-content h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #002244;
-}
-
-.main-content p {
-  margin-bottom: 1.5rem;
-  font-size: 1rem;
-  color: #555;
-}
-
-/* Responsive Picture Container */
-.content-header img {
-  width: 80%;       /* 80% of screen width */
-  height: auto;     /* maintain aspect ratio */
-  max-width: 1200px; /* optional max width for large screens */
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  margin-bottom: 20px;
+  display: block;
 }
 
 /* Infocards3D for Content List */
@@ -155,7 +142,7 @@ body {
   flex: 1 1 30%;
   background-color: #fff; /* white background */
   padding: 1rem;
-  border-left: 6px solid #19486A; /* SDG stripe (blue by default) */
+  border-left: 6px solid #19486A; /* SDG stripe (blue default) */
   border-radius: 8px;
   font-size: 0.95rem;
   color: #333;
@@ -171,7 +158,7 @@ body {
 /* Logo sizing */
 .logo img {
   width: 100px;       /* fixed width */
-  height: auto;      /* height adjusts to keep aspect ratio */
+  height: auto;       /* keep aspect ratio */
 }
 
 /* Footer Styles */
@@ -194,13 +181,13 @@ body {
 
 /* SDG-accented InfoCard styling */
 .infoCard {
-  background: #fff;                 /* clean white background */
-  border-radius: 12px;              /* rounded corners */
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1); /* subtle shadow */
-  padding: 40px;                    /* breathing space */
-  border-top: 8px solid #2a9d8f;    /* SDG-accented color bar */
-  text-align: left;                 /* ensure left alignment */
-  margin-bottom: 30px;              /* spacing between cards */
+  background: #fff;                 
+  border-radius: 12px;              
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1); 
+  padding: 40px;                    
+  border-top: 8px solid #2a9d8f;    
+  text-align: left;                 
+  margin-bottom: 30px;              
 }
 
 /* Typography inside cards */
@@ -210,12 +197,12 @@ body {
 .infoCard p, 
 .infoCard ul li {
   text-align: left;
-  color: #333;                      /* readable dark text */
+  color: #333;                      
 }
 
 /* Lists inside cards */
 .infoCard ul {
-  list-style: none;                 /* remove default bullets */
+  list-style: none;                 
   padding: 0;
 }
 
@@ -225,5 +212,36 @@ body {
 }
 
 .infoCard ul li strong {
-  color: #2a9d8f;                   /* highlight key terms in SDG color */
+  color: #2a9d8f;                   
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .nav-links a,
+  .nav-links .btn-primary,
+  .nav-links .btn-secondary {
+    margin: 8px 0;
+  }
+
+  .subnav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .subnav a {
+    width: 100%;
+    text-align: center;
+    margin: 6px 0;
+  }
 }

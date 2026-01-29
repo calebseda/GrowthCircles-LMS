@@ -1,0 +1,155 @@
+<!-- Hub Hosts / Donors / Sponsors Signup Form -->
+<div class="entity-signup-container">
+  <h2>Partner With Growth Circles</h2>
+  <p>Join as a Hub Host, Donor, Sponsor, or Special Interest Entity to empower youth and MSMEs.</p>
+
+  <form action="/submit-entity" method="POST" enctype="multipart/form-data">
+
+    <!-- Section 1: Organization Details -->
+    <input type="text" name="org_name" placeholder="Organization / Entity Name" required>
+    <input type="text" name="org_type" placeholder="Type (Hub Host, Donor, Sponsor, Special Interest)" required>
+    <input type="text" name="registration_number" placeholder="Registration Number / License">
+    <input type="text" name="sector" placeholder="Sector / Industry">
+    <input type="text" name="hq_location" placeholder="Headquarters Location (City, Country)" required>
+    <input type="url" name="website" placeholder="Website / Online Presence" pattern="https?://.+|www\..+">
+
+    <!-- Section 2: Contact Person -->
+    <input type="text" name="contact_name" placeholder="Primary Contact Person" required>
+    <input type="email" name="contact_email" placeholder="Contact Email" required>
+    <input type="tel" name="contact_phone" placeholder="Contact Phone Number" required>
+    <input type="text" name="designation" placeholder="Designation / Role">
+
+    <!-- Section 3: Engagement & Interests -->
+    <textarea name="engagement_focus" placeholder="Areas of Engagement (e.g. funding, mentorship, incubation, training)" required></textarea>
+    <textarea name="priority_sdgs" placeholder="Priority SDGs / Impact Areas (e.g. Gender Equality, Climate Action, Decent Work)" required></textarea>
+    <textarea name="expected_outcomes" placeholder="Expected Outcomes from Partnership"></textarea>
+
+    <!-- Section 4: Financial & Resource Commitment -->
+    <input type="number" name="annual_budget" placeholder="Annual Budget for Partnership (USD)">
+    <textarea name="resource_commitment" placeholder="Resources Committed (financial, technical, facilities, networks)"></textarea>
+
+    <!-- Section 5: MEL & Accountability -->
+    <textarea name="reporting_expectations" placeholder="Reporting & Accountability Expectations"></textarea>
+    <textarea name="monitoring_indicators" placeholder="Key Indicators You Track (employment, revenue growth, sustainability, etc.)"></textarea>
+
+    <!-- Upload Mechanisms -->
+    <label class="upload-label">Upload Organization Profile / Brochure</label>
+    <input type="file" name="org_profile" accept=".pdf,.doc,.docx,.jpg,.png">
+
+    <label class="upload-label">Upload Supporting Documents (e.g. MoUs, Certificates, Testimonials)</label>
+    <input type="file" name="supporting_docs" multiple accept=".pdf,.doc,.docx,.jpg,.png">
+
+    <!-- Data Use Agreement -->
+    <label class="checkbox-label">
+      <input type="checkbox" name="data_agreement" required>
+      I agree to the Growth Circles data use policy and consent to the storage of my information.
+    </label>
+
+    <!-- Navigation Buttons -->
+    <div class="button-row">
+      <button type="button" class="btn-back" onclick="window.location.href='./donor-enterprise.html'">Back</button>
+      <button type="submit" class="btn-submit" formaction="./entityconfirmation.html">Finish</button>
+    </div>
+  </form>
+</div>
+
+<!-- Scoped Styles -->
+<style>
+  .entity-signup-container {
+    width: 40%;
+    margin: 40px auto;
+    background-color: #fdfaf6;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+  }
+
+  .entity-signup-container h2 {
+    color: #002244;
+    margin-bottom: 10px;
+  }
+
+  .entity-signup-container p {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .entity-signup-container input,
+  .entity-signup-container textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .entity-signup-container textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .upload-label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+    color: #19486A;
+    text-align: left;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: left;
+  }
+
+  .checkbox-label input {
+    margin-right: 10px;
+  }
+
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .btn-back {
+    background-color: #19486A;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-submit {
+    background-color: #ff6600;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-back:hover {
+    background-color: #163b5c;
+  }
+
+  .btn-submit:hover {
+    background-color: #e65c00;
+  }
+
+  @media (max-width: 768px) {
+    .entity-signup-container {
+      width: 90%;
+      padding: 20px;
+    }
+  }
+</style>
