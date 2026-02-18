@@ -95,53 +95,13 @@
   </style>
 </head>
 <body>
-<div class="signup-container" id="signupContainer">
-  <h1 class="signup-title">Join GrowthCircles LMS</h1>
-  <form id="signupForm" action="/signup" method="POST" enctype="multipart/form-data">
-    <!-- Form fields (same as before) -->
-    <input type="text" name="full_name" class="input" placeholder="Full Name" required>
-    <input type="email" name="email" class="input" placeholder="Email Address" required>
-    <input type="tel" name="phone" class="input" placeholder="Phone Number" required>
-    <input type="text" name="country" class="input" placeholder="Country" required>
-    <input type="text" name="location_details" class="input" placeholder="Location Details" required>
-    <select name="education_level" class="input" required>
-      <option value="">Highest Level of Education</option>
-      <option value="Secondary">Secondary</option>
-      <option value="Diploma">Diploma</option>
-      <option value="Bachelor">Bachelor</option>
-      <option value="Master">Master</option>
-      <option value="PhD">PhD</option>
-    </select>
-    <input type="text" name="field_of_study" class="input" placeholder="Field of Study">
-    <input type="text" name="occupation" class="input" placeholder="Current Occupation / Role">
-    <input type="number" name="years_experience" class="input" placeholder="Years of Experience">
-    <input type="text" name="skills" class="input" placeholder="Key Skills">
-    <input type="text" name="interests" class="input" placeholder="Hobbies / Interests">
-    <input type="text" name="linkedin" class="input" placeholder="LinkedIn Profile">
-    <input type="text" name="twitter" class="input" placeholder="Twitter / X Handle">
-    <input type="tel" name="whatsapp" class="input" placeholder="WhatsApp Contact (optional)">
-    <select id="roleSelect" name="role" class="input" required>
-      <option value="">Select Your Role</option>
-      <option value="facilitator">Facilitator</option>
-      <option value="trainee">Youth Trainee</option>
-      <option value="msme">MSME</option>
-    </select>
-    <div class="consent">
-      <input type="checkbox" name="consent" value="true" required> I agree to the data use policy and consent to GrowthCircles LMS storing my information.
-    </div>
-    <label class="title">Upload Testimonials & Verifying Artefacts</label>
-    <input type="file" name="artefacts" class="input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip">
-    <div class="cta-row">
-      <button type="submit" class="btn-primary">Finish</button>
-    </div>
-  </form>
-</div>
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-<div id="responseScreen" class="response-screen" style="display:none;">
-  <div id="responseMessage"></div>
-</div>
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-<script>
   const form = document.getElementById('signupForm');
   const signupContainer = document.getElementById('signupContainer');
   const responseScreen = document.getElementById('responseScreen');
@@ -151,18 +111,86 @@
     e.preventDefault();
     const formData = new FormData(form);
 
+    const full_name = formData.get('full_name');
+    const email = formData.get('email');
+    const password = formData.get('password');
+    const phone = formData.get('phone');
+    const country = formData.get('country');
+    const location_details = formData.get('location_details');
+    const education_level = formData.get('education_level');
+    const field_of_study = formData.get('field_of_study');
+    const occupation = formData.get('occupation');
+    const years_experience = formData.get('years_experience');
+    const skills = formData.get('skills');
+    const interests = formData.get('interests');
+    const linkedin = formData.get('linkedin');
+    const twitter = formData.get('twitter');
+    const whatsapp = formData.get('whatsapp');
+    const role = formData.get('role');
+    const consent = formData.get('consent') === 'true';
+
     try {
-      const res = await fetch('/signup', { method: 'POST', body: formData });
-      const data = await res.json();
+      // Step 1: Register with Supabase Auth
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      if (authError) throw authError;
+
+      // Step 2: Upload artefacts to Supabase Storage
+      const artefactFiles = formData.getAll('artefacts');
+      let artefactUrls = [];
+
+      for (const file of artefactFiles) {
+        if (file && file.name) {
+          const filePath = `${email}/${Date.now()}_${file.name}`;
+          const { error: uploadError } = await supabase.storage
+            .from('artefacts')
+            .upload(filePath, file);
+
+          if (uploadError) throw uploadError;
+
+          const { data: publicUrlData } = supabase.storage
+            .from('artefacts')
+            .getPublicUrl(filePath);
+
+          artefactUrls.push(publicUrlData.publicUrl);
+        }
+      }
+
+      // Step 3: Insert into users table
+      const { error: insertError } = await supabase
+        .from('users')
+        .insert([{
+          full_name,
+          email,
+          phone,
+          country,
+          location_details,
+          education_level,
+          field_of_study,
+          occupation,
+          years_experience,
+          skills,
+          linkedin,
+          twitter,
+          whatsapp,
+          role,
+          consent,
+          is_admin: false,
+          artefacts: artefactUrls.length ? artefactUrls : null
+        }]);
+
+      if (insertError) throw insertError;
 
       signupContainer.style.display = 'none';
       responseScreen.style.display = 'flex';
-      responseMessage.textContent = data.message;
+      responseMessage.textContent = 'Signup successful! Please check your email for confirmation.';
       responseMessage.className = 'response-card response-success';
     } catch (err) {
       signupContainer.style.display = 'none';
       responseScreen.style.display = 'flex';
-      responseMessage.textContent = 'Something went wrong. Please try again.';
+      responseMessage.textContent = 'Signup failed: ' + err.message;
       responseMessage.className = 'response-card response-error';
     }
   });

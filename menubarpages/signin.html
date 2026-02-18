@@ -115,52 +115,170 @@
 </head>
 <body>
 
-  <div class="signin-container">
-    
-    <!-- Inspirational InfoCard -->
-    <div class="infoCard">
-      <h1>Welcome Back</h1>
-      <p>Welcome back to your space of safety, freedom, and innovation—where your ideas become solutions and your journey creates impact.</p>
-      <div class="quotes-section">
-        <blockquote>“Education is the most powerful weapon which you can use to change the world.” <span>- Nelson Mandela</span></blockquote>
-        <blockquote>“Innovation distinguishes between a leader and a follower.” <span>- Steve Jobs</span></blockquote>
-        <blockquote>“Our industry does not respect tradition—it only respects innovation.” <span>- Satya Nadella</span></blockquote>
-        <blockquote>“The future rewards those who press on.” <span>- Barack Obama</span></blockquote>
-        <blockquote>“The generation that destroys the environment is not the generation that pays the price.” <span>- Wangari Maathai</span></blockquote>
-      </div>
+<div class="signin-container">
+  <!-- Inspirational InfoCard -->
+  <div class="infoCard">
+    <h1>Welcome Back</h1>
+    <p>Welcome back to your space of safety, freedom, and innovation—where your ideas become solutions and your journey creates impact.</p>
+    <div class="quotes-section">
+      <blockquote>“Education is the most powerful weapon which you can use to change the world.” <span>- Nelson Mandela</span></blockquote>
+      <blockquote>“Innovation distinguishes between a leader and a follower.” <span>- Steve Jobs</span></blockquote>
+      <blockquote>“Our industry does not respect tradition—it only respects innovation.” <span>- Satya Nadella</span></blockquote>
+      <blockquote>“The future rewards those who press on.” <span>- Barack Obama</span></blockquote>
+      <blockquote>“The generation that destroys the environment is not the generation that pays the price.” <span>- Wangari Maathai</span></blockquote>
+    </div>
+  </div>
+
+  <!-- Elegant Sign In Form -->
+  <form class="signin-form" id="signinForm">
+    <label for="email">Email Address</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="userid">UserID</label>
+    <input type="text" id="userid" name="userid" required>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit" class="btn-primary">Sign In</button>
+
+    <div class="signup-link">
+      New here? <a href="SignUp.html">Apply to Join</a>
     </div>
 
-    <!-- Elegant Sign In Form -->
-    <form class="signin-form" action="authenticate.php" method="post">
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" required>
+    <!-- Change Password Section -->
+    <h2 class="sub-headline accent">Forgot or Change Password?</h2>
+    <p>Enter your email address to receive a system-generated OTP for verification.</p>
+    <input type="email" id="reset-email" name="reset-email" placeholder="Enter your email">
+    <button type="button" id="sendOtpBtn" class="btn-secondary">Send OTP</button>
 
-      <label for="userid">UserID</label>
-      <input type="text" id="userid" name="userid" required>
+    <label for="otp">Enter OTP</label>
+    <input type="text" id="otp" name="otp" placeholder="6-digit code">
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" required>
+    <label for="new-password">New Password</label>
+    <input type="password" id="new-password" name="new-password">
 
-      <button type="submit" class="btn-primary">Sign In</button>
+    <button type="button" id="changePasswordBtn" class="btn-primary">Change Password</button>
+  </form>
+</div>
 
-      <div class="signup-link">
-        New here? <a href="SignUp.html">Apply to Join</a>
-      </div>
+<div id="responseScreen" class="response-screen" style="display:none;">
+  <div id="responseMessage"></div>
+</div>
 
-      <!-- Change Password Section -->
-      <h2 class="sub-headline accent">Forgot or Change Password?</h2>
-      <p>Enter your email address to receive a system-generated OTP for verification.</p>
-      <input type="email" id="reset-email" name="reset-email" placeholder="Enter your email" required>
-      <button type="submit" formaction="send-otp.php" class="btn-secondary">Send OTP</button>
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-      <label for="otp">Enter OTP</label>
-      <input type="text" id="otp" name="otp" placeholder="6-digit code" required>
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-      <label for="new-password">New Password</label>
-      <input type="password" id="new-password" name="new-password" required>
+  const form = document.getElementById('signinForm');
+  const responseScreen = document.getElementById('responseScreen');
+  const responseMessage = document.getElementById('responseMessage');
 
-      <button type="submit" formaction="verify-otp.php" class="btn-primary">Change Password</button>
-    </form>
-  </div>
+// Check if user is already logged in
+async function checkSession() {
+  const { data: { session }, error } = await supabase.auth.getSession();
+
+  if (error) {
+    console.error('Session check failed:', error.message);
+    return;
+  }
+
+  if (session) {
+    // Fetch user profile
+    const email = session.user.email;
+    const { data: userProfile, error: profileError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .single();
+
+    if (!profileError && userProfile) {
+      // Redirect based on role
+      let redirectPage = '/menubarpages/admindashboard.html';
+      if (userProfile.role === 'trainee') redirectPage = '/trainee/dashboard.html';
+      if (userProfile.role === 'facilitator') redirectPage = '/facilitator/dashboard.html';
+      if (userProfile.role === 'msme') redirectPage = '/msme/dashboard.html';
+
+      window.location.href = redirectPage;
+    }
+  }
+}
+
+// Run session check on page load
+checkSession();
+
+  // Sign In
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+
+      // Fetch user profile
+      const { data: userProfile, error: profileError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', email)
+        .single();
+      if (profileError) throw profileError;
+
+      // Role-based redirect
+      let redirectPage = '/menubarpages/admindashboard.html';
+      if (userProfile.role === 'trainee') redirectPage = '/trainee/dashboard.html';
+      if (userProfile.role === 'facilitator') redirectPage = '/facilitator/dashboard.html';
+      if (userProfile.role === 'msme') redirectPage = '/msme/dashboard.html';
+
+      responseMessage.textContent = 'Sign in successful! Redirecting...';
+      responseMessage.className = 'response-card response-success';
+      responseScreen.style.display = 'flex';
+
+      setTimeout(() => { window.location.href = redirectPage; }, 1500);
+    } catch (err) {
+      responseMessage.textContent = 'Sign in failed: ' + err.message;
+      responseMessage.className = 'response-card response-error';
+      responseScreen.style.display = 'flex';
+    }
+  });
+
+  // Send OTP (password reset)
+  document.getElementById('sendOtpBtn').addEventListener('click', async () => {
+    const resetEmail = document.getElementById('reset-email').value;
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: window.location.origin + '/reset.html'
+      });
+      if (error) throw error;
+      responseMessage.textContent = 'OTP sent! Check your email.';
+      responseMessage.className = 'response-card response-success';
+      responseScreen.style.display = 'flex';
+    } catch (err) {
+      responseMessage.textContent = 'Failed to send OTP: ' + err.message;
+      responseMessage.className = 'response-card response-error';
+      responseScreen.style.display = 'flex';
+    }
+  });
+
+  // Change Password (after OTP verification)
+  document.getElementById('changePasswordBtn').addEventListener('click', async () => {
+    const newPassword = document.getElementById('new-password').value;
+    try {
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error) throw error;
+      responseMessage.textContent = 'Password changed successfully!';
+      responseMessage.className = 'response-card response-success';
+      responseScreen.style.display = 'flex';
+    } catch (err) {
+      responseMessage.textContent = 'Failed to change password: ' + err.message;
+      responseMessage.className = 'response-card response-error';
+      responseScreen.style.display = 'flex';
+    }
+  });
+</script>
 </body>
 </html>
