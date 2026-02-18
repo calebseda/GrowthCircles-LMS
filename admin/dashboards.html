@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Circles LMS - Dashboards</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/template.css">
+  <style>
+    .dashboard-container {
+      max-width: 1100px;
+      margin: 50px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+
+    .infoCard {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      border-top: 8px solid #2a9d8f; /* default SDG accent */
+      text-align: left;
+    }
+
+    .infoCard h2 {
+      margin-bottom: 12px;
+      color: #264653;
+    }
+
+    .infoCard p {
+      color: #555;
+      font-size: 0.95em;
+      line-height: 1.5;
+    }
+
+    /* Different SDG accent colors for variety */
+    .admin { border-top-color: #2a9d8f; }      /* SDG green */
+    .mel { border-top-color: #e76f51; }        /* SDG red/orange */
+    .analytics { border-top-color: #f4a261; }  /* SDG yellow/orange */
+    .sponsors { border-top-color: #264653; }   /* SDG blue/teal */
+    .projects { border-top-color: #8ab17d; }   /* SDG light green */
+    .audits { border-top-color: #6d597a; }     /* SDG purple */
+    .finance { border-top-color: #457b9d; }    /* SDG blue */
+    .learning { border-top-color: #ffb703; }   /* SDG gold */
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../assets/images/logo.png" alt="Growth Circles Logo">
+    </div>
+    <div class="nav-links">
+      <a href="./home.html">Home</a>
+      <a href="./aboutus.html">About Us</a>
+      <a href="./services.html">Services</a>
+      <a href="./contactus.html">Contact Us</a>
+      <a href="./dashboards.html">Dashboards</a>
+      <a href="signup.html" class="btn-primary">Sign Up</a>
+      <a href="signin.html" class="btn-secondary">Sign In</a>
+    </div>
+  </nav>
+
+  <!-- Secondary Navigation -->
+  <div class="subnav">
+    <a href="./youthempowerment.html">Youth Empowerment</a>
+    <a href="./facilitatordevelopment.html">Facilitator Development</a>
+    <a href="./msmeincubation.html">MSME Incubation</a>
+    <a href="./hubhostmanagement.html">Hub Host Engagement</a>
+    <a href="./expertiseprocurement.html">Expertise Procurement</a>
+    <a href="./marketlinkages.html">Market Linkages</a>
+    <a href="./internshipopprtunities.html">Internship Opportunities</a>
+  </div>
+
+  <!-- Main Content Section -->
+  <section class="main-content">
+    <h1 style="text-align:left; margin-bottom:30px;">Dashboards</h1>
+    <div class="dashboard-container">
+      
+      <div class="infoCard admin">
+        <h2>Administration Dashboard</h2>
+        <p>Manage user accounts, roles, permissions, and system settings. Provides oversight of all platform operations and ensures compliance with organizational policies.</p>
+      </div>
+
+      <div class="infoCard mel">
+        <h2>MEL Dashboard</h2>
+        <p>Monitoring, Evaluation, and Learning tools to track program outcomes, measure impact, and generate sponsor‑ready reports aligned with SDG indicators.</p>
+      </div>
+
+      <div class="infoCard analytics">
+        <h2>Analytics Dashboard</h2>
+        <p>Visualize data trends, learner progress, and enterprise growth metrics. Offers charts, KPIs, and predictive insights for decision‑making.</p>
+      </div>
+
+      <div class="infoCard sponsors">
+        <h2>Sponsors Dashboard</h2>
+        <p>Dedicated space for sponsors to view funded projects, audit logs, and impact reports. Ensures transparency and accountability in resource utilization.</p>
+      </div>
+
+      <div class="infoCard projects">
+        <h2>Projects Dashboard</h2>
+        <p>Track ongoing initiatives, milestones, and deliverables. Facilitates collaboration among youth, MSMEs, and facilitators with clear timelines and outputs.</p>
+      </div>
+
+      <div class="infoCard audits">
+        <h2>Audits Dashboard</h2>
+        <p>Provides audit‑ready logs of financial transactions, compliance checks, and sponsor reporting. Ensures accountability and transparency across all activities.</p>
+      </div>
+
+      <div class="infoCard finance">
+        <h2>Finance Dashboard</h2>
+        <p>Monitor budgets, disbursements, and commissionable payment channels. Integrates audit‑compliant logs for sponsor reporting and financial transparency.</p>
+      </div>
+
+      <div class="infoCard learning">
+        <h2>Learning Dashboard</h2>
+        <p>Tracks learner progress, XP points, badges, and facilitator activities. Provides motivational insights and gamified engagement for youth empowerment.</p>
+      </div>
+
+<div class="infoCard sales"> <h2>Sales & Marketing Dashboard</h2> <p>Manage outreach campaigns, track leads, and measure visibility. Provides sponsor‑ready reporting on marketing impact and market linkages for youth and MSMEs.</p> </div> 
+
+<div class="infoCard accounts"> <h2>Accounts Management System</h2> <p>Dedicated financial dashboard for managing transactions, invoices, and budgets. Ensures audit‑ready compliance and transparent reporting aligned with SDG accountability.</p> </div>
+
+    </div>
+  </section>
+</body>
+</html>

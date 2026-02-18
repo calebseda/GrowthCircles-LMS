@@ -1,0 +1,628 @@
+{
+  "courseId": 2,
+  "title": "AI Foundations and Digital Tools Building",
+  "lessons": [
+    {
+      "id": 1,
+      "title": "Lesson 1: Introduction to AI",
+      "description": "Learn what AI is and how it is used in everyday life.",
+      "objectives": [
+        "Understand the meaning of AI",
+        "See examples of AI in daily life",
+        "Begin thinking about how AI can solve problems"
+      ],
+      "instructions": {
+        "experience": "Watch a short video about AI in daily life. Self-worth talk: 'Unapojifunza kuhusu AI, unajifunza kuhusu nguvu mpya ya kubadilisha dunia.'",
+        "reflection": "In Joplin, write: What AI examples did you see? How do they connect to your life? Share your notes with a peer.",
+        "conceptualization": "Listen to the teacher explain: AI means machines that can learn from data and make decisions. Write notes in Joplin about one example.",
+        "experimentation": "Think of one problem in your life or community. Write in Joplin how AI might help solve it."
+      },
+      "careerHobbyInclination": "AI knowledge is useful in careers like technology, healthcare, and hobbies like digital creativity.",
+      "example": "A learner who understands AI basics may later design a chatbot for their business.",
+      "color": "#00AEEF",
+      "xpAward": 20,
+      "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+      "badgeReminder": "Keep moving forward — the Innovator Badge awaits when you complete all lessons in Phase 1.",
+      "gate": {
+        "requiresApproval": true,
+        "approvalBy": "Quality Manager",
+        "unlockTrigger": "Reflection submitted and approved",
+        "feedbackForms": [
+          { "type": "peerComment", "visibility": "optional" },
+          { "type": "facilitatorComment", "visibility": "optional" },
+          { "type": "managerApproval", "visibility": "mandatory" }
+        ],
+        "nextActivityId": 2
+      },
+      "resources": [
+        { "type": "Video", "name": "What is AI?", "link": "https://www.youtube.com/watch?v=2ePf9rue1Ao" },
+        { "type": "Guide", "name": "AI Basics (IBM)", "link": "https://www.ibm.com/cloud/learn/what-is-artificial-intelligence" },
+        { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Lesson 2: Exploring AI Tools for Everyday Use",
+      "description": "Discover common AI tools and learn how they can help in daily life and work. Begin to see how AI can solve problems in your community or workplace.",
+      "objectives": [
+        "Identify common AI tools and their uses",
+        "Get hands-on practice with beginner-friendly AI platforms",
+        "Start thinking about industry problems that AI can solve"
+      ],
+      "instructions": {
+        "experience": "Try out simple AI tools like Google Translate, ChatGPT, Canva AI, or Google Lens. See how they work in real life. Self-worth talk: 'Unapojaribu hizi tools, unajifunza kuwa creator. Mawazo yako yana nguvu ya kubadilisha dunia.'",
+        "reflection": "In Joplin, write: What surprised you about these tools? How could they help you in your personal or work life? What challenges in your industry could benefit from AI help? Share your answers with a peer.",
+        "conceptualization": "Listen to the teacher explain: AI tools are built on patterns and data. Before choosing a tool, you must first know the problem you want to solve. Use the Strengths Guide to match your personal strengths with AI tools (mfano: mtu mwenye huruma anaweza kuunda chatbot rafiki kwa watumiaji).",
+        "experimentation": "Pick one challenge from your life or industry. Use one of the AI tools to draft a simple solution (mfano: chatbot script for customer questions). Share your draft with a peer and get feedback. Paste your draft and feedback into Joplin."
+      },
+      "careerHobbyInclination": "Exploring AI tools builds skills useful in careers like customer service, design, and hobbies like digital art or translation.",
+      "example": "A learner who uses ChatGPT to answer customer questions may later design a full chatbot for their business.",
+      "color": "#FD9D24",
+      "xpAward": 20,
+      "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+      "badgeReminder": "Keep moving forward — the Innovator Badge awaits when you complete all lessons in Phase 1.",
+      "gate": {
+        "requiresApproval": true,
+        "approvalBy": "Quality Manager",
+        "unlockTrigger": "Reflection submitted and approved",
+        "feedbackForms": [
+          { "type": "peerComment", "visibility": "optional" },
+          { "type": "facilitatorComment", "visibility": "optional" },
+          { "type": "managerApproval", "visibility": "mandatory" }
+        ],
+        "nextActivityId": 3
+      },
+      "resources": [
+        { "type": "Website", "name": "AI Tools Directory", "link": "https://tools.directory/" },
+        { "type": "Video", "name": "10 AI Tools That Will Blow Your Mind (Tech With Tim)", "link": "https://www.youtube.com/watch?v=V8kGJY1rj5Q" },
+        { "type": "App", "name": "ChatGPT", "link": "https://chat.openai.com/" },
+        { "type": "App", "name": "Canva AI", "link": "https://www.canva.com/ai-tools/" },
+        { "type": "App", "name": "Google Lens", "link": "https://lens.google/" },
+        { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+      ]
+    },
+	{
+  "id": 3,
+  "title": "Lesson 3: Empathy Mapping and User Research",
+  "description": "Learn how to understand the people who face the problem. Use empathy maps and simple research to see their needs, feelings, and challenges.",
+  "objectives": [
+    "Develop empathy for users who face the problem",
+    "Use empathy maps to identify user needs and feelings",
+    "Do basic user research to check your ideas"
+  ],
+  "instructions": {
+    "experience": "Think of a time when you felt frustrated with a product or service. Write it down. Self-worth talk: 'Empathy ni nguvu yako. Ukiwa na huruma na kuelewa wengine, unaweza kutengeneza suluhisho bora.'",
+    "reflection": "In Joplin, answer: How did it feel when your needs were not met? What frustrations stood out? How can you make sure your solution avoids the same mistakes? Share your answers with a peer.",
+    "conceptualization": "Listen to the teacher explain empathy mapping: a tool to show what users say, think, feel, and do. Learn why user research (interviews, surveys, observation) is important. See examples of empathy maps and user personas. Write notes in Joplin.",
+    "experimentation": "Create an empathy map for the users of the problem you identified in Lesson 2. Do at least two short interviews or surveys with people who face the problem. Share your empathy map with a peer and discuss how it helps design better solutions. Paste your map and notes into Joplin."
+  },
+  "careerHobbyInclination": "Empathy and research skills are useful in careers like design, customer service, and hobbies like mentoring.",
+  "example": "A learner who interviews farmers about their struggles may design an AI tool to help them plan better.",
+  "color": "#8DC63F",
+  "xpAward": 25,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Innovator Badge awaits when you complete all lessons in Phase 2.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 4
+  },
+  "resources": [
+    { "type": "Guide", "name": "Empathy Mapping: The First Step in Design Thinking (IDEO)", "link": "https://www.ideou.com/blogs/inspiration/empathy-mapping" },
+    { "type": "Video", "name": "How to Create an Empathy Map (UX Mastery)", "link": "https://www.youtube.com/watch?v=QwZ3vLzF3gU" },
+    { "type": "Tool", "name": "Miro Board for Empathy Mapping", "link": "https://miro.com/templates/empathy-map/" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+	{
+	  "id": 4,
+      "title": "Lesson 4: Ideation – Generating AI-Powered Solutions",
+  "description": "Learn how to brainstorm many ideas, choose the best one, and write a clear problem-solution statement.",
+  "objectives": [
+    "Use simple brainstorming methods to create many ideas",
+    "Choose one idea that is possible and AI-powered",
+    "Write a clear problem-solution statement"
+  ],
+  "instructions": {
+    "experience": "Join a group brainstorming session. Use 'How might we…?' questions to spark ideas. Self-worth talk: 'Ubunifu ni nguvu yako. Hata kama wazo linaonekana dogo, linaweza kukua na kubadilisha maisha.'",
+    "reflection": "In Joplin, write: Which ideas excite you most? Why? What challenges might you face when making these ideas real? Share your favorite idea with a peer and listen to their feedback.",
+    "conceptualization": "Listen to the teacher explain brainstorming methods like mind mapping, brainwriting, or SCAMPER. Learn how AI-powered solutions can meet user needs. See examples of AI tools solving problems in other industries. Write notes in Joplin.",
+    "experimentation": "Pick one AI-powered idea from your brainstorm. Write a problem-solution statement: 1) The problem, 2) The target users, 3) The AI-powered solution. Share your statement with a peer for feedback. Paste your final statement into Joplin."
+  },
+  "careerHobbyInclination": "Brainstorming and ideation skills are useful in careers like design, entrepreneurship, and hobbies like art or storytelling.",
+  "example": "A learner who imagines an AI tool for farmers may later build a startup to support agriculture.",
+  "color": "#FD9D24",
+  "xpAward": 25,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Innovator Badge awaits when you complete all lessons in Phase 2.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 5
+  },
+  "resources": [
+    { "type": "Guide", "name": "The Ultimate Guide to Brainstorming (Miro)", "link": "https://miro.com/guides/brainstorming/" },
+    { "type": "Video", "name": "How to Brainstorm Ideas Like a Pro (Thomas Frank)", "link": "https://www.youtube.com/watch?v=Vf3YzUO0zXo" },
+    { "type": "Tool", "name": "ChatGPT for Ideation Exercises", "link": "https://chat.openai.com/" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 5,
+  "title": "Lesson 5: Basics of AI and ML Step-by-Step",
+  "description": "Learn how AI works in simple steps. See how data, training, testing, and using the tool all connect.",
+  "objectives": [
+    "Understand the simple steps of how AI works",
+    "See why data is important in AI",
+    "Know the types of problems AI can solve"
+  ],
+  "instructions": {
+    "experience": "Try a simple AI tool like a chatbot or image recognition app. Watch how it gives answers. Self-worth talk: 'Unajifunza msingi wa AI, ule msingi ambao makampuni makubwa hutumia kujenga tools zao.'",
+    "reflection": "In Joplin, write: What did you notice about how the tool worked? How do you think data helped it? Share your answers with a peer.",
+    "conceptualization": "Listen to the teacher explain the AI process: 1) Put in data, 2) Train the AI, 3) Test it, 4) Use it. Learn about problem types: classification (spam emails), prediction (weather), recommendation (shopping). Write notes in Joplin.",
+    "experimentation": "Think about your AI idea. Decide which type of problem it solves (classification, prediction, or recommendation). Draw a simple step-by-step path (njia ya hatua kwa hatua) for your AI tool. Paste your drawing and notes into Joplin."
+  },
+  "careerHobbyInclination": "Knowing the steps of AI is useful in jobs like data science, app building, and hobbies like coding.",
+  "example": "A learner who understands prediction may design an AI tool to guess crop yields for farmers.",
+  "color": "#00AEEF",
+  "xpAward": 25,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Builder Badge awaits when you complete all lessons in Phase 3.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 6
+  },
+  "resources": [
+    { "type": "Video", "name": "Machine Learning Basics in 5 Minutes (Simplilearn)", "link": "https://www.youtube.com/watch?v=ukzFI9rgwfU" },
+    { "type": "Tool", "name": "Google Teachable Machine", "link": "https://teachablemachine.withgoogle.com/" },
+    { "type": "Article", "name": "How Does Machine Learning Work? (IBM)", "link": "https://www.ibm.com/topics/machine-learning" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 6,
+  "title": "Lesson 6: Exploring Ready-Made AI Tools",
+  "description": "Learn how to use AI tools that are already built. These tools can save time and make your work easier.",
+  "objectives": [
+    "Try ready-made AI tools and apps",
+    "Choose tools that fit your idea",
+    "Plan how to use these tools in your project"
+  ],
+  "instructions": {
+    "experience": "Open and test simple AI tools like Dialogflow (chatbots) or Teachable Machine (image recognition). Self-worth talk: 'Kwa kutumia tools zilizotengenezwa tayari, unaweza kuanza haraka na kufikia malengo yako.'",
+    "reflection": "In Joplin, write: Which tools felt easy to use? How do they fit with your idea? Share your answers with a peer.",
+    "conceptualization": "Listen to the teacher explain: Ready-made tools help you move faster because you don’t start from zero. Learn the difference between building from scratch and using existing tools. Write notes in Joplin.",
+    "experimentation": "Pick one or two tools that match your solution. Write a short plan in Joplin: How will you use them in your first simple version (toleo la kwanza rahisi) of your AI tool?"
+  },
+  "careerHobbyInclination": "Using ready-made tools is useful in careers like customer service, app design, and hobbies like building chatbots or image apps.",
+  "example": "A learner who uses Dialogflow to make a chatbot can later expand it into a full customer service tool.",
+  "color": "#662D91",
+  "xpAward": 25,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Builder Badge awaits when you complete all lessons in Phase 3.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 7
+  },
+  "resources": [
+    { "type": "Platform", "name": "Dialogflow by Google Cloud", "link": "https://cloud.google.com/dialogflow" },
+    { "type": "Guide", "name": "How to Use Pre-Built AI Models (Azure AI)", "link": "https://learn.microsoft.com/en-us/azure/cognitive-services/" },
+    { "type": "Video", "name": "Teachable Machine Tutorial for Beginners", "link": "https://www.youtube.com/watch?v=QZzJFlQpT8g" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 7,
+  "title": "Lesson 7: Trying Out Coding for AI",
+  "description": "Learn the basics of coding by watching and trying simple AI code. This is your first step to see how coding works.",
+  "objectives": [
+    "Watch simple coding examples for AI",
+    "Try writing or running a small piece of code",
+    "Understand the difference between coding and no-code tools"
+  ],
+  "instructions": {
+    "experience": "Watch a short video that shows simple AI code (like Python printing text or recognizing an image). Try copying and running the code yourself. Self-worth talk: 'Hata kama ni hatua ndogo, umeanza safari ya kuwa coder.'",
+    "reflection": "In Joplin, write: How did it feel to try coding? Was it easy or hard? What did you learn from the code example? Share your notes with a peer.",
+    "conceptualization": "Listen to the teacher explain: Coding means writing instructions for the computer step by step. AI coding often uses data and rules to make the computer learn. Write down in Joplin: one difference you see between coding and using ready-made tools.",
+    "experimentation": "Write or run one very small code example (mfano: Python code that prints 'Hello AI'). Paste your code and what it did into Joplin. Share with a peer and ask them to try it too."
+  },
+  "careerHobbyInclination": "Basic coding skills are useful in careers like software development, AI engineering, and hobbies like programming or building apps.",
+  "example": "A learner who writes a simple Python code today may later build a chatbot or image recognition tool.",
+  "color": "#19486A",
+  "xpAward": 30,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Builder Badge awaits when you complete all lessons in Phase 4.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 8
+  },
+  "resources": [
+    { "type": "Video", "name": "Python for Beginners – First Code Example", "link": "https://www.youtube.com/watch?v=rfscVS0vtbw" },
+    { "type": "Guide", "name": "W3Schools Python Tutorial", "link": "https://www.w3schools.com/python/" },
+    { "type": "Tool", "name": "Google Colab (Free Online Coding)", "link": "https://colab.research.google.com/" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 8,
+  "title": "Lesson 8: Building AI Without Coding",
+  "description": "Learn how to make AI tools without writing code. Use simple platforms to create your first working tool.",
+  "objectives": [
+    "Understand what no-code means",
+    "Use a no-code platform to build a tool",
+    "Create a first working version of your AI idea"
+  ],
+  "instructions": {
+    "experience": "Open a no-code platform like Bubble.io, Dialogflow, or Teachable Machine. Try making a very simple tool (mfano: chatbot that answers one question). Self-worth talk: 'Hata bila coding, unaweza kujenga kitu chenye nguvu. Wewe ni innovator.'",
+    "reflection": "In Joplin, write: How did it feel to build without coding? Was it easier than coding? What did you like about it? Share your notes with a peer.",
+    "conceptualization": "Listen to the teacher explain: No-code means you don’t write instructions for the computer. Instead, you use drag-and-drop or simple clicks. Learn why no-code is good for beginners and fast building. Write notes in Joplin.",
+    "experimentation": "Build one small tool using a no-code platform. For example, a chatbot that answers greetings or an image tool that recognizes one object. Share your tool with a peer and collect feedback. Paste your tool description and peer feedback into Joplin."
+  },
+  "careerHobbyInclination": "No-code building is useful in careers like customer service, app design, and hobbies like digital creativity.",
+  "example": "A learner who builds a chatbot with Dialogflow can later expand it into a full customer service tool.",
+  "color": "#FD9D24",
+  "xpAward": 30,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Builder Badge awaits when you complete all lessons in Phase 4.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 9
+  },
+  "resources": [
+    { "type": "Platform", "name": "Bubble.io", "link": "https://bubble.io/" },
+    { "type": "Tool", "name": "Google Dialogflow", "link": "https://cloud.google.com/dialogflow" },
+    { "type": "Tool", "name": "Teachable Machine", "link": "https://teachablemachine.withgoogle.com/" },
+    { "type": "Video", "name": "No-Code AI Tools for Beginners", "link": "https://www.youtube.com/watch?v=QZzJFlQpT8g" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 9,
+  "title": "Lesson 9: Testing and Improving Your AI Tool",
+  "description": "Learn how to check if your tool works well and make it better step by step.",
+  "objectives": [
+    "Test your AI tool to see if it works",
+    "Find mistakes and learn how to fix them",
+    "Improve your tool based on feedback"
+  ],
+  "instructions": {
+    "experience": "Use your AI tool and try it with simple inputs. Ask a friend to test it too. Self-worth talk: 'Kila kosa ni nafasi ya kujifunza. Ukiangalia makosa, unakuwa bora zaidi.'",
+    "reflection": "In Joplin, write: What worked well in your tool? What did not work? How did you feel when you saw mistakes? Share your notes with a peer.",
+    "conceptualization": "Listen to the teacher explain: Testing means checking if the tool does what you expect. Improving means fixing mistakes and making it easier to use (rahisi kutumia). Learn that feedback from users is very important. Write notes in Joplin.",
+    "experimentation": "Test your tool with at least 3 different inputs. Write down what happened each time. Fix one mistake or improve one part of your tool. Share your improved tool with a peer and collect feedback. Paste your test results and changes into Joplin."
+  },
+  "careerHobbyInclination": "Testing and improving is useful in careers like software development, customer service, and hobbies like building apps or games.",
+  "example": "A learner who tests a chatbot and fixes wrong answers can later build a stronger customer service tool.",
+  "color": "#8DC63F",
+  "xpAward": 30,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Builder Badge awaits when you complete all lessons in Phase 4.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 10
+  },
+  "resources": [
+    { "type": "Guide", "name": "Beginner’s Guide to Testing AI Tools", "link": "https://towardsdatascience.com/testing-ai-models-for-beginners" },
+    { "type": "Video", "name": "How to Test and Improve AI Models (Simplilearn)", "link": "https://www.youtube.com/watch?v=ukzFI9rgwfU" },
+    { "type": "Tool", "name": "Google Colab (for testing code)", "link": "https://colab.research.google.com/" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 10,
+  "title": "Lesson 10: Sharing and Improving Your AI Tool",
+  "description": "Learn how to present your tool to others, collect feedback, and use it to make your tool stronger.",
+  "objectives": [
+    "Share your AI tool with peers or users",
+    "Collect feedback on how your tool works",
+    "Improve your tool based on feedback"
+  ],
+  "instructions": {
+    "experience": "Show your AI tool to a peer or small group. Let them try it. Self-worth talk: 'Kile ulichotengeneza ni mwanzo mzuri. Maoni ya wengine yatakusaidia kukua.'",
+    "reflection": "In Joplin, write: What did people say about your tool? What did they like? What problems did they notice? How did you feel hearing their feedback?",
+    "conceptualization": "Listen to the teacher explain: Sharing helps you see your tool from another person’s eyes. Feedback is not criticism — it is a gift to help you improve. Write notes in Joplin about one change you can make.",
+    "experimentation": "Use the feedback to improve your tool. Fix one problem or add one small improvement. Share the updated tool again with a peer. Paste your feedback notes and improvements into Joplin."
+  },
+  "careerHobbyInclination": "Sharing and improving is useful in careers like entrepreneurship, teamwork, and hobbies like building apps or creative projects.",
+  "example": "A learner who shares a chatbot and improves it after feedback can later build a stronger customer service solution.",
+  "color": "#92278F",
+  "xpAward": 30,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Builder Badge awaits when you complete all lessons in Phase 4.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "mandatory" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 11
+  },
+  "resources": [
+    { "type": "Guide", "name": "How to Collect and Use Feedback (IDEO)", "link": "https://www.ideou.com/blogs/inspiration/feedback-for-growth" },
+    { "type": "Video", "name": "The Power of Feedback in Learning", "link": "https://www.youtube.com/watch?v=QfL5JpR3pWU" },
+    { "type": "Tool", "name": "Google Forms (for collecting feedback)", "link": "https://forms.google.com/" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 11,
+  "title": "Lesson 11:Integrating Feedback from Users",
+  "description": "Learn how to use feedback from users to make your AI tool better.",
+  "objectives": [
+    "Collect feedback from users",
+    "Understand what users like and dislike",
+    "Improve your tool using feedback"
+  ],
+  "instructions": {
+    "experience": "Ask users to try your tool. Collect their comments using Google Forms or Typeform. Self-worth talk: 'Maoni ya watumiaji ni zawadi. Yanakusaidia kukua na kuboresha.'",
+    "reflection": "In Joplin, write: What did users say? What was positive? What problems did they notice? How did you feel hearing their feedback?",
+    "conceptualization": "Listen to the teacher explain: Feedback shows what works and what needs change. Feedback is not criticism — it is a guide. Write notes in Joplin about one improvement you will make.",
+    "experimentation": "Use feedback to fix one problem or add one small improvement. Share the updated tool again with users. Paste your feedback notes and improvements into Joplin."
+  },
+  "careerHobbyInclination": "Using feedback is useful in careers like entrepreneurship, customer service, and hobbies like app building.",
+  "example": "A learner who improves a chatbot after feedback can later build a stronger customer service solution.",
+  "color": "#19486A",
+  "xpAward": 35,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Industry Badge awaits when you complete all lessons in Phase 5.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "mandatory" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 12
+  },
+  "resources": [
+    { "type": "Guide", "name": "How to Use Customer Feedback to Improve Products (Hubspot)", "link": "https://blog.hubspot.com/service/customer-feedback" },
+    { "type": "Video", "name": "How to Conduct Feedback Sessions (UX Collective)", "link": "https://www.youtube.com/watch?v=QfL5JpR3pWU" },
+    { "type": "Tool", "name": "Google Forms", "link": "https://forms.google.com/" },
+    { "type": "Tool", "name": "Typeform", "link": "https://www.typeform.com/" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 12,
+  "title": "Lesson 12: Launching and Sustaining Your AI Tool",
+  "description": "Learn how to launch your AI tool and keep it running for users.",
+  "objectives": [
+    "Prepare your tool for launch",
+    "Share your tool with users",
+    "Plan how to sustain and update your tool"
+  ],
+  "instructions": {
+    "experience": "Prepare your tool for launch. Use Netlify to put your tool online. Self-worth talk: 'Kile ulichotengeneza sasa kinaweza kufika kwa watu wengi.'",
+    "reflection": "In Joplin, write: How did it feel to launch your tool? What challenges did you face? Share your notes with a peer.",
+    "conceptualization": "Listen to the teacher explain: Launching means sharing your tool with the world. Sustaining means keeping it updated and useful. Write notes in Joplin about one way to sustain your tool.",
+    "experimentation": "Launch your tool using Netlify or another free platform. Share the link with peers and collect feedback. Paste your launch notes and feedback into Joplin."
+  },
+  "careerHobbyInclination": "Launching and sustaining tools is useful in careers like entrepreneurship, software development, and hobbies like building websites.",
+  "example": "A learner who launches a chatbot on Netlify can later grow it into a full business tool.",
+  "color": "#FD9D24",
+  "xpAward": 40,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Industry Badge awaits when you complete all lessons in Phase 5.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "mandatory" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 13
+  },
+  "resources": [
+    { "type": "Guide", "name": "How to Launch a Product Successfully (Product School)", "link": "https://productschool.com/blog/product-management/launch-product-successfully" },
+    { "type": "Video", "name": "10 Steps to Launch Your Product (Startup School)", "link": "https://www.youtube.com/watch?v=V8kGJY1rj5Q" },
+    { "type": "Tool", "name": "Netlify Free Deployment", "link": "https://www.netlify.com/" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 13,
+  "title": "Lesson 13: Scaling AI Tools for Impact",
+  "description": "Learn how to grow your AI tool so it can help more people.",
+  "objectives": [
+    "Understand what scaling means",
+    "Plan how to grow your tool",
+    "Think about impact in your community"
+  ],
+  "instructions": {
+    "experience": "Think of one way your tool could help more people if it was bigger. Self-worth talk: 'Kile kidogo unachofanya leo kinaweza kukua na kuleta mabadiliko makubwa.'",
+    "reflection": "In Joplin, write: Who else could use your tool? How would it help them? Share your notes with a peer.",
+    "conceptualization": "Listen to the teacher explain: Scaling means growing your tool so it reaches more users. Learn examples of startups that scaled their solutions. Write notes in Joplin.",
+    "experimentation": "Write a simple plan in Joplin: How will you grow your tool? (mfano: add more features, reach more users, connect to partners). Share your plan with a peer."
+  },
+  "careerHobbyInclination": "Scaling is useful in careers like entrepreneurship, leadership, and hobbies like community projects.",
+  "example": "A learner who grows a chatbot from 10 users to 100 can later build a full enterprise solution.",
+  "color": "#8DC63F",
+  "xpAward": 40,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Impact Badge awaits when you complete all lessons in Phase 6.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "mandatory" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 14
+  },
+  "resources": [
+    { "type": "Guide", "name": "Scaling AI Solutions (McKinsey)", "link": "https://www.mckinsey.com/capabilities/quantumblack/our-insights/scaling-ai" },
+    { "type": "Video", "name": "How to Scale Your Startup (TechCrunch)", "link": "https://www.youtube.com/watch?v=QfL5JpR3pWU" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 14,
+  "title": "Lesson 14: Reflecting on Your Journey and Next Steps",
+  "description": "Look back at your learning journey. Celebrate your growth and plan your next steps.",
+  "objectives": [
+    "Reflect on your learning journey",
+    "Celebrate your strengths and growth",
+    "Plan your next steps for learning or career"
+  ],
+  "instructions": {
+    "experience": "Look back at your notes and tools. Celebrate what you have built. Self-worth talk: 'Safari yako imekuwa ya thamani. Kila hatua imekufanya kuwa bora.'",
+    "reflection": "In Joplin, write: What did you enjoy most? What was hardest? What strengths did you discover? Share your reflections with a peer.",
+    "conceptualization": "Listen to the teacher explain: Reflection helps you see your growth and plan ahead. Write notes in Joplin about one lesson that changed your thinking.",
+    "experimentation": "Write a short plan for your next steps (mfano: learn more coding, join a community, start a project). Paste your plan into Joplin and share with a peer."
+  },
+  "careerHobbyInclination": "Reflection is useful in careers like leadership, teaching, and hobbies like journaling or mentoring.",
+  "example": "A learner who reflects on their journey may decide to start a coding club in their community.",
+  "color": "#39B54A",
+  "xpAward": 40,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "Keep moving forward — the Impact Badge awaits when you complete all lessons in Phase 6.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "mandatory" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": 15
+  },
+  "resources": [
+    { "type": "Guide", "name": "The Importance of Reflection in Learning (Edutopia)", "link": "https://www.edutopia.org/article/importance-reflection-learning" },
+    { "type": "Video", "name": "How to Reflect Effectively (Thomas Frank)", "link": "https://www.youtube.com/watch?v=QfL5JpR3pWU" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 15,
+  "title": "Lesson 15: Celebration and Graduation",
+  "description": "Celebrate your journey, share your achievements, and prepare for graduation.",
+  "objectives": [
+    "Celebrate your learning journey",
+    "Share your achievements with peers",
+    "Prepare for graduation and future opportunities"
+  ],
+  "instructions": {
+    "experience": "Join a group celebration. Share your favorite part of the course. Self-worth talk: 'Umefanikiwa! Safari yako imekuwa ya thamani na sasa uko tayari kwa hatua inayofuata.'",
+    "reflection": "In Joplin, write: What achievement are you most proud of? How will you use your new skills in the future? Share your reflections with the group.",
+    "conceptualization": "Listen to the teacher explain: Graduation is not the end — it is the beginning of your next journey. Write notes in Joplin about how you will continue learning.",
+    "experimentation": "Prepare a short presentation or demo of your AI tool. Share it with peers and facilitators. Paste your presentation notes into Joplin."
+  },
+  "careerHobbyInclination": "Celebration and graduation are useful in careers like leadership, public speaking, and hobbies like community building.",
+  "example": "A learner who presents their AI tool at graduation may later pitch it to sponsors or partners.",
+  "color": "#92278F",
+  "xpAward": 50,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "The Graduation Badge awaits — you are now ready for the next chapter.",
+  "gate": {
+    "requiresApproval": false,
+    "approvalBy": null,
+    "unlockTrigger": "Course completion",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "optional" },
+      { "type": "facilitatorComment", "visibility": "optional" }
+    ],
+    "nextActivityId": 16
+  },
+  "resources": [
+    { "type": "Guide", "name": "Celebrating Learning Achievements (UNESCO)", "link": "https://unesdoc.unesco.org/ark:/48223/pf0000370307" },
+    { "type": "Video", "name": "Graduation Speech Examples", "link": "https://www.youtube.com/watch?v=QfL5JpR3pWU" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+},
+{
+  "id": 16,
+  "title": "Lesson 16: Next Steps and Lifelong Learning",
+  "description": "Plan how to continue your learning journey and apply your skills in real life.",
+  "objectives": [
+    "Identify opportunities to keep learning",
+    "Plan how to apply your skills in community or career",
+    "Commit to lifelong learning"
+  ],
+  "instructions": {
+    "experience": "Think of one area where you want to grow more (mfano: coding, design, entrepreneurship). Self-worth talk: 'Kujifunza hakukomi. Kila hatua mpya ni nafasi ya kukua.'",
+    "reflection": "In Joplin, write: What skill do you want to grow next? How will it help you in your life or career? Share your reflections with a peer.",
+    "conceptualization": "Listen to the teacher explain: Lifelong learning means always growing and adapting. Communities, online courses, and mentors can help you. Write notes in Joplin about one resource you will use.",
+    "experimentation": "Create a simple action plan: 1) Skill to grow, 2) Resource to use, 3) Timeline. Paste your plan into Joplin and share it with a peer."
+  },
+  "careerHobbyInclination": "Lifelong learning is useful in all careers and hobbies, especially in fast-changing fields like technology.",
+  "example": "A learner who commits to learning coding every week may later become a software developer.",
+  "color": "#00AEEF",
+  "xpAward": 60,
+  "northPoleReminder": "Every activity here is unlocking your potential to become the digital engineer or entrepreneur you dream of.",
+  "badgeReminder": "The Lifelong Learner Badge awaits — your journey continues beyond this course.",
+  "gate": {
+    "requiresApproval": true,
+    "approvalBy": "Quality Manager",
+    "unlockTrigger": "Reflection submitted and approved",
+    "feedbackForms": [
+      { "type": "peerComment", "visibility": "mandatory" },
+      { "type": "facilitatorComment", "visibility": "optional" },
+      { "type": "managerApproval", "visibility": "mandatory" }
+    ],
+    "nextActivityId": null
+  },
+  "resources": [
+    { "type": "Guide", "name": "The Importance of Lifelong Learning (World Bank)", "link": "https://www.worldbank.org/en/topic/skillsdevelopment/publication/lifelong-learning" },
+    { "type": "Video", "name": "Why Lifelong Learning Matters", "link": "https://www.youtube.com/watch?v=QfL5JpR3pWU" },
+    { "type": "Tool", "name": "Joplin Offline Notebook", "link": "https://joplinapp.org/" }
+  ]
+}
+  ]
+}

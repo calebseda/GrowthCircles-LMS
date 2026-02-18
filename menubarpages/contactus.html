@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Circles LMS - Contact Us</title>
+  <link rel="stylesheet" href="../css/template.css">
+  <style>
+    .contact-container {
+      max-width: 700px;
+      margin: 50px auto;
+    }
+
+    .infoCard {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 40px;
+      border-top: 8px solid #2a9d8f;
+      text-align: left;
+    }
+
+    .infoCard h1 {
+      margin-bottom: 20px;
+      color: #264653;
+      font-size: 1.8em;
+    }
+
+    .infoCard p {
+      margin-bottom: 25px;
+      color: #555;
+      font-size: 1.05em;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #2a9d8f;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 14px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      background: #fdfdfd;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #2a9d8f;
+      box-shadow: 0 0 6px rgba(42,157,143,0.3);
+      outline: none;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+      .ack-message {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e9f5f3;
+      border: 1px solid #2a9d8f;
+      border-radius: 8px;
+      color: #264653;
+      font-weight: 500;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../assets/images/logo.png" alt="Growth Circles Logo">
+    </div>
+    <div class="nav-links">
+      <a href="home.html">Home</a>
+      <a href="aboutus.html">About Us</a>
+      <a href="services.html">Services</a>
+      <a href="contactus.html">Contact Us</a>
+      <a href="donor-enterprise.html" class="btn-donor">Donors & Sponsors Dashboard</a>
+      <a href="signup.html" class="btn-primary">Sign Up</a>
+      <a href="signin.html" class="btn-secondary">Sign 
+    </div>
+  </nav>
+
+  <!-- Secondary Navigation -->
+  <div class="subnav">
+    <a href="youthempowerment.html">Youth Empowerment</a>
+    <a href="facilitatordevelopment.html">Facilitator Development</a>
+    <a href="msmeincubation.html">MSME Incubation</a>
+    <a href="hubhostmanagement.html">Hub Host Engagement</a>
+    <a href="expertiseprocurement.html">Expertise Procurement</a>
+    <a href="marketlinkages.html">Market Linkages</a>
+    <a href="internshipopprtunities.html">Internship Opportunities</a>
+</div>
+
+  <!-- Main Content Section -->
+  <section class="main-content">
+    <div class="contact-container">
+      <div class="infoCard">
+        <h1>Contact Us</h1>
+        <p>We’d love to hear from you. Please fill out the form below and we’ll respond promptly.</p>
+
+        <form id="contactForm" action="send-contact.php" method="post">
+          <div class="form-group">
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" name="fullname" placeholder="e.g. Caleb Seda" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="e.g. caleb.seda@example.com" required>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="e.g. Inquiry about Growth Circles Services" required>
+          </div>
+
+          <div class="form-group">
+            <label for="details">Details</label>
+            <textarea id="details" name="details" placeholder="e.g. I would like to learn more about your consultancy services and training programs." required></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary">Submit</button>
+        </form>
+
+        <div id="ackMessage" class="ack-message">
+          ✅ Thank you for contacting us! Your message has been received. A copy has been sent to your email.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Show acknowledgement message after submission
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('ackMessage').style.display = 'block';
+      this.submit(); // continue to backend script
+    });
+  </script>
+</body>
+</html>

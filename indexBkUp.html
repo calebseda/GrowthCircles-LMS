@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Circles LMS</title>
+  <link rel="manifest" href="data/manifest.json">
+  <link rel="stylesheet" href="../css/template.css">
+  <style>
+ /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0d0d0d;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Donut Menu Container */
+    .menu-container {
+      position: absolute;
+      top: 2rem; /* Place the menu near the top of the page */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px; /* Adjust size of the donut menu */
+      height: 300px;
+      z-index: 10;
+    }
+
+    .menu-items {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Logo in the Center of the Donut Menu */
+    .menu-logo {
+      position: absolute;
+      width: 100px; /* Logo size */
+      height: 100px;
+      background: url('assets/images/logo.png') no-repeat center center; /* Replace with your actual logo file */
+      background-size: cover;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    /* Circular Menu Items */
+    .menu-item {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      text-align: center;
+      line-height: 80px;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      text-transform: capitalize;
+    }
+
+    .menu-item a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .menu-item:hover {
+      filter: brightness(1.1);
+    }
+
+    /* SDG Color Accents */
+    .sdg1 { background: #e5243b; }    /* Red */
+    .sdg4 { background: #19486a; }    /* Blue */
+    .sdg3 { background: #22c55e; }    /* Green */
+    .sdg7 { background: #facc15; color: #111; } /* Yellow */
+    .sdg9 { background: #f97316; }    /* Orange */
+    .sdg10 { background: #c084fc; }   /* Purple */
+    .sdg13 { background: #4c9f38; }   /* Dark Green */
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 1rem;
+      background: #222;
+      color: #fff;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0d0d0d;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 1rem;   /* spacing without forcing layout */
+      min-height: 70vh;     /* allow natural downward growth */
+    }
+
+    .sparkling-text {
+      font-size: 3rem;
+      font-weight: bold;
+      background: linear-gradient(
+        270deg,
+        #ff6ec4,
+        #7873f5,
+        #4ade80,
+        #facc15,
+        #f97316,
+        #c084fc
+      );
+      background-size: 1200% 1200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 20s ease infinite, fadeIn 6s ease forwards;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .line {
+      opacity: 0;
+      animation: fadeIn 4s ease forwards;
+    }
+
+    .line:nth-child(1) { animation-delay: 1s; }
+    .line:nth-child(2) { animation-delay: 5s; }
+    .line:nth-child(3) { animation-delay: 9s; }
+    .line:nth-child(4) { animation-delay: 13s; }
+
+	
+/* Banner Styling */
+banner {
+  background-color: #22C55E; /* Bright Green */
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  animation: flicker 1.5s infinite; /* Apply flicker effect */
+}
+
+/* Keyframes for Flickering Effect */
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1; /* Fully visible */
+  }
+  10%, 20% {
+    opacity: 0.8; /* Slightly dim */
+  }
+  25%, 50% {
+    opacity: 0.6; /* More dim */
+  }
+  55%, 75% {
+    opacity: 0.4; /* Almost invisible */
+  }
+  80%, 90% {
+    opacity: 0.9; /* Nearly fully visible */
+  }
+}
+
+banner {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+    footer {
+      margin-top: auto; /* let template.css handle branding */
+    }
+  .banner {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.4em;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(90deg, #e5243b, #dda63a, #4c9f38, #c5192d, #ff3a21, #26bde2, #fcc30b, #a21942, #fd6925, #dd1367, #19486a);
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease infinite, glowPulse 2s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(255,255,255,0.6);
+  }
+
+  .banner h3 {
+    margin: 0;
+    text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes glowPulse {
+    0% { box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+    50% { box-shadow: 0 0 25px rgba(255,255,255,0.9); }
+    100% { box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+  }
+.epic-banner {
+  width: 100%;
+  text-align: center;
+  padding: 2rem 1rem;
+  margin: 2rem 0;
+  border-radius: 0; /* full-width, no rounded edges */
+  background: linear-gradient(
+    90deg,
+    #e5243b, /* SDG1 Red */
+    #19486a, /* SDG4 Blue */
+    #22c55e, /* SDG3 Green */
+    #facc15, /* SDG7 Yellow */
+    #f97316, /* SDG9 Orange */
+    #c084fc  /* SDG10 Purple */
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite, glowPulse 3s ease-in-out infinite;
+  box-shadow: 0 0 25px rgba(255,255,255,0.8);
+}
+
+.epic-banner h2 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 15px rgba(255,255,255,0.9);
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes glowPulse {
+  0% { box-shadow: 0 0 15px rgba(255,255,255,0.6); }
+  50% { box-shadow: 0 0 35px rgba(255,255,255,1); }
+  100% { box-shadow: 0 0 15px rgba(255,255,255,0.6); }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.content-header {
+  display: flex;              /* enables flexbox */
+  justify-content: center;    /* centers horizontally */
+  align-items: center;        /* centers vertically if needed */
+  width: 100%;                /* full width of screen */
+  margin: 2rem 0;             /* spacing above/below */
+}
+
+.badges-image {
+  display: block;
+  max-width: 80%;             /* responsive scaling */
+  height: auto;
+  margin: 0 auto;             /* fallback centering */
+  box-shadow: 0 0 20px rgba(255,255,255,0.6);
+  border-radius: 12px;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <div class="hero">
+
+  <!-- Donut Menu -->
+  <div class="menu-container">
+    <div class="menu-items">
+      <!-- Logo in the center -->
+      <div class="menu-logo"></div>
+
+      <!-- Menu items with SDG color accents -->
+      <div class="menu-item sdg1"><a href="menubarpages/home.html">Home</a></div>
+      <div class="menu-item sdg4"><a href="menubarpages/aboutus.html">About Us</a></div>
+      <div class="menu-item sdg3"><a href="menubarpages/services.html">Services</a></div>
+      <div class="menu-item sdg7"><a href="menubarpages/contactus.html">Contact Us</a></div>
+      <div class="menu-item sdg9"><a href="menubarpages/donor-enterprise.html">Donors</a></div>
+      <div class="menu-item sdg10"><a href="menubarpages/signup.html">Sign Up</a></div>
+      <div class="menu-item sdg13"><a href="menubarpages/signin.html">Sign In</a></div>
+    </div>
+  </div>
+
+<a href="admin/CBOsLeaflet.html" target="_blank" style="text-decoration:none;">
+  <div class="banner">
+    <h3>
+      🎉 CBO Heads — Join Us in Co‑Creating the Platform! 🎉<br>
+      Take the Dreamer Start Course, share your feedback, or appoint a Hub Facilitator. 
+      Transform your CBO center into a Digital Learning Growth Circles Hub — 
+      opening doors to sponsorships and shared impact. 
+      (More details on the landing page.)
+    </h3>
+  </div>
+</a>
+
+    <div class="sparkling-text line">Dreams Revived</div>
+    <div class="sparkling-text line">Scaled</div>
+    <div class="sparkling-text line">Unleashed into Digital Production</div>
+    <div class="sparkling-text line">We are Youth, Women and MSME Digital Explorers and Innovators</div>
+  </div>
+
+<!-- Top Banner -->
+<div class="epic-banner top-banner">
+  <h2>WELCOME TO EPIC DIGITAL SKILLING PLATFORM</h2>
+</div>
+
+<!-- Centered Badges Image -->
+<div class="content-header">
+  <a href="completeStarterCourse.html" class="image-link">
+    <img src="assets/images/badges.png" alt="Curated and Valued Premium Course" class="badges-image">
+  </a>
+</div>
+
+<!-- Bottom Banner -->
+<div class="epic-banner bottom-banner">
+  <h2>
+    LEARNING AND BECOMING EXPERT IN CODING, ROBOTICS, APP DEV, ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING IS NOW FOR ALL
+  </h2>
+</div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2026 Growth Circles Digital Generation
+  </footer>
+
+  <script>
+    // JavaScript for rotating the donut menu
+    document.addEventListener('DOMContentLoaded', function () {
+      const menuItems = document.querySelectorAll('.menu-item');
+      const radius = 120; // Radius of the circular menu
+      const centerX = 150; // Center X of the circle (menu container width / 2)
+      const centerY = 150; // Center Y of the circle (menu container height / 2)
+      const totalItems = menuItems.length;
+      const angleIncrement = (2 * Math.PI) / totalItems; // Angle in radians for each item
+
+      // Position the menu items in a circular path
+      menuItems.forEach((item, index) => {
+        const angle = index * angleIncrement; // Angle for each item
+        const x = centerX + radius * Math.cos(angle); // X position
+        const y = centerY + radius * Math.sin(angle); // Y position
+        item.style.transform = `translate(${x - centerX}px, ${y - centerY}px) rotate(${(angle * 180) / Math.PI}deg)`;
+      });
+
+      // Rotate the donut menu
+      let rotation = 0;
+      setInterval(() => {
+        rotation += 0.2; // Slower rotation (0.2 degrees per interval)
+        document.querySelector('.menu-items').style.transform = `rotate(${rotation}deg)`;
+        menuItems.forEach((item) => {
+          item.style.transform += `rotate(-${rotation}deg)`; // Counter-rotate to keep text horizontal
+        });
+      }, 300); // Adjust speed of rotation (300ms interval)
+    });
+
+  </script>
+
+
+</body>
+</html>

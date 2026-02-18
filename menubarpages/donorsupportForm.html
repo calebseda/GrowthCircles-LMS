@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Join as a Sponsor | Growth Circles LMS</title>
+<link rel="stylesheet" href="../css/template.css">
+<style>
+  body { background:#0d0d0d; color:#fff; font-family:'Segoe UI'; }
+  .form-container {
+    max-width:700px; margin:3rem auto; background:#1a1a1a;
+    padding:2rem; border-radius:10px; box-shadow:0 0 20px rgba(255,255,255,0.2);
+  }
+  h1 { text-align:center; color:#FFD700; }
+  label { display:block; margin-top:1rem; font-weight:bold; }
+  select, input, textarea {
+    width:100%; padding:0.75rem; margin-top:0.5rem;
+    border-radius:6px; border:none; font-size:1rem;
+  }
+  button {
+    margin-top:2rem; padding:1rem 2rem; background:#22c55e;
+    color:#fff; font-weight:bold; border:none; border-radius:8px;
+    cursor:pointer; transition:0.3s;
+  }
+  button:hover { background:#16a34a; }
+</style>
+</head>
+<body>
+<div class="form-container">
+  <h1>Join as a Sponsor</h1>
+  <form>
+    <!-- Organization -->
+    <label for="orgName">Organization / Entity</label>
+    <input type="text" id="orgName" name="orgName" required>
+
+    <!-- Contact Person -->
+    <label for="contactName">Full Name of Contact Person</label>
+    <input type="text" id="contactName" name="contactName" required>
+
+    <!-- Email -->
+    <label for="email">Contact Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <!-- Telephone -->
+    <label for="telephone">Telephone Number</label>
+    <input type="tel" id="telephone" name="telephone" required>
+
+    <!-- Category of Support -->
+    <label for="category">Category of Support</label>
+    <select id="category" name="category" required>
+      <option value="trainee-subscriptions">Trainee Subscriptions</option>
+      <option value="cloud-hosting">Cloud & Hosting Costs</option>
+      <option value="administration">Administrative Expenses</option>
+      <option value="hub-resources">Hub Resources (devices, connectivity)</option>
+      <option value="stipends">Facilitator & Trainee Stipends</option>
+      <option value="maintenance">System Maintenance</option>
+      <option value="advocacy">Advocacy & Outreach</option>
+    </select>
+
+    <!-- Nature of Support -->
+    <label for="nature">Nature of Support</label>
+    <select id="nature" name="nature" required>
+      <option value="financial">Financial Sponsorship</option>
+      <option value="in-kind">In-Kind Contribution</option>
+      <option value="technical">Technical Expertise</option>
+      <option value="advocacy">Advocacy Partnership</option>
+    </select>
+
+    <!-- Notes -->
+    <label for="message">Additional Notes</label>
+    <textarea id="message" name="message" rows="4"></textarea>
+
+    <!-- Submit -->
+    <button type="submit">Submit Sponsorship</button>
+  </form>
+</div>
+</body>
+</html>

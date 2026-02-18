@@ -1,0 +1,116 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 16px;
+  color: #333;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.learningArea {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar {
+  background-color: #FAF9F6; /* cream base */
+  border-left: 6px solid #19486A; /* deep blue accent */
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #19486A;
+}
+
+.sidebar .card {
+  background: #eee;
+  border-radius: 6px;
+  padding: 14px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background 0.2s ease;
+}
+
+.sidebar .card:hover {
+  background: #ddd;
+}
+
+.mainArea {
+  background-color: #FAF9F6;
+  border-left: 8px solid #8DC63F; /* SDG green accent */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.mainArea h3 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #19486A;
+}
+
+/* Subcards with SDG color coding */
+.subCard {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.descCard { border-left: 6px solid #FF3A21; }       /* SDG red */
+.exampleCard { border-left: 6px solid #FDB913; }    /* SDG yellow */
+.instructionsCard { border-left: 6px solid #00AED9; } /* SDG blue */
+.xpCard { border-left: 6px solid #8DC63F; }         /* SDG green */
+.feedbackCard { border-left: 6px solid #A21942; }   /* SDG magenta */
+.learnerCard { border-left: 6px solid #4CAF50; }    /* facilitator green */
+
+.instructionTitle {
+  font-weight: bold;
+  margin-top: 8px;
+  color: #374151;
+}
+
+.btn {
+  font-size: 18px;
+  margin-top: 14px;
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #19486A;
+  color: #fff;
+  font-weight: bold;
+  width: 100%;
+  transition: background 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #163a56;
+}
+
+/* Responsive layout */
+@media (min-width: 768px) {
+  .learningArea { flex-direction: row; }
+  .sidebar { max-width: 280px; }
+  .mainArea { flex: 1; margin-left: 20px; }
+}
+
+/* Textareas and inputs */
+textarea, input[type="text"], input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}

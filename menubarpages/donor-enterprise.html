@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donors & Sponsors Dashboard | Growth Circles LMS</title>
+  <link rel="manifest" href="../data/manifest.json">
+  <link rel="stylesheet" href="../css/template.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0d0d0d;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .dashboard {
+      padding: 2rem;
+      background: #1a1a1a;
+    }
+
+    .dashboard h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #4CAF50;
+    }
+
+    .summary-card {
+      background: #333;
+      border: 2px solid #FFD700;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .course-card {
+      background: #222;
+      border: 2px solid #4CAF50;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    canvas {
+      max-width: 400px;
+      margin: 20px auto;
+      display: block;
+    }
+
+    .progress-container {
+      background: #333;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 10px 0;
+      height: 20px;
+      display: flex;
+    }
+
+    .progress-segment {
+      height: 100%;
+    }
+
+    .progress-enrolled {
+      background: #F5DEB3; /* wheat */
+    }
+
+    .progress-inprogress {
+      background: #4CAF50; /* green */
+    }
+
+    .progress-completed {
+      background: #FFD700; /* gold */
+    }
+
+    .progress-legend {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 5px;
+      font-size: 0.9rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+.legend-color {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  display: inline-block;
+  border: 2px solid #fff; /* white border for contrast */
+}
+
+.progress-legend {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
+  font-size: 1rem;          /* slightly larger */
+  font-weight: 600;         /* bolder text */
+  color: #ffffff;           /* bright white text */
+  text-shadow: 0 0 3px #000; /* subtle glow for contrast */
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.progress-legend {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 8px;
+  font-size: 1.05rem;       /* slightly larger */
+  font-weight: 700;         /* bold */
+  color: #FFFFFF;           /* bright white text */
+  text-shadow: 0 0 4px #000, 0 0 6px #000; /* glow for contrast */
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  display: inline-block;
+  border: 2px solid #fff;   /* white border for visibility */
+}
+canvas {
+  width: 100% !important;     /* full width of parent */
+  max-width: 100%;            /* no artificial squeeze */
+  height: auto !important;    /* maintain aspect ratio */
+  margin: 20px auto;
+  display: block;
+}
+
+.chartjs-render-monitor {
+  font-size: 1.1rem !important; /* larger labels */
+  font-weight: 600 !important;  /* bold labels */
+  color: #fff !important;       /* bright white text */
+}
+
+/* Course cards full width on mobile */
+.course-card {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Footer stays full width, not part of grid */
+.footer {
+  grid-column: 1 / -1;   /* ensures full width if inside grid */
+  margin-top: auto;
+  text-align: center;
+  background: #111;
+  padding: 1rem;
+}
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Two-column layout on larger screens */
+@media (min-width: 992px) {
+  .dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;   /* two equal columns */
+    gap: 30px;
+  }
+
+  .course-card, .summary-card {
+    width: 100%;          /* allow full width inside column */
+    max-width: none;      /* remove artificial cap */
+    margin: 0;            /* remove auto-centering margins */
+  }
+}
+
+
+  .course-card, .summary-card {
+    width: 100%;
+  }
+}
+
+    }
+
+    footer {
+      margin-top: auto;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../assets/images/logo.png" alt="Growth Circles Logo">
+    </div>
+    <div class="nav-links">
+      <a href="home.html">Home</a>
+      <a href="aboutus.html">About Us</a>
+      <a href="services.html">Services</a>
+      <a href="contactus.html">Contact Us</a>
+      <a href="donor-enterprise.html" class="btn-donor">Donors & Sponsors Dashboard</a>
+      <a href="signup.html" class="btn-primary">Sign Up</a>
+      <a href="signin.html" class="btn-secondary">Sign 
+    </div>
+  </nav>
+
+  <!-- Secondary Navigation -->
+  <div class="subnav">
+    <a href="youthempowerment.html">Youth Empowerment</a>
+    <a href="facilitatordevelopment.html">Facilitator Development</a>
+    <a href="msmeincubation.html">MSME Incubation</a>
+    <a href="hubhostmanagement.html">Hub Host Engagement</a>
+    <a href="expertiseprocurement.html">Expertise Procurement</a>
+    <a href="marketlinkages.html">Market Linkages</a>
+    <a href="internshipopprtunities.html">Internship Opportunities</a>
+</div>
+
+  <!-- Dashboard Section -->
+        <h1>Donors & Sponsors Dashboard</h1>
+  <div class="dashboard" id="dashboard">
+
+  <!-- Support Innovation Call -->
+ <div class="dashboard" id="dashboard">
+
+  <!-- Support Innovation Call -->
+  <div class="summary-card" style="border-color:#22c55e;">
+    <h2>Support the Innovation</h2>
+    <p>Growth Circles LMS thrives through your sponsorship. You can support by:</p>
+    <ul style="text-align:left; max-width:600px; margin:0 auto;">
+      <li>Sponsoring trainees with subscriptions</li>
+      <li>Funding cloud and hosting costs</li>
+      <li>Covering administrative expenses</li>
+      <li>Providing hub resources (devices, connectivity)</li>
+      <li>Supporting facilitator and trainee stipends</li>
+      <li>Ensuring system maintenance and upgrades</li>
+      <li>Backing advocacy and outreach programs</li>
+    </ul>
+    <p><strong>Your contribution empowers communities and sustains digital transformation.</strong></p>
+    <a href="donorsupportForm.html" class="btn-primary">Join as a Sponsor</a>
+  </div>
+
+  <!-- Sample Overall Impact Card -->
+  <div class="summary-card">
+    <h2>Overall Impact (Sample Data)</h2>
+    <p><strong>Total Enrollments:</strong> 1,200</p>
+    <p><strong>Overall Completion Rate:</strong> 68%</p>
+    <p><strong>Communities Reached:</strong> 45</p>
+    <p><strong>Facilitators Engaged:</strong> 30</p>
+  </div>
+
+  <!-- Disaggregated Data: Hubs -->
+  <div class="course-card">
+    <h2 style="color:#FFD700;">Hubs (Sample Data)</h2>
+    <p><strong>Type of Host:</strong> Schools (40%), Faith Centers (25%), CBOs (20%), Public Service Centers (15%)</p>
+    <p><strong>Location:</strong> Rural (60%), Urban (40%)</p>
+    <p><strong>Main Economic Activity:</strong> Farming (45%), Trading (30%), Transport (15%), Services (10%)</p>
+    <p><strong>Social Amenities:</strong> Social Halls (50%), Games Facilities (35%), None (15%)</p>
+    <p><strong>State of Sponsorship:</strong> Sponsored (55%), Pending (30%), Unfunded (15%)</p>
+    <p><strong>Growth Rate:</strong> +12% hubs added this quarter</p>
+  </div>
+
+  <!-- Disaggregated Data: Facilitators -->
+  <div class="course-card">
+    <h2 style="color:#4CAF50;">Facilitators (Sample Data)</h2>
+    <p><strong>Gender:</strong> Male (55%), Female (40%), PWD (5%)</p>
+    <p><strong>Education Level:</strong> Diploma (35%), Degree (45%), Masters+ (20%)</p>
+    <p><strong>Employment State:</strong> Employed (50%), Self-employed (30%), Unemployed (20%)</p>
+    <p><strong>Sources of Income:</strong> Teaching (40%), Business (35%), Other (25%)</p>
+    <p><strong>State of Sponsorship:</strong> Sponsored (60%), Pending (25%), Unfunded (15%)</p>
+    <p><strong>Growth Rate:</strong> +8% facilitators onboarded this quarter</p>
+  </div>
+
+  <!-- Disaggregated Data: Trainees -->
+  <div class="course-card">
+    <h2 style="color:#2196F3;">Trainees (Sample Data)</h2>
+    <p><strong>Gender:</strong> Male (52%), Female (46%), PWD (2%)</p>
+    <p><strong>Education Level:</strong> Primary (20%), Secondary (40%), Tertiary (40%)</p>
+    <p><strong>Economic Activity:</strong> Farming (30%), Trading (25%), Services (20%), Other (25%)</p>
+    <p><strong>Family Residence:</strong> Rural (65%), Urban (35%)</p>
+    <p><strong>Family Social Status:</strong> Low Income (50%), Medium (35%), High (15%)</p>
+    <p><strong>Growth Rate:</strong> +15% trainees enrolled this quarter</p>
+  </div>
+
+
+    <!-- Summary card + course cards injected here -->
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © 2026 Growth Circles Digital Generation
+  </footer>
+
+  <!-- Script -->
+<script>
+  fetch('/api/sponsor-dashboard')
+    .then(res => res.json())
+    .then(data => {
+      const dashboard = document.getElementById('dashboard');
+      console.log("Fetched data:", data);
+
+      // Define course colors
+      const courseColors = [
+        '#4CAF50', // Course 1 - Green
+        '#2196F3', // Course 2 - Blue
+        '#9C27B0', // Course 3 - Purple
+        '#FF9800', // Course 4 - Orange
+        '#E91E63', // Course 5 - Pink
+        '#795548'  // Course 6 - Brown
+      ];
+
+      // Add color key at the top
+      const colorKey = document.createElement('div');
+      colorKey.style.display = 'flex';
+      colorKey.style.justifyContent = 'center';
+      colorKey.style.gap = '20px';
+      colorKey.style.marginBottom = '20px';
+      colorKey.innerHTML = courseColors.map((color, i) => `
+        <div style="display:flex;align-items:center;gap:5px;">
+          <span style="width:15px;height:15px;background:${color};border:2px solid #fff;display:inline-block;"></span>
+          Course ${i+1}
+        </div>
+      `).join('');
+      dashboard.appendChild(colorKey);
+
+      // Calculate summary stats
+      let totalEnrollments = 0;
+      let totalCompleted = 0;
+
+      data.forEach(course => {
+        totalEnrollments += course.total_enrollments;
+        totalCompleted += course.completed_count;
+      });
+
+      const overallCompletion = totalEnrollments > 0 
+        ? ((totalCompleted / totalEnrollments) * 100).toFixed(1) 
+        : 0;
+
+      // Add summary card
+      const summaryCard = document.createElement('div');
+      summaryCard.className = 'summary-card';
+      summaryCard.innerHTML = `
+        <h2>Overall Impact</h2>
+        <p><strong>Total Enrollments:</strong> ${totalEnrollments}</p>
+        <p><strong>Overall Completion Rate:</strong> ${overallCompletion}%</p>
+      `;
+      dashboard.appendChild(summaryCard);
+
+      // Render course cards
+      data.forEach((course, index) => {
+        const color = courseColors[index % courseColors.length];
+
+        const card = document.createElement('div');
+        card.className = 'course-card';
+        card.innerHTML = `
+          <h2 style="color:${color}">${course.course_title}</h2>
+          <p>Total Enrollments: ${course.total_enrollments}</p>
+          <p>Average XP: ${course.avg_xp}</p>
+
+          <!-- Progress Bar -->
+          <div class="progress-container">
+            <div class="progress-segment" style="width:${course.enrolled_percentage}%;background:${color};opacity:0.5"></div>
+            <div class="progress-segment" style="width:${course.in_progress_percentage}%;background:${color};opacity:0.7"></div>
+            <div class="progress-segment" style="width:${course.completed_percentage}%;background:${color};opacity:1"></div>
+          </div>
+
+          <!-- Legend -->
+          <div class="progress-legend">
+            <div class="legend-item">
+              <span class="legend-color" style="background:${color};opacity:0.5;border:2px solid #fff"></span> Enrolled (${course.enrolled_percentage}%)
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background:${color};opacity:0.7;border:2px solid #fff"></span> In Progress (${course.in_progress_percentage}%)
+            </div>
+            <div class="legend-item">
+              <span class="legend-color" style="background:${color};opacity:1;border:2px solid #fff"></span> Completed (${course.completed_percentage}%)
+            </div>
+          </div>
+
+          <!-- Disaggregated Stats -->
+          <h3>Disaggregated Stats</h3>
+          <canvas id="genderChart-${course.course_title}"></canvas>
+          <canvas id="msmeChart-${course.course_title}"></canvas>
+          <canvas id="pwdChart-${course.course_title}"></canvas>
+
+          <!-- Existing Charts -->
+          <canvas id="badgeChart-${course.course_title}"></canvas>
+          <canvas id="progressChart-${course.course_title}"></canvas>
+          <canvas id="approvalChart-${course.course_title}"></canvas>
+        `;
+        dashboard.appendChild(card);
+
+        // Common chart options for readability
+        const chartOptions = {
+          plugins: {
+            legend: {
+              labels: {
+                color: '#FFFFFF',
+                font: { size: 14, weight: 'bold' }
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: '#FFFFFF',
+                font: { size: 14, weight: 'bold' }
+              }
+            },
+            y: {
+              ticks: {
+                color: '#FFFFFF',
+                font: { size: 14, weight: 'bold' }
+              }
+            }
+          }
+        };
+
+        // Gender Distribution Chart
+        new Chart(document.getElementById(`genderChart-${course.course_title}`), {
+          type: 'doughnut',
+          data: {
+            labels: ['Male', 'Female', 'Other'],
+            datasets: [{
+              data: [course.male_count, course.female_count, course.other_count],
+              backgroundColor: ['#2196F3', '#E91E63', '#9E9E9E']
+            }]
+          },
+          options: chartOptions
+        });
+
+        // MSME Participation Chart
+        new Chart(document.getElementById(`msmeChart-${course.course_title}`), {
+          type: 'bar',
+          data: {
+            labels: ['MSME', 'Non-MSME'],
+            datasets: [{
+              label: 'Participants',
+              data: [course.msme_count, course.non_msme_count],
+              backgroundColor: ['#4CAF50', '#FFC107']
+            }]
+          },
+          options: chartOptions
+        });
+
+        // PWD Participation Chart
+        new Chart(document.getElementById(`pwdChart-${course.course_title}`), {
+          type: 'bar',
+          data: {
+            labels: ['PWD', 'Non-PWD'],
+            datasets: [{
+              label: 'Participants',
+              data: [course.pwd_count, course.non_pwd_count],
+              backgroundColor: ['#9C27B0', '#FF9800']
+            }]
+          },
+          options: chartOptions
+        });
+
+        // Badge Distribution Donut
+        new Chart(document.getElementById(`badgeChart-${course.course_title}`), {
+          type: 'doughnut',
+          data: {
+            labels: ['Bronze', 'Silver', 'Gold'],
+            datasets: [{
+              data: [course.bronze_count, course.silver_count, course.gold_count],
+              backgroundColor: [color, '#C0C0C0', '#FFD700']
+            }]
+          },
+          options: chartOptions
+        });
+
+        // Trainee Progress Bar Chart
+        new Chart(document.getElementById(`progressChart-${course.course_title}`), {
+          type: 'bar',
+          data: {
+            labels: ['Enrolled', 'In Progress', 'Completed'],
+            datasets: [{
+              label: 'Trainees',
+              data: [
+                course.enrolled_count,
+                course.in_progress_count,
+                course.completed_count
+              ],
+              backgroundColor: [
+                color + '80',
+                color + 'B3',
+                color
+              ]
+            }]
+          },
+          options: chartOptions
+        });
+
+        // Auditor Oversight Bar Chart
+        new Chart(document.getElementById(`approvalChart-${course.course_title}`), {
+          type: 'bar',
+          data: {
+            labels: ['Approved', 'Pending', 'Rejected'],
+            datasets: [{
+              label: 'Lessons',
+              data: [
+                course.lessons_approved,
+                course.lessons_pending,
+                course.lessons_rejected
+              ],
+              backgroundColor: [color, '#FFA500', '#FF0000']
+            }]
+          },
+          options: chartOptions
+        });
+      });
+    })
+    .catch(err => console.error('Error loading dashboard:', err));
+</script>
+</body>
+</html>

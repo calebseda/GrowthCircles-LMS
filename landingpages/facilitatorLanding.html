@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Circles LMS - Facilitator Landing</title>
+  <link rel="stylesheet" href="./template.css">
+  <style>
+    .landing-container {
+      max-width: 1100px;
+      margin: 50px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+
+    .infoCard {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      border-top: 8px solid #2a9d8f;
+      text-align: left;
+    }
+
+    .infoCard h2 {
+      margin-bottom: 12px;
+      color: #264653;
+    }
+
+    .infoCard p {
+      color: #555;
+      font-size: 0.95em;
+      line-height: 1.5;
+    }
+
+    .welcome {
+      background: #e9f5f3;
+      border: 1px solid #2a9d8f;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      color: #264653;
+      font-weight: 500;
+    }
+
+    .btn-primary {
+      padding: 12px 20px;
+      background: #2a9d8f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .btn-primary:hover {
+      background: #21867a;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="./logo.png" alt="Growth Circles Logo">
+    </div>
+    <div class="nav-links">
+      <a href="./home.html">Home</a>
+      <a href="./aboutus.html">About Us</a>
+      <a href="./services.html">Services</a>
+      <a href="./contactus.html">Contact Us</a>
+      <a href="./dashboards.html">Dashboards</a>
+      <a href="signup.html" class="btn-primary">Sign Up</a>
+      <a href="signin.html" class="btn-secondary">Sign In</a>
+    </div>
+  </nav>
+
+  <!-- Secondary Navigation -->
+  <div class="subnav">
+    <a href="./youthempowerment.html">Youth Empowerment</a>
+    <a href="./facilitatordevelopment.html">Facilitator Development</a>
+    <a href="./msmeincubation.html">MSME Incubation</a>
+    <a href="./hubhostmanagement.html">Hub Host Engagement</a>
+    <a href="./expertiseprocurement.html">Expertise Procurement</a>
+    <a href="./marketlinkages.html">Market Linkages</a>
+    <a href="./internshipopprtunities.html">Internship Opportunities</a>
+  </div>
+
+  <!-- Main Content Section -->
+  <section class="main-content">
+    <h1 style="text-align:left; margin-bottom:30px;">Facilitator Landing Page</h1>
+    <div class="landing-container">
+
+      <div class="infoCard">
+        <div class="welcome">👋 Welcome, Facilitator! You have successfully signed up. Explore your tools below.</div>
+        <h2>User Profile</h2>
+        <p>Manage your personal details, update your qualifications, and track your facilitator activities. Keep your profile current for visibility and sponsor reporting.</p>
+        <a href="facilitator-profile.html" class="btn-primary">Go to Profile</a>
+      </div>
+
+      <div class="infoCard">
+        <h2>Training Modules</h2>
+        <p>Access structured facilitator training content, including onboarding materials, guidelines, and SDG‑aligned learning resources. Track your progress and completion status.</p>
+        <a href="./completeStarterCourse.html" class="btn-primary">Start Training</a>
+      </div>
+
+      <div class="infoCard">
+        <h2>Resources</h2>
+        <p>Download templates, sponsor‑ready reporting guides, and facilitation tools. Stay equipped with the latest materials for effective delivery.</p>
+        <a href="./resources/resources.html" class="btn-primary">Explore Resources</a>
+      </div>
+
+      <div class="infoCard">
+        <h2>Projects</h2>
+        <p>Collaborate with youth and MSMEs on active projects. Track milestones, roles, and deliverables while contributing to community impact.</p>
+        <a href="./projects.html" class="btn-primary">View Projects</a>
+      </div>
+
+      <div class="infoCard">
+        <h2>Community Engagement</h2>
+        <p>Connect with other facilitators, share insights, and participate in Growth Circles forums. Build networks and strengthen collective learning.</p>
+        <a href="./community.html" class="btn-primary">Join Community</a>
+      </div>
+
+    </div>
+  </section>
+</body>
+</html>

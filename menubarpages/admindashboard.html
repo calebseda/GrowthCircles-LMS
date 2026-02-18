@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Circles LMS</title>
+  <link rel="stylesheet" href="../css/template.css">
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../assets/images/logo.png" alt="Growth Circles Logo">
+    </div>
+    <div class="nav-links">
+      <a href="menubarpages/home.html">Home</a>
+      <a href="menubarpages/aboutus.html">About Us</a>
+      <a href="menubarpages/services.html">Services</a>
+      <a href="menubarpages/contactus.html">Contact Us</a>
+      <a href="menubarpages/donor-enterprise.html" class="btn-donor">Donors & Sponsors Dashboard</a>
+      <a href="menubarpages/signup.html" class="btn-primary">Sign Up</a>
+      <a href="menubarpages/signin.html" class="btn-secondary">Sign 
+    </div>
+  </nav>
+
+  <!-- Secondary Navigation -->
+  <div class="subnav">
+    <a href="youthempowerment.html">Youth Empowerment</a>
+    <a href="facilitatordevelopment.html">Facilitator Development</a>
+    <a href="msmeincubation.html">MSME Incubation</a>
+    <a href="hubhostmanagement.html">Hub Host Engagement</a>
+    <a href="expertiseprocurement.html">Expertise Procurement</a>
+    <a href="marketlinkages.html">Market Linkages</a>
+    <a href="internshipopprtunities.html">Internship Opportunities</a>
+</div>
+ 
+<style>
+    .dashboard-container {
+      max-width: 1100px;
+      margin: 50px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+
+    /* Accent variations for different admin features */
+    .users { border-top-color: #2a9d8f; }       /* SDG green */
+    .roles { border-top-color: #e76f51; }       /* SDG red/orange */
+    .permissions { border-top-color: #f4a261; } /* SDG yellow/orange */
+    .audits { border-top-color: #6d597a; }      /* SDG purple */
+    .settings { border-top-color: #457b9d; }    /* SDG blue */
+    .reports { border-top-color: #8ab17d; }     /* SDG light green */
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
+
+  h2 {
+    margin-top: 0;
+    color: #19486A;
+  }
+
+ .infoCard.users:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); border-color: #19486A; } 
+
+.infoCard.users h2 { color: #19486A; margin-top: 0; }
+
+  .infoCard {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    padding: 30px;
+    border-top: 8px solid #2a9d8f;
+    text-align: left;
+    cursor: pointer; transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .infoCard h2 {
+    margin-bottom: 12px;
+    color: #264653;
+  }
+
+  .infoCard p {
+    color: #555;
+    font-size: 0.95em;
+    line-height: 1.5;
+  }
+
+  .users { border-top-color: #2a9d8f; }
+  .roles { border-top-color: #e76f51; }
+  .permissions { border-top-color: #f4a261; }
+  .audits { border-top-color: #6d597a; }
+  .settings { border-top-color: #457b9d; }
+  .reports { border-top-color: #8ab17d; }
+
+  .form-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10%;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+
+  .form-wrapper {
+    flex: 1 1 45%;
+    background-color: #FAF9F6;
+    border-left: 6px solid #19486A;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    margin-top: 12px;
+    font-weight: bold;
+    color: #374151;
+  }
+
+  input, select, button {
+    margin-top: 6px;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  input:focus, select:focus {
+    border-color: #19486A;
+    outline: none;
+  }
+
+  button {
+    margin-top: 24px;
+    cursor: pointer;
+    background-color: #19486A;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+  }
+
+  button:hover {
+    background-color: #163A52;
+  }
+
+  @media (max-width: 768px) {
+    .form-wrapper {
+      flex: 1 1 100%;
+    }
+    .form-container {
+      gap: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Main Content Section -->
+  <section class="main-content">
+    <h1 style="text-align:left; margin-bottom:30px;">Administration Dashboard</h1>
+    <div class="dashboard-container">
+
+<div class="infoCard users" onclick="location.href='usermanagement.html'"> <h2>User Management</h2> <p>Create, edit, and deactivate user accounts. Track facilitator and learner profiles with full location hierarchy for accountability. View and/or approve application.</p> 
+</div>
+
+      <div class="infoCard roles"onclick="location.href='applicationslist.html'">
+        <h2>Role Assignment</h2>
+        <p>Assign roles such as facilitator, hub host, sponsor, or learner. Ensure structured onboarding flows and accountability across all stakeholders.</p>
+      </div>
+
+      <div class="infoCard permissions">
+        <h2>Permissions Control</h2>
+        <p>Define access levels for different roles. Manage who can view, edit, approve, or audit specific modules and reports.</p>
+      </div>
+
+      <div class="infoCard audits">
+        <h2>Audit Logs</h2>
+        <p>Track all system activities with timestamped logs. Provides sponsor‑ready transparency and compliance with audit requirements.</p>
+      </div>
+
+      <div class="infoCard settings">
+        <h2>System Settings</h2>
+        <p>Configure platform preferences, branding, and integrations. Manage notification channels (email, WhatsApp) and offline‑friendly distribution options.</p>
+      </div>
+
+      <div class="infoCard reports">
+        <h2>Sponsor Reporting</h2>
+        <p>Generate structured reports for sponsors and stakeholders. Includes impact metrics, financial logs, and compliance documentation aligned with SDGs.</p>
+      </div>
+
+  <!-- Sign Up Section -->
+  <div class="form-container">
+  <!-- Admin Signup Form -->
+  <div class="form-wrapper infoCard audits">
+    <form id="adminSignupForm">
+      <h2>Admin Signup</h2>
+
+      <label for="name">Full Name</label>
+      <input type="text" id="name" placeholder="e.g. Carol Njeri" required>
+
+      <label for="email">Email Address</label>
+      <input type="email" id="email" placeholder="e.g. carol.njeri@growthcircles.africa" required>
+
+      <label for="password">Create Password</label>
+      <input type="password" id="password" placeholder="Choose a secure password" required>
+
+      <label for="role">Role</label>
+      <select id="role" required>
+        <option value="">Select role</option>
+        <option value="auditor">Auditor</option>
+        <option value="accountant">Accountant</option>
+        <option value="secretary">Secretary</option>
+        <option value="hr-manager">HR Manager</option>
+        <option value="field-coordinator">Field Coordinator</option>
+        <option value="marketing-manager">Marketing Manager</option>
+        <option value="system-engineer">System Engineer</option>
+        <option value="chief-executive">Chief Executive</option>
+        <option value="office-assistant">Office Assistant</option>
+      </select>
+
+      <label for="department">Department</label>
+      <input type="text" id="department" placeholder="e.g. Quality Assurance">
+
+      <label for="position">Position</label>
+      <input type="text" id="position" placeholder="e.g. Senior Auditor">
+
+      <label for="phone">Phone Number</label>
+      <input type="text" id="phone" placeholder="e.g. +254 700 123456">
+
+      <button type="submit" class="btn-submit">Create Account</button>
+    </form>
+  </div>
+
+  <!-- Admin Sign In Form -->
+  <div class="form-wrapper infoCard settings">
+    <form id="signInForm">
+      <h2>Sign In</h2>
+
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="e.g. john_doe" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="passwordSignIn" placeholder="Enter your password" required>
+
+      <label for="adminId">Admin ID</label>
+      <input type="text" id="adminId" placeholder="Enter your Admin ID" required>
+
+      <button type="submit" class="btn-submit">Sign In</button>
+    </form>
+  </div>
+</div>
+   </div>
+  </section>
+</body>
+</html>

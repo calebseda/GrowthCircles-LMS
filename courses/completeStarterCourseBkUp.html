@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dreamer Track Starter Course</title>
+<style>
+body { font-family: Arial, sans-serif; display: flex; margin:0; }
+#lessonList { width: 25%; background: #f0f0f0; padding: 10px; min-height:100vh; }
+#lessonDetail { width: 75%; padding: 20px; }
+
+.card {
+  background: #f9f9f9;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+}
+.card:hover { background: #e0f7fa; }
+
+.infoCard {
+  background: #fffbea; /* cream base */
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.sdg-experience { border-left: 6px solid #e5243b; } /* SDG Red */
+.sdg-reflection { border-left: 6px solid #dda63a; } /* SDG Gold */
+.sdg-conceptualization { border-left: 6px solid #4c9f38; } /* SDG Green */
+.sdg-application { border-left: 6px solid #19486a; } /* SDG Blue */
+
+.btn {
+  padding: 8px 12px;
+  margin-top: 10px;
+  cursor: pointer;
+  background: #007acc;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+}
+.btn:hover { background: #005fa3; }
+
+.xp { font-weight: bold; margin-top: 10px; }
+.reminder { font-style: italic; margin-top: 5px; }
+.progress-container {
+  width: 100%;
+  background-color: #ddd;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.progress-bar {
+  height: 16px;
+  border-radius: 6px;
+  background-color: #4caf50; /* Green fill */
+  width: 0%; /* Start empty */
+  transition: width 0.5s ease-in-out;
+}
+
+</style>
+</head>
+<body>
+<div id="lessonList"></div>
+<div id="lessonDetail"></div>
+
+<script>
+let lessonsData = { lessons: [] };
+let completedLessons = [];
+let xpTotal = 0;
+let auditTrail = []; // sponsor-ready log
+
+async function loadLessons() {
+  try {
+    console.log("Fetching lessons from /data/dreamertrack.json ... ");
+    const response = await fetch("/data/dreamertrack.json");
+    if (!response.ok) throw new Error("HTTP error " + response.status);
+
+    lessonsData = await response.json();
+    console.log("Lessons fetched successfully:", lessonsData);
+
+    const lessonList = document.getElementById('lessonList');
+    lessonList.innerHTML = "";
+
+// Progress tracker at the top
+const progressCard = document.createElement('div');
+progressCard.className = 'infoCard';
+progressCard.innerHTML = `
+  <strong>Progress Tracker</strong><br>
+  XP Total: <span id="xpTotal">${xpTotal}</span><br>
+  Lessons Completed: <span id="lessonsCompleted">${completedLessons.length}</span> / ${lessonsData.lessons.length}
+  <div class="progress-container">
+    <div id="progressBar" class="progress-bar"></div>
+  </div>
+`;
+lessonList.appendChild(progressCard);
+
+    // Group lessons by weeks for clarity
+    const groups = [
+      { label: "Weeks 1–6", range: [1,6] },
+      { label: "Weeks 7–12", range: [7,12] },
+      { label: "Capstone", range: [13,14] }
+    ];
+
+    groups.forEach(group => {
+      const header = document.createElement('h4');
+      header.textContent = group.label;
+      lessonList.appendChild(header);
+
+      lessonsData.lessons
+        .filter(l => l.id >= group.range[0] && l.id <= group.range[1])
+        .forEach(lesson => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <strong>${lesson.title}</strong><br>
+            <span style="font-size:0.9em;color:#555;">
+              XP: ${lesson.gamification.xp_award} | Badge: ${lesson.gamification.badge_award}
+            </span>
+          `;
+          card.onclick = () => showLesson(lesson);
+          lessonList.appendChild(card);
+        });
+    });
+
+    // Add Audit Trail card at the bottom
+    const auditCard = document.createElement('div');
+    auditCard.className = 'card';
+    auditCard.textContent = "Audit Trail";
+    auditCard.onclick = () => showAuditTrail();
+    lessonList.appendChild(auditCard);
+
+    showWelcome();
+  } catch (err) {
+    console.error("Failed to load lessons:", err);
+    document.getElementById('lessonDetail').innerHTML =
+      "<div class='infoCard' style='color:red'>Error loading lessons. Please refresh or check JSON path.</div>";
+  }
+}
+    // Group lessons by weeks
+    const groups = [
+      { label: "Weeks 1–6", range: [1,6] },
+      { label: "Weeks 7–12", range: [7,12] },
+      { label: "Capstone", range: [13,14] }
+    ];
+
+    groups.forEach(group => {
+      const header = document.createElement('h4');
+      header.textContent = group.label;
+      lessonList.appendChild(header);
+
+      lessonsData.lessons
+        .filter(l => l.id >= group.range[0] && l.id <= group.range[1])
+        .forEach(lesson => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.textContent = lesson.title;
+          card.onclick = () => showLesson(lesson);
+          lessonList.appendChild(card);
+        });
+    });
+
+    const auditCard = document.createElement('div');
+    auditCard.className = 'card';
+    auditCard.textContent = "Audit Trail";
+    auditCard.onclick = () => showAuditTrail();
+    lessonList.appendChild(auditCard);
+
+    showWelcome();
+  } catch (err) {
+    console.error("Failed to load lessons:", err);
+    document.getElementById('lessonDetail').innerHTML =
+      "<div class='infoCard' style='color:red'>Error loading lessons. Please refresh or check JSON path.</div>";
+  }
+}
+
+function showWelcome() {
+  const detail = document.getElementById('lessonDetail');
+  detail.innerHTML = `
+    <h3>Welcome to the Dreamer Track</h3>
+    <div class="infoCard">
+      <p>These lessons will awaken your dreams, build resilience, and guide you step by step.</p>
+      <p>Each activity is simple, practical, and designed to unlock your potential as a digital innovator.</p>
+      <p>Complete all lessons to earn the Digital Innovator Badge and celebrate your transformation.</p>
+      <button class="btn" onclick="showLesson(lessonsData.lessons[0])">Start Lesson 1</button>
+    </div>
+  `;
+}
+// Map SDG alignment to a color accent
+function getSdgColor(sdgAlignment) {
+  const map = {
+    "SDG 1: No Poverty": "#e5243b",       // Red
+    "SDG 3: Good Health and Well-being": "#4c9f38", // Green
+    "SDG 4: Quality Education": "#19486a", // Blue
+    "SDG 8: Decent Work and Economic Growth": "#dda63a", // Gold
+    "SDG 9: Industry, Innovation and Infrastructure": "#ff3a21", // Orange
+    "SDG 10: Reduced Inequalities": "#ff9933", // Light Orange
+    "SDG 11: Sustainable Cities and Communities": "#f36d25", // Dark Orange
+    "SDG 16: Peace, Justice and Strong Institutions": "#00689d", // Dark Blue
+    "SDG 17: Partnerships for the Goals": "#19486a" // Navy Blue
+  };
+  return map[sdgAlignment] || "#007acc"; // Default accent if not mapped
+}
+
+function showLesson(lesson) {
+  console.log("Rendering lesson:", lesson.title);
+
+  const detail = document.getElementById('lessonDetail');
+  detail.innerHTML = `
+<h3 style="border-left: 8px solid ${getSdgColor(lesson.sdg_alignment)}; padding-left:10px;">
+  ${lesson.title}
+</h3>
+    <div class="infoCard"><p>${lesson.description}</p></div>
+
+    <!-- Kolb cycle -->
+    <div class="infoCard sdg-experience"><strong>Experience:</strong>
+      ${lesson.kolb_cycle.experience.instructions}</div>
+    <div class="infoCard sdg-reflection"><strong>Reflection:</strong>
+      ${lesson.kolb_cycle.reflection.instructions}</div>
+    <div class="infoCard sdg-conceptualization"><strong>Conceptualization:</strong>
+      ${lesson.kolb_cycle.conceptualization.instructions}</div>
+    <div class="infoCard sdg-application"><strong>Application:</strong>
+      ${lesson.kolb_cycle.application.instructions}</div>
+
+    <!-- Learner Report -->
+    <div class="infoCard">
+      <p>Learner Report:</p>
+      <textarea id="report-${lesson.id}" style="width:100%;height:120px;padding:10px;" placeholder="Write your reflection here"></textarea>
+      <p>Upload evidence (audio/video/image):</p>
+      <input type="file" id="file-${lesson.id}" accept="audio/*,video/*,image/*" style="margin-bottom:10px;">
+      <textarea id="caption-${lesson.id}" style="width:100%;height:80px;padding:10px;" placeholder="Add a narration caption for your file"></textarea>
+      <button class="btn" onclick="submitReport(${lesson.id})">Submit Report</button>
+    </div>
+
+    <!-- Gamification -->
+    <div class="infoCard">
+      <div class="xp">XP Award: ${lesson.gamification.xp_award}</div>
+      <div class="reminder">Badge: ${lesson.gamification.badge_award}</div>
+      <button class="btn" onclick="approveLesson(${lesson.id})">Manager Approval</button>
+    </div>
+  `;
+}
+
+function submitReport(lessonId) {
+  const lesson = lessonsData.lessons.find(l => l.id === lessonId);
+  const reportText = document.getElementById(`report-${lesson.id}`).value.trim();
+  const fileInput = document.getElementById(`file-${lesson.id}`);
+  const captionText = document.getElementById(`caption-${lesson.id}`).value.trim();
+
+  if (!reportText && !fileInput.files.length) {
+    alert("Please provide either a reflection or upload a file.");
+    return;
+  }
+
+  lesson.learnerReport = {
+    text: reportText,
+    fileName: fileInput.files.length ? fileInput.files[0].name : null,
+    caption: captionText
+  };
+
+  auditTrail.push({
+    lessonId: lesson.id,
+    lessonTitle: lesson.title,
+    action: "Report Submitted",
+    learnerReport: lesson.learnerReport,
+    timestamp: new Date().toISOString()
+  });
+
+  alert("Report submitted with evidence. Awaiting Manager Approval.");
+}
+
+function approveLesson(lessonId) {
+  const lesson = lessonsData.lessons.find(l => l.id === lessonId);
+  if (lesson.learnerReport && (lesson.learnerReport.text || lesson.learnerReport.fileName)) {
+    if (!completedLessons.includes(lessonId)) {
+      completedLessons.push(lessonId);
+      xpTotal += lesson.gamification.xp_award;
+
+// Update progress tracker
+document.getElementById("xpTotal").textContent = xpTotal;
+document.getElementById("lessonsCompleted").textContent = completedLessons.length;
+
+// Update progress bar fill and color
+const progressPercent = Math.round((completedLessons.length / lessonsData.lessons.length) * 100);
+const progressBar = document.getElementById("progressBar");
+progressBar.style.width = progressPercent + "%";
+
+// Change color based on progress percentage
+if (progressPercent < 33) {
+  progressBar.style.backgroundColor = "#e5243b"; // Red
+} else if (progressPercent < 66) {
+  progressBar.style.backgroundColor = "#ffa500"; // Orange
+} else {
+  progressBar.style.backgroundColor = "#4caf50"; // Green
+}
+
+// Optional: show percentage inside the bar
+progressBar.textContent = progressPercent + "%";
+
+// Log to audit trail
+auditTrail.push({
+  lessonId: lesson.id,
+  lessonTitle: lesson.title,
+  action: "Lesson Approved",
+  xpAwarded: lesson.gamification.xp_award,
+  xpTotal: xpTotal,
+  badge: lesson.gamification.badge_award,
+  timestamp: new Date().toISOString()
+});
+
+alert(`Lesson ${lesson.id} approved. XP total: ${xpTotal}`);
+  }
+}
+
+function showAuditTrail() {
+  console.log("Showing audit trail. Entries:", auditTrail.length);
+  const detail = document.getElementById('lessonDetail');
+
+  if (auditTrail.length === 0) {
+    detail.innerHTML = `
+      <h3>Audit Trail</h3>
+      <div class="infoCard">
+        <p>No activity logged yet.</p>
+      </div>
+    `;
+    return;
+  }
+
+  let logsHtml = auditTrail.map(log => `
+    <div class="infoCard">
+      <p><strong>${log.action}</strong> for Lesson ${log.lessonId} (${log.lessonTitle}) at ${log.timestamp}</p>
+      ${log.learnerReport ? `
+        <p>Report: ${log.learnerReport.text || ""}</p>
+        <p>File: ${log.learnerReport.fileName || "None"}</p>
+        <p>Caption: ${log.learnerReport.caption || ""}</p>
+      ` : ""}
+      ${log.xpAwarded ? `
+        <p>XP Awarded: ${log.xpAwarded} | Total XP: ${log.xpTotal}</p>
+        <p>Badge Earned: ${log.badge}</p>
+      ` : ""}
+    </div>
+  `).join("");
+
+  detail.innerHTML = `
+    <h3>Audit Trail</h3>
+    ${logsHtml}
+    <button class="btn" onclick="exportAuditTrail()">Export Audit Trail</button>
+  `;
+}
+
+function exportAuditTrail() {
+  console.log("Exporting audit trail with entries:", auditTrail.length);
+  const dataStr = "data:text/json;charset=utf-8," +
+    encodeURIComponent(JSON.stringify(auditTrail, null, 2));
+  const dlAnchor = document.createElement('a');
+  dlAnchor.setAttribute("href", dataStr);
+  dlAnchor.setAttribute("download", "dreamer-track-audit.json");
+  dlAnchor.click();
+}
+
+// Trigger lesson loading on page load
+window.onload = () => {
+  console.log("Page loaded. Starting lesson fetch ... ");
+  loadLessons();
+};
+
+// Debugging helpers
+console.log("Script parsed successfully. Waiting for window.onload ... ");
+
+window.addEventListener("error", (event) => {
+  console.error("Global error caught:", event.message, "at", event.filename, ":", event.lineno);
+});
+
+window.addEventListener("unhandledrejection", (event) => {
+  console.error("Unhandled promise rejection:", event.reason);
+});
+</script>
+</body>
+</html>

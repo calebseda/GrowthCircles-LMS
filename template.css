@@ -1,0 +1,263 @@
+/* General Reset and Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #002244;
+  color: #fff;
+  padding: 1rem 2rem;
+  flex-wrap: wrap; /* allow wrapping on mobile */
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 1rem;
+}
+
+.nav-links .btn-primary {
+  background-color: #ff6600;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-links .btn-primary:hover {
+  background-color: #e65c00;
+}
+
+.nav-links .btn-secondary {
+  background-color: #28a745; /* Green */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-links .btn-secondary:hover {
+  background-color: #27F579;
+}
+
+.nav-links .btn-donor {
+  background-color: #54079C; /* Lilac */
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-links .btn-donor:hover {
+  background-color: #9127F5;
+}
+
+
+/* Subnav Styles */
+.subnav {
+  display: flex;
+  justify-content: center;
+  background-color: #F9CD90;
+  padding: 0.5rem;
+  flex-wrap: wrap; /* allow wrapping */
+}
+
+.subnav a {
+  margin: 0 1rem;
+  color: #121;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+/* Main Content Section */
+.main-content {
+  text-align: center;
+  padding: 2rem;
+  background-color: #fdfaf6; /* cream/beige background */
+}
+
+.main-content h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #002244;
+}
+
+.main-content p {
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Responsive Picture Container */
+.content-header {
+  display: inline-block; /* container wraps image width */
+}
+.content-header img {
+  width: 100%;            /* responsive scaling */
+  height: auto;          /* maintain aspect ratio */
+  max-width: 1200px;     /* optional max width */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  margin-bottom: 20px;
+  display: block;
+}
+
+/* Infocards3D for Content List */
+.main-content .content-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+.main-content .content-list li {
+  flex: 1 1 30%;
+  background-color: #fff; /* white background */
+  padding: 1rem;
+  border-left: 6px solid #19486A; /* SDG stripe (blue default) */
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #333;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1); /* 3D effect */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.main-content .content-list li:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.15);
+}
+
+/* Logo sizing */
+.logo img {
+  width: 100px;       /* fixed width */
+  height: auto;       /* keep aspect ratio */
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #002244;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.footer-links a {
+  color: #ff6600;
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+.footer-links a:hover {
+  color: #e65c00;
+}
+
+/* SDG-accented InfoCard styling */
+.infoCard {
+  background: #fff;                 
+  border-radius: 12px;              
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1); 
+  padding: 40px;                    
+  border-top: 8px solid #2a9d8f;    
+  text-align: left;                 
+  margin-bottom: 30px;              
+}
+
+/* Typography inside cards */
+.infoCard h1, 
+.infoCard h2, 
+.infoCard h3, 
+.infoCard p, 
+.infoCard ul li {
+  text-align: left;
+  color: #333;                      
+}
+
+/* Lists inside cards */
+.infoCard ul {
+  list-style: none;                 
+  padding: 0;
+}
+
+.infoCard ul li {
+  margin-bottom: 12px;
+  font-size: 1.05em;
+}
+
+.infoCard ul li strong {
+  color: #2a9d8f;                   
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .nav-links a,
+  .nav-links .btn-primary,
+  .nav-links .btn-secondary {
+    margin: 8px 0;
+  }
+
+  .subnav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .subnav a {
+    width: 100%;
+    text-align: center;
+    margin: 6px 0;
+  }
+}
+.dashboard-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  background-color: #fdfdf6; /* cream base */
+  padding: 20px;
+}
+
+.course-card {
+  flex: 1 1 45%;
+  background: #ffffff;
+  border: 2px solid #4CAF50; /* SDG green accent */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}

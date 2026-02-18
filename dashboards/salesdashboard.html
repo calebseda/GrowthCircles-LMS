@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Circles LMS - Sales & Marketing Dashboard</title>
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/template.css">
+  <style>
+    .dashboard-container {
+      max-width: 1100px;
+      margin: 50px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+    .infoCard {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      border-top: 8px solid #f4a261; /* SDG orange accent */
+      text-align: left;
+    }
+    .infoCard h2 { margin-bottom: 12px; color: #264653; }
+    .infoCard p { color: #555; font-size: 0.95em; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="logo"><img src="./assets/logo1.png" alt="Growth Circles Logo"></div>
+    <div class="nav-links">
+      <a href="./home.html">Home</a>
+      <a href="./aboutus.html">About Us</a>
+      <a href="./services.html">Services</a>
+      <a href="./contactus.html">Contact Us</a>
+      <a href="./dashboards.html">Dashboards</a>
+      <a href="signup.html" class="btn-primary">Sign Up</a>
+      <a href="signin.html" class="btn-secondary">Sign In</a>
+    </div>
+  </nav>
+
+  <!-- Secondary Navigation -->
+  <div class="subnav">
+    <a href="./youthempowerment.html">Youth Empowerment</a>
+    <a href="./facilitatordevelopment.html">Facilitator Development</a>
+    <a href="./msmeincubation.html">MSME Incubation</a>
+    <a href="./hubhostmanagement.html">Hub Host Engagement</a>
+    <a href="./expertiseprocurement.html">Expertise Procurement</a>
+    <a href="./marketlinkages.html">Market Linkages</a>
+    <a href="./internshipopprtunities.html">Internship Opportunities</a>
+  </div>
+
+  <!-- Main Content Section -->
+  <section class="main-content">
+    <h1 style="text-align:left; margin-bottom:30px;">Sales & Marketing Dashboard</h1>
+    <div class="dashboard-container">
+
+      <div class="infoCard">
+        <h2>Lead Management</h2>
+        <p>Track potential sponsors, partners, and MSMEs. Monitor conversion funnels and outreach campaigns.</p>
+      </div>
+
+      <div class="infoCard">
+        <h2>Campaign Reporting</h2>
+        <p>Measure impact of marketing campaigns across email, WhatsApp, and community events. Generate sponsor‑ready reports.</p>
+      </div>
+
+      <div class="infoCard">
+        <h2>Market Linkages</h2>
+        <p>Connect youth and MSMEs to buyers and sponsors. Showcase innovations and track engagement metrics.</p>
+      </div>
+
+      <div class="infoCard">
+        <h2>Visibility & Branding</h2>
+        <p>Manage Growth Circles’ public presence. Publish stories, achievements, and SDG‑aligned impact narratives.</p>
+      </div>
+
+    </div>
+  </section>
+</body>
+</html>

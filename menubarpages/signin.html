@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In - Empowerment Space</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .signin-container {
+      max-width: 900px;
+      margin: 50px auto;
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+    }
+    .infoCard {
+      flex: 1;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      border-left: 6px solid #2a9d8f; /* SDG-accented brand color */
+    }
+    .infoCard h1 {
+      color: #264653;
+      margin-bottom: 10px;
+    }
+    .infoCard p {
+      color: #555;
+      margin-bottom: 20px;
+      font-size: 1.1em;
+    }
+    .quotes-section blockquote {
+      font-style: italic;
+      margin: 15px 0;
+      padding-left: 15px;
+      border-left: 3px solid #e9c46a;
+      color: #333;
+    }
+    .quotes-section span {
+      display: block;
+      margin-top: 5px;
+      font-weight: bold;
+      color: #555;
+    }
+    .signin-form {
+      flex: 1;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+    .signin-form label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+      color: #264653;
+    }
+    .signin-form input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+    .btn-primary {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      background: #2a9d8f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: #21867a;
+    }
+    .btn-secondary {
+      margin-top: 10px;
+      width: 100%;
+      padding: 12px;
+      background: #e9c46a;
+      color: #333;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .btn-secondary:hover {
+      background: #d4a94f;
+    }
+    .signup-link {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 0.95em;
+    }
+    .signup-link a {
+      color: #2a9d8f;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="signin-container">
+    
+    <!-- Inspirational InfoCard -->
+    <div class="infoCard">
+      <h1>Welcome Back</h1>
+      <p>Welcome back to your space of safety, freedom, and innovation—where your ideas become solutions and your journey creates impact.</p>
+      <div class="quotes-section">
+        <blockquote>“Education is the most powerful weapon which you can use to change the world.” <span>- Nelson Mandela</span></blockquote>
+        <blockquote>“Innovation distinguishes between a leader and a follower.” <span>- Steve Jobs</span></blockquote>
+        <blockquote>“Our industry does not respect tradition—it only respects innovation.” <span>- Satya Nadella</span></blockquote>
+        <blockquote>“The future rewards those who press on.” <span>- Barack Obama</span></blockquote>
+        <blockquote>“The generation that destroys the environment is not the generation that pays the price.” <span>- Wangari Maathai</span></blockquote>
+      </div>
+    </div>
+
+    <!-- Elegant Sign In Form -->
+    <form class="signin-form" action="authenticate.php" method="post">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="userid">UserID</label>
+      <input type="text" id="userid" name="userid" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+
+      <button type="submit" class="btn-primary">Sign In</button>
+
+      <div class="signup-link">
+        New here? <a href="SignUp.html">Apply to Join</a>
+      </div>
+
+      <!-- Change Password Section -->
+      <h2 class="sub-headline accent">Forgot or Change Password?</h2>
+      <p>Enter your email address to receive a system-generated OTP for verification.</p>
+      <input type="email" id="reset-email" name="reset-email" placeholder="Enter your email" required>
+      <button type="submit" formaction="send-otp.php" class="btn-secondary">Send OTP</button>
+
+      <label for="otp">Enter OTP</label>
+      <input type="text" id="otp" name="otp" placeholder="6-digit code" required>
+
+      <label for="new-password">New Password</label>
+      <input type="password" id="new-password" name="new-password" required>
+
+      <button type="submit" formaction="verify-otp.php" class="btn-primary">Change Password</button>
+    </form>
+  </div>
+</body>
+</html>

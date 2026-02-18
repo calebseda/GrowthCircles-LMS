@@ -1,0 +1,147 @@
+<!-- MSME Signup Form -->
+<div class="msme-signup-container">
+  <h2>Register Your MSME</h2>
+  <form action="/submit-msme" method="POST" enctype="multipart/form-data">
+
+    <!-- Personal Details -->
+    <input type="text" name="leader_name" placeholder="Full Name" required>
+    <input type="email" name="leader_email" placeholder="Email Address" required>
+    <input type="tel" name="leader_phone" placeholder="Phone Number" required>
+    <input type="text" name="leader_id" placeholder="National ID / Passport Number">
+    <input type="text" name="leader_role" placeholder="Role in Enterprise">
+    <input type="text" name="leader_education" placeholder="Highest Education Level">
+
+    <!-- Enterprise Details -->
+    <input type="text" name="enterprise_name" placeholder="Enterprise Name" required>
+    <input type="text" name="sector" placeholder="Sector / Industry">
+    <input type="text" name="location" placeholder="Location (County/Sub-county/Ward/Village)">
+    <input type="number" name="employees" placeholder="Number of Employees">
+    <input type="number" name="revenue" placeholder="Monthly Revenue (USD)">
+    <input type="number" name="expenses" placeholder="Monthly Expenses (USD)">
+
+    <!-- Upload Mechanisms -->
+    <label class="upload-label">Upload Business Registration Certificate</label>
+    <input type="file" name="registration_certificate" accept=".pdf,.jpg,.png">
+
+    <label class="upload-label">Upload Testimonials & Verifying Artefacts</label>
+    <input type="file" name="supporting_documents" multiple accept=".pdf,.jpg,.png,.doc,.docx">
+
+    <!-- MEL Indicators -->
+    <textarea name="community_contribution" placeholder="Contribution to Community (e.g. youth employment, sustainability)"></textarea>
+    <textarea name="aspirations" placeholder="Aspirations for Next 12 Months"></textarea>
+
+    <!-- Data Use Agreement -->
+    <label class="checkbox-label">
+      <input type="checkbox" name="data_agreement" required>
+      I agree to the data use policy and consent to GrowthCircles LMS storing my information.
+    </label>
+
+    <!-- Navigation Buttons -->
+    <div class="button-row">
+<!-- Back Button -->
+<button type="button" class="btn-back" onclick="window.location.href='msmeincubation.html'">
+  Back
+</button>
+
+<!-- Finish Button -->
+<button type="submit" class="btn-submit" formaction="msmesignupconfirmation.html">
+  Finish
+</button>
+
+    </div>
+  </form>
+</div>
+
+<!-- Scoped Styles -->
+<style>
+  .msme-signup-container {
+    width: 40%;
+    margin: 40px auto;
+    background-color: #fdfaf6;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    font-family: 'Arial', sans-serif;
+  }
+
+  .msme-signup-container h2 {
+    text-align: center;
+    color: #002244;
+    margin-bottom: 20px;
+  }
+
+  .msme-signup-container input,
+  .msme-signup-container textarea,
+  .msme-signup-container select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .msme-signup-container textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .upload-label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    display: block;
+    color: #19486A;
+  }
+
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    font-size: 0.95rem;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .checkbox-label input {
+    margin-right: 10px;
+  }
+
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .btn-back {
+    background-color: #19486A;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-submit {
+    background-color: #ff6600;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .btn-back:hover {
+    background-color: #163b5c;
+  }
+
+  .btn-submit:hover {
+    background-color: #e65c00;
+  }
+
+  @media (max-width: 768px) {
+    .msme-signup-container {
+      width: 90%;
+      padding: 20px;
+    }
+  }
+</style>

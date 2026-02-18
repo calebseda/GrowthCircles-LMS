@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GrowthCircles LMS - Sign Up</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .signup-container {
+      max-width: 480px;
+      margin: 40px auto;
+      background-color: #FAF9F6;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+    }
+    .signup-title {
+      font-size: 26px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #19486A;
+      animation: fadeUp 1s ease-out;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .input {
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-size: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .cta-row { display: flex; justify-content: center; gap: 12px; }
+    .btn-primary {
+      background-color: #f97316;
+      color: #fff;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s ease;
+    }
+    .btn-primary:hover { transform: scale(1.05); }
+    .btn-secondary {
+      background-color: #94945C;
+      color: #fff;
+      font-weight: 700;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s ease;
+    }
+    .btn-secondary:hover { transform: scale(1.05); }
+    .consent { font-size: 16px; color: #3A3A3A; margin-top: 8px; }
+
+    /* Fullscreen response card */
+    .response-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f9f9f9;
+    }
+    .response-card {
+      max-width: 600px;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 500;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+      animation: fadeIn 0.8s ease-out;
+    }
+    .response-success {
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      border: 2px solid #26a69a;
+      color: #004d40;
+    }
+    .response-error {
+      background: linear-gradient(135deg, #ffebee, #ffffff);
+      border: 2px solid #e53935;
+      color: #b71c1c;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<div class="signup-container" id="signupContainer">
+  <h1 class="signup-title">Join GrowthCircles LMS</h1>
+  <form id="signupForm" action="/signup" method="POST" enctype="multipart/form-data">
+    <!-- Form fields (same as before) -->
+    <input type="text" name="full_name" class="input" placeholder="Full Name" required>
+    <input type="email" name="email" class="input" placeholder="Email Address" required>
+    <input type="tel" name="phone" class="input" placeholder="Phone Number" required>
+    <input type="text" name="country" class="input" placeholder="Country" required>
+    <input type="text" name="location_details" class="input" placeholder="Location Details" required>
+    <select name="education_level" class="input" required>
+      <option value="">Highest Level of Education</option>
+      <option value="Secondary">Secondary</option>
+      <option value="Diploma">Diploma</option>
+      <option value="Bachelor">Bachelor</option>
+      <option value="Master">Master</option>
+      <option value="PhD">PhD</option>
+    </select>
+    <input type="text" name="field_of_study" class="input" placeholder="Field of Study">
+    <input type="text" name="occupation" class="input" placeholder="Current Occupation / Role">
+    <input type="number" name="years_experience" class="input" placeholder="Years of Experience">
+    <input type="text" name="skills" class="input" placeholder="Key Skills">
+    <input type="text" name="interests" class="input" placeholder="Hobbies / Interests">
+    <input type="text" name="linkedin" class="input" placeholder="LinkedIn Profile">
+    <input type="text" name="twitter" class="input" placeholder="Twitter / X Handle">
+    <input type="tel" name="whatsapp" class="input" placeholder="WhatsApp Contact (optional)">
+    <select id="roleSelect" name="role" class="input" required>
+      <option value="">Select Your Role</option>
+      <option value="facilitator">Facilitator</option>
+      <option value="trainee">Youth Trainee</option>
+      <option value="msme">MSME</option>
+    </select>
+    <div class="consent">
+      <input type="checkbox" name="consent" value="true" required> I agree to the data use policy and consent to GrowthCircles LMS storing my information.
+    </div>
+    <label class="title">Upload Testimonials & Verifying Artefacts</label>
+    <input type="file" name="artefacts" class="input" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.zip">
+    <div class="cta-row">
+      <button type="submit" class="btn-primary">Finish</button>
+    </div>
+  </form>
+</div>
+
+<div id="responseScreen" class="response-screen" style="display:none;">
+  <div id="responseMessage"></div>
+</div>
+
+<script>
+  const form = document.getElementById('signupForm');
+  const signupContainer = document.getElementById('signupContainer');
+  const responseScreen = document.getElementById('responseScreen');
+  const responseMessage = document.getElementById('responseMessage');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    try {
+      const res = await fetch('/signup', { method: 'POST', body: formData });
+      const data = await res.json();
+
+      signupContainer.style.display = 'none';
+      responseScreen.style.display = 'flex';
+      responseMessage.textContent = data.message;
+      responseMessage.className = 'response-card response-success';
+    } catch (err) {
+      signupContainer.style.display = 'none';
+      responseScreen.style.display = 'flex';
+      responseMessage.textContent = 'Something went wrong. Please try again.';
+      responseMessage.className = 'response-card response-error';
+    }
+  });
+</script>
+</body>
+</html>

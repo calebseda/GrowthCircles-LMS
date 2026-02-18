@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth Circles LMS - Expert Landing</title>
+  <link rel="stylesheet" href="./css/global.css">
+  <link rel="stylesheet" href="./css/template.css">
+  <style>
+    .landing-container {
+      max-width: 1100px;
+      margin: 50px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+    }
+
+    .infoCard {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      border-top: 8px solid #2a9d8f;
+      text-align: left;
+    }
+
+    .infoCard h2 {
+      margin-bottom: 12px;
+      color: #264653;
+    }
+
+    .infoCard p {
+      color: #555;
+      font-size: 0.95em;
+      line-height: 1.5;
+    }
+
+    .thankyou {
+      background: #e9f5f3;
+      border: 1px solid #2a9d8f;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      color: #264653;
+      font-weight: 500;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #2a9d8f;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1em;
+      background: #fdfdfd;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #2a9d8f;
+      box-shadow: 0 0 6px rgba(42,157,143,0.3);
+      outline: none;
+    }
+
+    .btn-primary {
+      padding: 12px 20px;
+      background: #2a9d8f;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #21867a;
+    }
+
+    .json-output {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f9f8;
+      border: 1px solid #2a9d8f;
+      border-radius: 8px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="./assets/logo1.png" alt="Growth Circles Logo">
+    </div>
+    <div class="nav-links">
+      <a href="./home.html">Home</a>
+      <a href="./aboutus.html">About Us</a>
+      <a href="./services.html">Services</a>
+      <a href="./contactus.html">Contact Us</a>
+      <a href="./dashboards.html">Dashboards</a>
+      <a href="signup.html" class="btn-primary">Sign Up</a>
+      <a href="signin.html" class="btn-secondary">Sign In</a>
+    </div>
+  </nav>
+
+  <!-- Secondary Navigation -->
+  <div class="subnav">
+    <a href="./youthempowerment.html">Youth Empowerment</a>
+    <a href="./facilitatordevelopment.html">Facilitator Development</a>
+    <a href="./msmeincubation.html">MSME Incubation</a>
+    <a href="./hubhostmanagement.html">Hub Host Engagement</a>
+    <a href="./expertiseprocurement.html">Expertise Procurement</a>
+    <a href="./marketlinkages.html">Market Linkages</a>
+    <a href="./internshipopprtunities.html">Internship Opportunities</a>
+  </div>
+
+  <!-- Main Content Section -->
+  <section class="main-content">
+    <h1 style="text-align:left; margin-bottom:30px;">Expert Landing Page</h1>
+    <div class="landing-container">
+
+      <div class="infoCard">
+        <div class="thankyou">✅ Thank you for applying to Growth Circles LMS. Your application has been received and is under review.</div>
+        <h2>Manage Your Profile</h2>
+        <p>Update your professional details, upload new certifications, and showcase your expertise. Ensure your profile remains current and visible to sponsors and communities.</p>
+        <a href="expert-profile.html" class="btn-primary">Go to Profile</a>
+      </div>
+
+      <div class="infoCard">
+        <h2>Contribute Additional Expertise</h2>
+        <p>If you feel certain areas of expertise should be included, please share them below. This structured form will capture your input for JSON storage and rendering.</p>
+
+        <form id="expertiseForm">
+          <div class="form-group">
+            <label for="expertiseArea">Expertise Area</label>
+            <input type="text" id="expertiseArea" name="expertiseArea" placeholder="e.g. Climate Resilience, AI Ethics" required>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Briefly describe your expertise area" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="qualification">Your Qualification in the Area</label>
+            <input type="text" id="qualification" name="qualification" placeholder="e.g. MSc in Climate Science, Certified Data Analyst" required>
+          </div>
+
+          <div class="form-group">
+            <label for="keywords">Keywords (comma-separated)</label>
+            <input type="text" id="keywords" name="keywords" placeholder="e.g. sustainability, machine learning, community engagement" required>
+          </div>
+
+          <button type="submit" class="btn-primary">Submit Expertise</button>
+        </form>
+
+        <div id="jsonOutput" class="json-output"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    document.getElementById('expertiseForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const expertiseArea = document.getElementById('expertiseArea').value;
+      const description = document.getElementById('description').value;
+      const qualification = document.getElementById('qualification').value;
+      const keywords = document.getElementById('keywords').value.split(',').map(k => k.trim());
+
+      const jsonData = {
+        expertiseArea: expertiseArea,
+        description: description,
+        qualification: qualification,
+        keywords: keywords
+      };
+
+      document.getElementById('jsonOutput').style.display = 'block';
+      document.getElementById('jsonOutput').textContent = JSON.stringify(jsonData, null, 2);
+    });
+  </script>
+</body>
+</html>
