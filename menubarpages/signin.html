@@ -182,12 +182,13 @@
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-  // Environment variables (Netlify injects these)
+  // Environment variables injected by Vite/Netlify
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
   console.log('Supabase URL:', supabaseUrl);
   console.log('Supabase Key:', supabaseAnonKey);
 
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
   const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
   const form = document.getElementById('signinForm');
@@ -252,11 +253,11 @@
       setTimeout(() => { window.location.href = redirectPage; }, 1500);
     } catch (err) {
       console.error('Sign in error:', err);
-      showFeedback('Sign in failed: ' + err.message, 'error');
+      showFeedback('Sign in failed: ' + (err.message || 'Unknown error'), 'error');
     }
   });
 
-  // Send Reset Link (Supabase sends email, not OTP)
+  // Send Reset Link
   document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     const resetEmail = document.getElementById('reset-email').value;
     try {
@@ -267,11 +268,11 @@
       showFeedback('Password reset link sent! Check your email.', 'success');
     } catch (err) {
       console.error('Reset error:', err);
-      showFeedback('Failed to send reset link: ' + err.message, 'error');
+      showFeedback('Failed to send reset link: ' + (err.message || 'Unknown error'), 'error');
     }
   });
 
-  // Change Password (after reset link)
+  // Change Password
   document.getElementById('changePasswordBtn').addEventListener('click', async () => {
     const newPassword = document.getElementById('new-password').value;
     try {
@@ -280,7 +281,7 @@
       showFeedback('Password changed successfully!', 'success');
     } catch (err) {
       console.error('Change password error:', err);
-      showFeedback('Failed to change password: ' + err.message, 'error');
+      showFeedback('Failed to change password: ' + (err.message || 'Unknown error'), 'error');
     }
   });
 </script>
