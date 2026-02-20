@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Sign In - Empowerment Space</title>
-  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/template.css">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -24,7 +24,7 @@
       border-radius: 12px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.1);
       padding: 30px;
-      border-left: 6px solid #2a9d8f; /* SDG-accented brand color */
+      border-left: 6px solid #2a9d8f;
     }
     .infoCard h1 {
       color: #264653;
@@ -111,6 +111,22 @@
     .signup-link a:hover {
       text-decoration: underline;
     }
+    .response-screen {
+      margin: 20px auto;
+      max-width: 600px;
+      padding: 20px;
+      border-radius: 8px;
+      display: none;
+      text-align: center;
+    }
+    .response-success {
+      background: #d4edda;
+      color: #155724;
+    }
+    .response-error {
+      background: #f8d7da;
+      color: #721c24;
+    }
   </style>
 </head>
 <body>
@@ -148,12 +164,9 @@
 
     <!-- Change Password Section -->
     <h2 class="sub-headline accent">Forgot or Change Password?</h2>
-    <p>Enter your email address to receive a system-generated OTP for verification.</p>
+    <p>Enter your email address to receive a password reset link.</p>
     <input type="email" id="reset-email" name="reset-email" placeholder="Enter your email">
-    <button type="button" id="sendOtpBtn" class="btn-secondary">Send OTP</button>
-
-    <label for="otp">Enter OTP</label>
-    <input type="text" id="otp" name="otp" placeholder="6-digit code">
+    <button type="button" id="sendOtpBtn" class="btn-secondary">Send Reset Link</button>
 
     <label for="new-password">New Password</label>
     <input type="password" id="new-password" name="new-password">
@@ -162,12 +175,16 @@
   </form>
 </div>
 
-<div id="responseScreen" class="response-screen" style="display:none;">
+<div id="responseScreen" class="response-screen">
   <div id="responseMessage"></div>
 </div>
 
 <script type="module">
   import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  // Environment variables (Netlify injects these)
+  console.log('Supabase URL:', supabaseUrl);
+  console.log('Supabase Key:', supabaseAnonKey);
 
   const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
   const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -177,38 +194,37 @@
   const responseScreen = document.getElementById('responseScreen');
   const responseMessage = document.getElementById('responseMessage');
 
-// Check if user is already logged in
-async function checkSession() {
-  const { data: { session }, error } = await supabase.auth.getSession();
-
-  if (error) {
-    console.error('Session check failed:', error.message);
-    return;
+  // Show feedback helper
+  function showFeedback(message, type) {
+    responseMessage.textContent = message;
+    responseMessage.className = type === 'success' ? 'response-success' : 'response-error';
+    responseScreen.style.display = 'block';
   }
 
-  if (session) {
-    // Fetch user profile
-    const email = session.user.email;
-    const { data: userProfile, error: profileError } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email)
-      .single();
-
-    if (!profileError && userProfile) {
-      // Redirect based on role
-      let redirectPage = '/menubarpages/admindashboard.html';
-      if (userProfile.role === 'trainee') redirectPage = '/trainee/dashboard.html';
-      if (userProfile.role === 'facilitator') redirectPage = '/facilitator/dashboard.html';
-      if (userProfile.role === 'msme') redirectPage = '/msme/dashboard.html';
-
-      window.location.href = redirectPage;
+  // Session persistence check
+  async function checkSession() {
+    const { data: { session }, error } = await supabase.auth.getSession();
+    if (error) {
+      console.error('Session check failed:', error.message);
+      return;
+    }
+    if (session) {
+      const email = session.user.email;
+      const { data: userProfile } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', email)
+        .single();
+      if (userProfile) {
+        let redirectPage = '/menubarpages/admindashboard.html';
+        if (userProfile.role === 'trainee') redirectPage = '/trainee/dashboard.html';
+        if (userProfile.role === 'facilitator') redirectPage = '/facilitator/dashboard.html';
+        if (userProfile.role === 'msme') redirectPage = '/msme/dashboard.html';
+        window.location.href = redirectPage;
+      }
     }
   }
-}
-
-// Run session check on page load
-checkSession();
+  checkSession();
 
   // Sign In
   form.addEventListener('submit', async (e) => {
@@ -220,10 +236,8 @@ checkSession();
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
 
-      // Fetch user profile
       const { data: userProfile, error: profileError } = await supabase
         .from('users')
-        .select('*')
         .eq('email', email)
         .single();
       if (profileError) throw profileError;
@@ -234,19 +248,15 @@ checkSession();
       if (userProfile.role === 'facilitator') redirectPage = '/facilitator/dashboard.html';
       if (userProfile.role === 'msme') redirectPage = '/msme/dashboard.html';
 
-      responseMessage.textContent = 'Sign in successful! Redirecting...';
-      responseMessage.className = 'response-card response-success';
-      responseScreen.style.display = 'flex';
-
+      showFeedback('Sign in successful! Redirecting...', 'success');
       setTimeout(() => { window.location.href = redirectPage; }, 1500);
     } catch (err) {
-      responseMessage.textContent = 'Sign in failed: ' + err.message;
-      responseMessage.className = 'response-card response-error';
-      responseScreen.style.display = 'flex';
+      console.error('Sign in error:', err);
+      showFeedback('Sign in failed: ' + err.message, 'error');
     }
   });
 
-  // Send OTP (password reset)
+  // Send Reset Link (Supabase sends email, not OTP)
   document.getElementById('sendOtpBtn').addEventListener('click', async () => {
     const resetEmail = document.getElementById('reset-email').value;
     try {
@@ -254,29 +264,23 @@ checkSession();
         redirectTo: window.location.origin + '/reset.html'
       });
       if (error) throw error;
-      responseMessage.textContent = 'OTP sent! Check your email.';
-      responseMessage.className = 'response-card response-success';
-      responseScreen.style.display = 'flex';
+      showFeedback('Password reset link sent! Check your email.', 'success');
     } catch (err) {
-      responseMessage.textContent = 'Failed to send OTP: ' + err.message;
-      responseMessage.className = 'response-card response-error';
-      responseScreen.style.display = 'flex';
+      console.error('Reset error:', err);
+      showFeedback('Failed to send reset link: ' + err.message, 'error');
     }
   });
 
-  // Change Password (after OTP verification)
+  // Change Password (after reset link)
   document.getElementById('changePasswordBtn').addEventListener('click', async () => {
     const newPassword = document.getElementById('new-password').value;
     try {
       const { error } = await supabase.auth.updateUser({ password: newPassword });
       if (error) throw error;
-      responseMessage.textContent = 'Password changed successfully!';
-      responseMessage.className = 'response-card response-success';
-      responseScreen.style.display = 'flex';
+      showFeedback('Password changed successfully!', 'success');
     } catch (err) {
-      responseMessage.textContent = 'Failed to change password: ' + err.message;
-      responseMessage.className = 'response-card response-error';
-      responseScreen.style.display = 'flex';
+      console.error('Change password error:', err);
+      showFeedback('Failed to change password: ' + err.message, 'error');
     }
   });
 </script>
