@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowthCircles · My Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script type="module">
+  import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut }
+                              from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, doc, onSnapshot, collection, query, where, getDocs }
+                              from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  const BADGES = [
+    {id:"foundations", name:"Digital Foundations", icon:"🌱", desc:"Complete GC Lessons 1–3"},
+    {id:"firstbot",    name:"First Prompt",         icon:"🤖", desc:"Complete AI Lesson 1"},
+    {id:"coach",       name:"GROWTH Coach",          icon:"🎯", desc:"Complete GC Lessons 4–5"},
+    {id:"gemini",      name:"Gemini Pilot",           icon:"✨", desc:"Complete AI Lessons 2–3"},
+    {id:"architect",   name:"Instructional Architect",icon:"🏛", desc:"Complete GC Lessons 6–7"},
+    {id:"notebooklm",  name:"NotebookLM Scholar",    icon:"📚", desc:"Complete AI Lessons 4–5"},
+    {id:"facilitator", name:"Certified Facilitator", icon:"🏅", desc:"Complete all 14 lessons"},
+  ];
+
+  const LESSONS = [
+    {id:"gc1",track:"gc",num:1,title:"The Facilitator Identity",xp:25,shield:"Bronze"},
+    {id:"gc2",track:"gc",num:2,title:"Kolb in Action",xp:25,shield:"Bronze"},
+    {id:"gc3",track:"gc",num:3,title:"Facilitation Ethics & AI",xp:30,shield:"Bronze"},
+    {id:"gc4",track:"gc",num:4,title:"The GROWTH Coaching Model",xp:30,shield:"Silver"},
+    {id:"gc5",track:"gc",num:5,title:"Managing Resistance",xp:30,shield:"Silver"},
+    {id:"gc6",track:"gc",num:6,title:"Designing Learning Sequences",xp:35,shield:"Gold"},
+    {id:"gc7",track:"gc",num:7,title:"Portfolio & Live Defence",xp:40,shield:"Platinum"},
+    {id:"ai1",track:"ai",num:1,title:"Prompt Engineering",xp:25,shield:"Bronze"},
+    {id:"ai2",track:"ai",num:2,title:"Google NotebookLM",xp:25,shield:"Bronze"},
+    {id:"ai3",track:"ai",num:3,title:"Gemini for Facilitation",xp:30,shield:"Bronze"},
+    {id:"ai4",track:"ai",num:4,title:"AI Formative Assessment",xp:35,shield:"Silver"},
+    {id:"ai5",track:"ai",num:5,title:"AI Curriculum Design",xp:35,shield:"Silver"},
+    {id:"ai6",track:"ai",num:6,title:"Staff AI Literacy Plan",xp:40,shield:"Gold"},
+    {id:"ai7",track:"ai",num:7,title:"AI Mastery Portfolio",xp:45,shield:"Platinum"},
+  ];
+
+  const LEVELS = [
+    {min:0,name:"Learner",color:"#8B96A8"},
+    {min:50,name:"Explorer",color:"#4D9FFF"},
+    {min:120,name:"Practitioner",color:"#00E5A0"},
+    {min:220,name:"Coach",color:"#FFB840"},
+    {min:350,name:"Architect",color:"#A78BFA"},
+    {min:500,name:"Facilitator",color:"#FF6B5B"},
+  ];
+
+  function getLevel(xp) {
+    let lv = LEVELS[0];
+    for(const l of LEVELS) { if(xp >= l.min) lv = l; }
+    return lv;
+  }
+
+  // ── Auth guard ────────────────────────────────────────────────────────
+  onAuthStateChanged(auth, user => {
+    if (!user) {
+      window.location.href = "login.html?next=dashboard.html";
+      return;
+    }
+    renderShell(user);
+    subscribeToState(user.uid);
+  });
+
+  function renderShell(user) {
+    document.getElementById('userName').textContent   = user.displayName || "Learner";
+    document.getElementById('userEmail').textContent  = user.email;
+    document.getElementById('userInitial').textContent= (user.displayName||"L")[0].toUpperCase();
+    if(user.photoURL) {
+      const av = document.getElementById('avatarImg');
+      av.src   = user.photoURL;
+      av.style.display = "block";
+      document.getElementById('userInitial').style.display = "none";
+    }
+  }
+
+  // ── Live subscription to Firestore ───────────────────────────────────
+  function subscribeToState(uid) {
+    const ref = doc(db, "learners", uid);
+    onSnapshot(ref, snap => {
+      if(!snap.exists()) { renderEmpty(); return; }
+      const data  = snap.data();
+      const state = data.state || {};
+      renderDashboard(state, data.profile || {});
+    });
+  }
+
+  function renderEmpty() {
+    document.getElementById('dashContent').innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🚀</div>
+        <div class="empty-title">Ready to begin?</div>
+        <div class="empty-sub">Your learning journey starts with your first lesson.</div>
+        <a href="learn.html" class="btn-primary">Start Learning →</a>
+      </div>`;
+  }
+
+  function renderDashboard(S, profile) {
+    const xp        = S.xp || 0;
+    const completed = S.completed || [];
+    const badges    = S.earnedBadges || [];
+    const level     = getLevel(xp);
+    const gcDone    = LESSONS.filter(l=>l.track==='gc'&&completed.includes(l.id)).length;
+    const aiDone    = LESSONS.filter(l=>l.track==='ai'&&completed.includes(l.id)).length;
+    const nextXP    = LEVELS.find(l=>l.min>xp)?.min || 500;
+    const prevXP    = level.min;
+    const xpPct     = Math.round(((xp-prevXP)/(nextXP-prevXX=prevXP))*100)||0;
+
+    // Prevent division by zero
+    const pct = nextXP > prevXP ? Math.round(((xp-prevXP)/(nextXP-prevXP))*100) : 100;
+
+    document.getElementById('dashContent').innerHTML = `
+
+      <!-- ── Stats row ──────────────────────────────────── -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-num" style="color:#FFB840">${xp}</div>
+          <div class="stat-label">Total XP</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📘</div>
+          <div class="stat-num" style="color:#4D9FFF">${completed.length}<span style="font-size:14px;color:var(--text3)">/14</span></div>
+          <div class="stat-label">Lessons Done</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🔥</div>
+          <div class="stat-num" style="color:#FF6B5B">${S.streak||0}</div>
+          <div class="stat-label">Day Streak</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏅</div>
+          <div class="stat-num" style="color:#A78BFA">${badges.length}</div>
+          <div class="stat-label">Badges</div>
+        </div>
+      </div>
+
+      <!-- ── Level card ─────────────────────────────────── -->
+      <div class="level-card">
+        <div class="level-left">
+          <div class="level-label">Current Level</div>
+          <div class="level-name" style="color:${level.color}">${level.name}</div>
+          <div class="level-sub">${xp} XP · Next level at ${nextXP} XP</div>
+        </div>
+        <div class="level-right">
+          <div class="level-bar-wrap">
+            <div class="level-bar-fill" style="width:${Math.min(pct,100)}%;background:${level.color}"></div>
+          </div>
+          <div class="level-pct">${pct}%</div>
+        </div>
+      </div>
+
+      <!-- ── Track progress ─────────────────────────────── -->
+      <div class="track-row">
+        <div class="track-prog">
+          <div class="track-prog-label"><span style="color:#00E5A0">🌱 GrowthCircles</span></div>
+          <div class="track-bar"><div style="width:${(gcDone/7)*100}%;background:#00E5A0" class="track-bar-fill"></div></div>
+          <div class="track-count">${gcDone}/7 lessons</div>
+        </div>
+        <div class="track-prog">
+          <div class="track-prog-label"><span style="color:#4D9FFF">🤖 Google AI Mastery</span></div>
+          <div class="track-bar"><div style="width:${(aiDone/7)*100}%;background:#4D9FFF" class="track-bar-fill"></div></div>
+          <div class="track-count">${aiDone}/7 lessons</div>
+        </div>
+      </div>
+
+      <!-- ── Badges ─────────────────────────────────────── -->
+      <div class="section">
+        <div class="section-title">Badges</div>
+        <div class="badges-grid">
+          ${BADGES.map(b=>{
+            const earned = badges.includes(b.id);
+            return `<div class="badge-card ${earned?'earned':'locked'}">
+              <div class="badge-icon">${b.icon}</div>
+              <div class="badge-name">${b.name}</div>
+              <div class="badge-desc">${b.desc}</div>
+              ${earned?'<div class="badge-status">Earned ✓</div>':'<div class="badge-status locked-text">Locked</div>'}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- ── Lesson progress ────────────────────────────── -->
+      <div class="section">
+        <div class="section-title">Lesson Progress</div>
+        <div class="lessons-grid">
+          ${LESSONS.map(l=>{
+            const done  = completed.includes(l.id);
+            const unlocked = (S.unlocked||["gc1","ai1"]).includes(l.id);
+            const stages= (S.stagesDone||{})[l.id]?.length || 0;
+            const status= done?'complete':(unlocked?'unlocked':'locked');
+            const pct   = done?100:Math.round((stages/4)*100);
+            return `
+            <div class="lesson-row ${status}">
+              <div class="lr-track" style="background:${l.track==='ai'?'rgba(77,159,255,0.15)':'rgba(0,229,160,0.15)'}">
+                <span style="color:${l.track==='ai'?'#4D9FFF':'#00E5A0'};font-size:10px;font-family:'JetBrains Mono',monospace">
+                  ${l.track.toUpperCase()}${l.num}
+                </span>
+              </div>
+              <div class="lr-info">
+                <div class="lr-title">${l.title}</div>
+                <div class="lr-meta">${l.shield} Shield · ${l.xp} XP</div>
+              </div>
+              <div class="lr-right">
+                ${done
+                  ? `<span class="status-done">✓ Done</span>`
+                  : unlocked
+                  ? `<div class="lr-prog-wrap">
+                       <div class="lr-prog-bar"><div style="width:${pct}%" class="lr-prog-fill"></div></div>
+                       <span class="lr-pct">${stages}/4</span>
+                     </div>`
+                  : `<span class="status-locked">🔒</span>`
+                }
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- ── Portfolio export ───────────────────────────── -->
+      <div class="section">
+        <div class="section-title">KNQA Portfolio</div>
+        <div class="portfolio-card">
+          <div class="portfolio-icon">📋</div>
+          <div>
+            <div class="portfolio-title">Your Portfolio Evidence Report</div>
+            <div class="portfolio-desc">Contains all Kolb stage responses and assessment answers. Formatted for KNQA moderator review. Download at any time.</div>
+          </div>
+          <button class="btn-export" onclick="window.open('learn.html?export=1','_blank')">Export Report ↗</button>
+        </div>
+      </div>
+
+      <!-- ── CTA ───────────────────────────────────────── -->
+      <div class="cta-row">
+        <a href="learn.html" class="btn-primary">Continue Learning →</a>
+        <button class="btn-ghost" onclick="doSignOut()">Sign Out</button>
+      </div>
+    `;
+  }
+
+  // ── Sign out ──────────────────────────────────────────────────────────
+  window.doSignOut = async function() {
+    await signOut(auth);
+    window.location.href = "login.html";
+  };
+</script>
+
+<style>
+:root{
+  --bg:#080C14;--bg2:#0D1320;--panel:#162035;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --green:#00E5A0;--blue:#4D9FFF;--gold:#FFB840;
+  --coral:#FF6B5B;--purple:#A78BFA;
+  --text:#E8EDF5;--text2:#8B96A8;--text3:#4A5568;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-track{background:var(--bg);} ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* ── Nav ─────────────────────────────────────────── */
+.nav{
+  background:rgba(8,12,20,0.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;height:56px;position:sticky;top:0;z-index:100;
+}
+.nav-brand{display:flex;align-items:center;gap:8px;}
+.nav-logo{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--green),var(--blue));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--bg);}
+.nav-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;background:linear-gradient(90deg,var(--green),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:5px 12px 5px 6px;}
+.avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--blue));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:var(--bg);overflow:hidden;flex-shrink:0;}
+.avatar img{width:100%;height:100%;object-fit:cover;display:none;}
+.user-name{font-size:12px;font-weight:600;color:var(--text);}
+.nav-link{font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;font-family:'Outfit',sans-serif;transition:color 0.2s;}
+.nav-link:hover{color:var(--text);}
+.nav-link.active{color:var(--green);}
+
+/* ── Layout ──────────────────────────────────────── */
+.layout{display:flex;min-height:calc(100vh - 56px);}
+.sidebar{width:200px;min-width:200px;background:var(--bg2);border-right:1px solid var(--border);padding:20px 12px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
+.sidebar-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);padding:0 8px;margin-bottom:8px;margin-top:16px;}
+.sidebar-label:first-child{margin-top:0;}
+.sidebar-link{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:7px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;transition:all 0.15s;text-decoration:none;margin-bottom:2px;}
+.sidebar-link:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.sidebar-link.active{background:rgba(0,229,160,0.08);color:var(--green);border-left:2px solid var(--green);}
+.content{flex:1;padding:28px 36px;max-width:900px;}
+
+/* ── Stats ───────────────────────────────────────── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;}
+.stat-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center;}
+.stat-icon{font-size:20px;margin-bottom:6px;}
+.stat-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin-bottom:2px;}
+.stat-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;}
+
+/* ── Level ───────────────────────────────────────── */
+.level-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:18px;}
+.level-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:4px;}
+.level-name{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;margin-bottom:2px;}
+.level-sub{font-size:11px;color:var(--text3);}
+.level-right{flex:1;max-width:220px;}
+.level-bar-wrap{height:6px;background:var(--bg2);border-radius:3px;margin-bottom:4px;}
+.level-bar-fill{height:100%;border-radius:3px;transition:width 0.8s cubic-bezier(.4,0,.2,1);}
+.level-pct{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);text-align:right;}
+
+/* ── Track row ───────────────────────────────────── */
+.track-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px;}
+.track-prog{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.track-prog-label{font-size:13px;font-weight:600;margin-bottom:8px;}
+.track-bar{height:4px;background:var(--bg2);border-radius:2px;margin-bottom:4px;}
+.track-bar-fill{height:100%;border-radius:2px;transition:width 0.8s cubic-bezier(.4,0,.2,1);}
+.track-count{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);text-align:right;}
+
+/* ── Section ─────────────────────────────────────── */
+.section{margin-bottom:24px;}
+.section-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ── Badges ──────────────────────────────────────── */
+.badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}
+.badge-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center;transition:all 0.2s;}
+.badge-card.earned{border-color:rgba(255,184,64,0.3);background:rgba(255,184,64,0.04);}
+.badge-card.locked{opacity:0.4;}
+.badge-icon{font-size:24px;margin-bottom:6px;}
+.badge-name{font-size:11px;font-weight:600;color:var(--text);margin-bottom:3px;line-height:1.3;}
+.badge-desc{font-size:9px;color:var(--text3);line-height:1.4;margin-bottom:5px;}
+.badge-status{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--green);}
+.locked-text{color:var(--text3);}
+
+/* ── Lessons list ────────────────────────────────── */
+.lessons-grid{display:flex;flex-direction:column;gap:6px;}
+.lesson-row{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;align-items:center;gap:12px;transition:all 0.2s;}
+.lesson-row:hover{border-color:var(--border2);}
+.lesson-row.locked{opacity:0.4;}
+.lr-track{padding:4px 8px;border-radius:6px;flex-shrink:0;}
+.lr-info{flex:1;}
+.lr-title{font-size:13px;font-weight:600;color:var(--text);}
+.lr-meta{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-top:1px;}
+.lr-right{flex-shrink:0;min-width:80px;display:flex;justify-content:flex-end;align-items:center;}
+.status-done{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);}
+.status-locked{font-size:12px;}
+.lr-prog-wrap{display:flex;align-items:center;gap:6px;}
+.lr-prog-bar{width:50px;height:3px;background:var(--bg2);border-radius:2px;}
+.lr-prog-fill{height:100%;border-radius:2px;background:var(--gold);}
+.lr-pct{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--text3);}
+
+/* ── Portfolio card ──────────────────────────────── */
+.portfolio-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;align-items:center;gap:14px;}
+.portfolio-icon{font-size:28px;flex-shrink:0;}
+.portfolio-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.portfolio-desc{font-size:12px;color:var(--text2);line-height:1.5;flex:1;}
+.btn-export{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--green);padding:9px 16px;border-radius:8px;font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all 0.2s;}
+.btn-export:hover{background:rgba(0,229,160,0.2);}
+
+/* ── C
