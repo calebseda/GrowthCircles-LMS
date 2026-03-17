@@ -1,289 +1,350 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Sign In - Empowerment Space</title>
-  <link rel="stylesheet" href="../css/template.css">
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowthCircles · Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- ══ STEP 1: Paste your Firebase config here ══════════════════════════
+     Go to console.firebase.google.com → your project → Project Settings
+     → Your apps → Web app → copy the firebaseConfig object below       -->
+<script type="module">
+  import { initializeApp }          from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup,
+           signInWithEmailAndPassword, createUserWithEmailAndPassword,
+           sendPasswordResetEmail, onAuthStateChanged, signOut,
+           updateProfile }          from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc, serverTimestamp }
+                                    from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+  // ── YOUR FIREBASE CONFIG ──────────────────────────────────────────────
+  // Replace every value below with your actual Firebase project values.
+  const firebaseConfig = {
+    apiKey:            "PASTE_YOUR_API_KEY_HERE",
+    authDomain:        "PASTE_YOUR_AUTH_DOMAIN_HERE",       // e.g. growthcircles4rher.firebaseapp.com
+    projectId:         "PASTE_YOUR_PROJECT_ID_HERE",         // e.g. growthcircles4rher
+    storageBucket:     "PASTE_YOUR_STORAGE_BUCKET_HERE",
+    messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
+    appId:             "PASTE_YOUR_APP_ID_HERE"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  // ── Redirect if already logged in ────────────────────────────────────
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      const redir = new URLSearchParams(window.location.search).get('next') || 'dashboard.html';
+      window.location.href = redir;
     }
-    .signin-container {
-      max-width: 900px;
-      margin: 50px auto;
-      display: flex;
-      gap: 40px;
-      align-items: flex-start;
+  });
+
+  // ── Ensure learner profile doc exists in Firestore ───────────────────
+  async function ensureProfile(user) {
+    const ref  = doc(db, "learners", user.uid);
+    const snap = await getDoc(ref);
+    if (!snap.exists()) {
+      await setDoc(ref, {
+        profile: {
+          name:       user.displayName || "Learner",
+          email:      user.email,
+          photoURL:   user.photoURL || null,
+          createdAt:  serverTimestamp(),
+          cohort:     null,      // set by admin when enrolling
+          role:       "learner"  // learner | facilitator | moderator | admin
+        },
+        state: {
+          xp:0, streak:0, lastDate:null,
+          completed:[], unlocked:["gc1","ai1"],
+          stagesDone:{}, responses:{}, assessResponses:{},
+          earnedBadges:[], currentTrack:"gc"
+        }
+      });
     }
-    .infoCard {
-      flex: 1;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      padding: 30px;
-      border-left: 6px solid #2a9d8f;
+    return snap.exists() ? snap.data() : null;
+  }
+
+  // ── Google Sign-In ────────────────────────────────────────────────────
+  window.signInGoogle = async function() {
+    setLoading(true);
+    try {
+      const provider  = new GoogleAuthProvider();
+      provider.setCustomParameters({ hd: "" }); // allow any domain
+      const result    = await signInWithPopup(auth, provider);
+      await ensureProfile(result.user);
+      // onAuthStateChanged will redirect
+    } catch(e) {
+      showError(friendlyError(e.code));
+      setLoading(false);
     }
-    .infoCard h1 {
-      color: #264653;
-      margin-bottom: 10px;
+  };
+
+  // ── Email Sign-In ─────────────────────────────────────────────────────
+  window.signInEmail = async function() {
+    const email = document.getElementById('emailInput').value.trim();
+    const pass  = document.getElementById('passInput').value;
+    if (!email || !pass) { showError("Please enter your email and password."); return; }
+    setLoading(true);
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, pass);
+      await ensureProfile(result.user);
+    } catch(e) {
+      showError(friendlyError(e.code));
+      setLoading(false);
     }
-    .infoCard p {
-      color: #555;
-      margin-bottom: 20px;
-      font-size: 1.1em;
+  };
+
+  // ── Register with Email ───────────────────────────────────────────────
+  window.registerEmail = async function() {
+    const name  = document.getElementById('nameInput').value.trim();
+    const email = document.getElementById('emailInput').value.trim();
+    const pass  = document.getElementById('passInput').value;
+    const pass2 = document.getElementById('pass2Input').value;
+    if (!name)           { showError("Please enter your full name."); return; }
+    if (!email)          { showError("Please enter your email."); return; }
+    if (pass.length < 6) { showError("Password must be at least 6 characters."); return; }
+    if (pass !== pass2)  { showError("Passwords do not match."); return; }
+    setLoading(true);
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, pass);
+      await updateProfile(result.user, { displayName: name });
+      await ensureProfile(result.user);
+    } catch(e) {
+      showError(friendlyError(e.code));
+      setLoading(false);
     }
-    .quotes-section blockquote {
-      font-style: italic;
-      margin: 15px 0;
-      padding-left: 15px;
-      border-left: 3px solid #e9c46a;
-      color: #333;
+  };
+
+  // ── Password Reset ────────────────────────────────────────────────────
+  window.resetPassword = async function() {
+    const email = document.getElementById('emailInput').value.trim();
+    if (!email) { showError("Enter your email address first, then click Reset."); return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showError("Reset link sent — check your inbox.", "success");
+    } catch(e) {
+      showError(friendlyError(e.code));
     }
-    .quotes-section span {
-      display: block;
-      margin-top: 5px;
-      font-weight: bold;
-      color: #555;
-    }
-    .signin-form {
-      flex: 1;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      padding: 30px;
-    }
-    .signin-form label {
-      display: block;
-      margin: 15px 0 5px;
-      font-weight: bold;
-      color: #264653;
-    }
-    .signin-form input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 1em;
-    }
-    .btn-primary {
-      margin-top: 20px;
-      width: 100%;
-      padding: 14px;
-      background: #2a9d8f;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .btn-primary:hover {
-      background: #21867a;
-    }
-    .btn-secondary {
-      margin-top: 10px;
-      width: 100%;
-      padding: 12px;
-      background: #e9c46a;
-      color: #333;
-      border: none;
-      border-radius: 8px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .btn-secondary:hover {
-      background: #d4a94f;
-    }
-    .signup-link {
-      margin-top: 20px;
-      text-align: center;
-      font-size: 0.95em;
-    }
-    .signup-link a {
-      color: #2a9d8f;
-      font-weight: bold;
-      text-decoration: none;
-    }
-    .signup-link a:hover {
-      text-decoration: underline;
-    }
-    .response-screen {
-      margin: 20px auto;
-      max-width: 600px;
-      padding: 20px;
-      border-radius: 8px;
-      display: none;
-      text-align: center;
-    }
-    .response-success {
-      background: #d4edda;
-      color: #155724;
-    }
-    .response-error {
-      background: #f8d7da;
-      color: #721c24;
-    }
-  </style>
+  };
+
+  // ── Helpers ───────────────────────────────────────────────────────────
+  function friendlyError(code) {
+    const map = {
+      "auth/wrong-password":       "Incorrect password. Try again or reset it below.",
+      "auth/user-not-found":       "No account found with that email.",
+      "auth/email-already-in-use": "That email is already registered. Sign in instead.",
+      "auth/weak-password":        "Password must be at least 6 characters.",
+      "auth/invalid-email":        "Please enter a valid email address.",
+      "auth/popup-closed-by-user": "Sign-in cancelled.",
+      "auth/network-request-failed": "Network error. Check your connection.",
+    };
+    return map[code] || "Something went wrong. Please try again.";
+  }
+
+  function showError(msg, type="error") {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg;
+    el.style.display = "block";
+    el.className = "error-msg " + type;
+  }
+
+  function setLoading(on) {
+    document.getElementById('submitArea').style.opacity = on ? "0.5" : "1";
+    document.getElementById('submitArea').style.pointerEvents = on ? "none" : "auto";
+  }
+
+  // ── Tab switching (sign-in vs register) ──────────────────────────────
+  window.showTab = function(tab) {
+    document.getElementById('signinTab').classList.toggle('active', tab==='signin');
+    document.getElementById('registerTab').classList.toggle('active', tab==='register');
+    document.getElementById('signinForm').style.display = tab==='signin' ? 'block' : 'none';
+    document.getElementById('registerForm').style.display = tab==='register' ? 'block' : 'none';
+    document.getElementById('errorMsg').style.display = 'none';
+  };
+</script>
+
+<style>
+:root{
+  --bg:#080C14;--panel:#162035;--border:rgba(255,255,255,0.08);
+  --green:#00E5A0;--blue:#4D9FFF;--gold:#FFB840;--coral:#FF6B5B;
+  --text:#E8EDF5;--text2:#8B96A8;--text3:#4A5568;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 60% at 10% 10%, rgba(0,229,160,0.05) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 50% at 90% 90%, rgba(77,159,255,0.05) 0%,transparent 60%);
+}
+.card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:20px;padding:40px 36px;width:100%;max-width:440px;
+  position:relative;z-index:1;
+  box-shadow:0 24px 64px rgba(0,0,0,0.4);
+}
+.logo-row{display:flex;align-items:center;gap:10px;margin-bottom:28px;}
+.logo{
+  width:36px;height:36px;border-radius:9px;
+  background:linear-gradient(135deg,var(--green),var(--blue));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--bg);
+}
+.brand-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;
+  background:linear-gradient(90deg,var(--green),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.brand-sub{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace;letter-spacing:0.08em;}
+
+/* Tabs */
+.tab-row{display:flex;background:rgba(255,255,255,0.04);border-radius:8px;padding:3px;margin-bottom:24px;}
+.tab-btn{flex:1;padding:9px;border:none;background:transparent;
+  color:var(--text3);font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;
+  border-radius:6px;cursor:pointer;transition:all 0.2s;}
+.tab-btn.active{background:var(--panel);color:var(--text);box-shadow:0 1px 6px rgba(0,0,0,0.3);}
+
+/* Google button */
+.btn-google{
+  width:100%;padding:13px;border:1px solid var(--border);background:rgba(255,255,255,0.04);
+  border-radius:10px;color:var(--text);font-family:'Outfit',sans-serif;
+  font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;
+}
+.btn-google:hover{background:rgba(255,255,255,0.08);border-color:var(--border2,rgba(255,255,255,0.15));}
+.google-icon{width:18px;height:18px;}
+
+.divider{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border);}
+.divider span{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;}
+
+/* Inputs */
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:11px;font-weight:600;color:var(--text3);
+  text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;
+  font-family:'JetBrains Mono',monospace;}
+.field input{
+  width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  border-radius:8px;padding:12px 14px;
+  font-family:'Outfit',sans-serif;font-size:14px;color:var(--text);
+  transition:border-color 0.2s;
+}
+.field input:focus{outline:none;border-color:rgba(0,229,160,0.4);}
+.field input::placeholder{color:var(--text3);}
+
+/* Submit button */
+.btn-submit{
+  width:100%;padding:14px;border:none;
+  background:linear-gradient(135deg,var(--green),#00C87A);
+  border-radius:10px;color:var(--bg);
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  cursor:pointer;transition:all 0.2s;margin-top:4px;
+}
+.btn-submit:hover{opacity:0.9;transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,229,160,0.35);}
+
+/* Error / success */
+.error-msg{
+  display:none;padding:10px 14px;border-radius:8px;
+  font-size:12px;margin-bottom:14px;line-height:1.5;
+}
+.error-msg.error{background:rgba(255,107,91,0.1);border:1px solid rgba(255,107,91,0.25);color:var(--coral);}
+.error-msg.success{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.25);color:var(--green);}
+
+.reset-link{
+  text-align:center;font-size:12px;color:var(--text3);
+  margin-top:12px;cursor:pointer;
+}
+.reset-link span{color:var(--blue);text-decoration:underline;cursor:pointer;}
+</style>
 </head>
 <body>
 
-<div class="signin-container">
-  <!-- Inspirational InfoCard -->
-  <div class="infoCard">
-    <h1>Welcome Back</h1>
-    <p>Welcome back to your space of safety, freedom, and innovation—where your ideas become solutions and your journey creates impact.</p>
-    <div class="quotes-section">
-      <blockquote>“Education is the most powerful weapon which you can use to change the world.” <span>- Nelson Mandela</span></blockquote>
-      <blockquote>“Innovation distinguishes between a leader and a follower.” <span>- Steve Jobs</span></blockquote>
-      <blockquote>“Our industry does not respect tradition—it only respects innovation.” <span>- Satya Nadella</span></blockquote>
-      <blockquote>“The future rewards those who press on.” <span>- Barack Obama</span></blockquote>
-      <blockquote>“The generation that destroys the environment is not the generation that pays the price.” <span>- Wangari Maathai</span></blockquote>
+<div class="card">
+  <div class="logo-row">
+    <div class="logo">G</div>
+    <div>
+      <div class="brand-name">GrowthCircles</div>
+      <div class="brand-sub">YOUTH FACILITATOR PROGRAMME</div>
     </div>
   </div>
 
-  <!-- Elegant Sign In Form -->
-  <form class="signin-form" id="signinForm">
-    <label for="email">Email Address</label>
-    <input type="email" id="email" name="email" required>
+  <div class="tab-row">
+    <button class="tab-btn active" id="signinTab" onclick="showTab('signin')">Sign In</button>
+    <button class="tab-btn" id="registerTab" onclick="showTab('register')">Register</button>
+  </div>
 
-    <label for="userid">UserID</label>
-    <input type="text" id="userid" name="userid" required>
+  <div id="errorMsg" class="error-msg"></div>
 
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password" required>
+  <!-- ── Sign In Form ─────────────────────────────── -->
+  <div id="signinForm">
+    <button class="btn-google" onclick="signInGoogle()">
+      <svg class="google-icon" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      Continue with Google
+    </button>
 
-    <button type="submit" class="btn-primary">Sign In</button>
+    <div class="divider"><span>or sign in with email</span></div>
 
-    <div class="signup-link">
-      New here? <a href="SignUp.html">Apply to Join</a>
+    <div id="submitArea">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="passInput" placeholder="••••••••" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')signInEmail()">
+      </div>
+      <button class="btn-submit" onclick="signInEmail()">Sign In</button>
     </div>
+    <div class="reset-link">Forgot password? <span onclick="resetPassword()">Reset it</span></div>
+  </div>
 
-    <!-- Change Password Section -->
-    <h2 class="sub-headline accent">Forgot or Change Password?</h2>
-    <p>Enter your email address to receive a password reset link.</p>
-    <input type="email" id="reset-email" name="reset-email" placeholder="Enter your email">
-    <button type="button" id="sendOtpBtn" class="btn-secondary">Send Reset Link</button>
+  <!-- ── Register Form ───────────────────────────── -->
+  <div id="registerForm" style="display:none">
+    <button class="btn-google" onclick="signInGoogle()">
+      <svg class="google-icon" viewBox="0 0 24 24">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      Register with Google
+    </button>
 
-    <label for="new-password">New Password</label>
-    <input type="password" id="new-password" name="new-password">
+    <div class="divider"><span>or create an account</span></div>
 
-    <button type="button" id="changePasswordBtn" class="btn-primary">Change Password</button>
-  </form>
+    <div id="submitArea">
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="nameInput" placeholder="Your full name" autocomplete="name">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="passInput" placeholder="At least 6 characters" autocomplete="new-password">
+      </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <input type="password" id="pass2Input" placeholder="Repeat password"
+          onkeydown="if(event.key==='Enter')registerEmail()">
+      </div>
+      <button class="btn-submit" onclick="registerEmail()">Create Account</button>
+    </div>
+  </div>
 </div>
 
-<div id="responseScreen" class="response-screen">
-  <div id="responseMessage"></div>
-</div>
-
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-  // Environment variables injected by Vite/Netlify
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-  console.log('Supabase URL:', supabaseUrl);
-  console.log('Supabase Key:', supabaseAnonKey);
-
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-  const form = document.getElementById('signinForm');
-  const responseScreen = document.getElementById('responseScreen');
-  const responseMessage = document.getElementById('responseMessage');
-
-  // Show feedback helper
-  function showFeedback(message, type) {
-    responseMessage.textContent = message;
-    responseMessage.className = type === 'success' ? 'response-success' : 'response-error';
-    responseScreen.style.display = 'block';
-  }
-
-  // Session persistence check
-  async function checkSession() {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    if (error) {
-      console.error('Session check failed:', error.message);
-      return;
-    }
-    if (session) {
-      const email = session.user.email;
-      const { data: userProfile } = await supabase
-        .from('users')
-        .select('*')
-        .eq('email', email)
-        .single();
-      if (userProfile) {
-        let redirectPage = '/menubarpages/admindashboard.html';
-        if (userProfile.role === 'trainee') redirectPage = '/trainee/dashboard.html';
-        if (userProfile.role === 'facilitator') redirectPage = '/facilitator/dashboard.html';
-        if (userProfile.role === 'msme') redirectPage = '/msme/dashboard.html';
-        window.location.href = redirectPage;
-      }
-    }
-  }
-  checkSession();
-
-  // Sign In
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
-
-      const { data: userProfile, error: profileError } = await supabase
-        .from('users')
-        .eq('email', email)
-        .single();
-      if (profileError) throw profileError;
-
-      // Role-based redirect
-      let redirectPage = '/menubarpages/admindashboard.html';
-      if (userProfile.role === 'trainee') redirectPage = '/trainee/dashboard.html';
-      if (userProfile.role === 'facilitator') redirectPage = '/facilitator/dashboard.html';
-      if (userProfile.role === 'msme') redirectPage = '/msme/dashboard.html';
-
-      showFeedback('Sign in successful! Redirecting...', 'success');
-      setTimeout(() => { window.location.href = redirectPage; }, 1500);
-    } catch (err) {
-      console.error('Sign in error:', err);
-      showFeedback('Sign in failed: ' + (err.message || 'Unknown error'), 'error');
-    }
-  });
-
-  // Send Reset Link
-  document.getElementById('sendOtpBtn').addEventListener('click', async () => {
-    const resetEmail = document.getElementById('reset-email').value;
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
-        redirectTo: window.location.origin + '/reset.html'
-      });
-      if (error) throw error;
-      showFeedback('Password reset link sent! Check your email.', 'success');
-    } catch (err) {
-      console.error('Reset error:', err);
-      showFeedback('Failed to send reset link: ' + (err.message || 'Unknown error'), 'error');
-    }
-  });
-
-  // Change Password
-  document.getElementById('changePasswordBtn').addEventListener('click', async () => {
-    const newPassword = document.getElementById('new-password').value;
-    try {
-      const { error } = await supabase.auth.updateUser({ password: newPassword });
-      if (error) throw error;
-      showFeedback('Password changed successfully!', 'success');
-    } catch (err) {
-      console.error('Change password error:', err);
-      showFeedback('Failed to change password: ' + (err.message || 'Unknown error'), 'error');
-    }
-  });
-</script>
 </body>
 </html>
