@@ -7,9 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<!-- ══ STEP 1: Paste your Firebase config here ══════════════════════════
-     Go to console.firebase.google.com → your project → Project Settings
-     → Your apps → Web app → copy the firebaseConfig object below       -->
 <script type="module">
   import { initializeApp }          from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
   import { getAuth, GoogleAuthProvider, signInWithPopup,
@@ -19,16 +16,18 @@
   import { getFirestore, doc, setDoc, getDoc, serverTimestamp }
                                     from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-  // ── YOUR FIREBASE CONFIG ──────────────────────────────────────────────
-  // Replace every value below with your actual Firebase project values.
   const firebaseConfig = {
-    apiKey:            "PASTE_YOUR_API_KEY_HERE",
-    authDomain:        "PASTE_YOUR_AUTH_DOMAIN_HERE",       // e.g. growthcircles4rher.firebaseapp.com
-    projectId:         "PASTE_YOUR_PROJECT_ID_HERE",         // e.g. growthcircles4rher
-    storageBucket:     "PASTE_YOUR_STORAGE_BUCKET_HERE",
-    messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
-    appId:             "PASTE_YOUR_APP_ID_HERE"
-  };
+  apiKey: "AIzaSyB42JUL-VMpitvXnfuxfVMDdC6iWEsaw70",
+  authDomain: "growthcircles4her-bcdb2.firebaseapp.com",
+  databaseURL: "https://growthcircles4her-bcdb2-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "growthcircles4her-bcdb2",
+  storageBucket: "growthcircles4her-bcdb2.firebasestorage.app",
+  messagingSenderId: "469369976466",
+  appId: "1:469369976466:web:ee938d340227f5f4fc184b"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
   const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
