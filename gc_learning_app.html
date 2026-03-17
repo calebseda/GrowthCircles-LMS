@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowthCircles · Youth Facilitator AI Mastery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:        #080C14;
+  --bg2:       #0D1320;
+  --bg3:       #121A2B;
+  --panel:     #162035;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.13);
+  --green:     #00E5A0;
+  --green2:    #00C87A;
+  --green-dim: rgba(0,229,160,0.12);
+  --blue:      #4D9FFF;
+  --blue-dim:  rgba(77,159,255,0.12);
+  --gold:      #FFB840;
+  --gold-dim:  rgba(255,184,64,0.12);
+  --coral:     #FF6B5B;
+  --coral-dim: rgba(255,107,91,0.12);
+  --purple:    #A78BFA;
+  --purple-dim:rgba(167,139,250,0.12);
+  --text:      #E8EDF5;
+  --text2:     #8B96A8;
+  --text3:     #4A5568;
+  --radius:    10px;
+  /* Tracks */
+  --gc:        #00E5A0;
+  --ai:        #4D9FFF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ─ Grain overlay ─ */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:0.4;
+}
+
+/* ─ Scrollbar ─ */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* ══════════════════════════════════════════
+   TOP BAR
+══════════════════════════════════════════ */
+.topbar{
+  position:sticky;top:0;z-index:200;
+  background:rgba(8,12,20,0.92);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;
+  justify-content:space-between;
+  padding:0 24px;height:56px;
+  gap:16px;
+}
+.brand{display:flex;align-items:center;gap:10px;}
+.brand-logo{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--green),var(--blue));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--bg);
+}
+.brand-text{
+  font-family:'Syne',sans-serif;font-size:15px;font-weight:700;
+  background:linear-gradient(90deg,var(--green),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.brand-sub{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;}
+
+.topbar-stats{display:flex;align-items:center;gap:12px;}
+.stat-chip{
+  display:flex;align-items:center;gap:6px;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:20px;padding:5px 12px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+}
+.stat-chip.xp{color:var(--gold);}
+.stat-chip.streak{color:var(--coral);}
+.stat-chip.level{color:var(--green);}
+.chip-icon{font-size:13px;}
+
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.app{display:flex;min-height:calc(100vh - 56px);}
+
+/* ─ Sidebar ─ */
+.sidebar{
+  width:260px;min-width:260px;
+  background:var(--bg2);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  position:sticky;top:56px;
+  height:calc(100vh - 56px);
+  overflow-y:auto;
+}
+.sidebar-section{padding:16px 12px 8px;}
+.sidebar-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--text3);padding:0 8px;margin-bottom:8px;
+}
+.track-toggle{
+  display:flex;gap:4px;
+  background:var(--bg3);
+  border-radius:8px;padding:4px;margin:0 4px 12px;
+}
+.track-btn{
+  flex:1;padding:7px 8px;border:none;border-radius:6px;
+  font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;
+  cursor:pointer;transition:all 0.2s;color:var(--text2);background:transparent;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+}
+.track-btn.gc.active{background:rgba(0,229,160,0.18);color:var(--gc);}
+.track-btn.ai.active{background:rgba(77,159,255,0.18);color:var(--ai);}
+.track-btn:hover{color:var(--text);}
+
+.lesson-nav-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:8px;
+  cursor:pointer;transition:all 0.15s;
+  margin-bottom:2px;position:relative;
+}
+.lesson-nav-item:hover{background:rgba(255,255,255,0.04);}
+.lesson-nav-item.active{background:rgba(0,229,160,0.08);border-left:2px solid var(--gc);}
+.lesson-nav-item.active.ai-track{background:rgba(77,159,255,0.08);border-left-color:var(--ai);}
+.lesson-nav-item.locked{opacity:0.35;cursor:not-allowed;}
+.nav-num{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--text3);min-width:18px;
+}
+.nav-title{font-size:12px;color:var(--text2);flex:1;line-height:1.3;}
+.lesson-nav-item.active .nav-title{color:var(--text);}
+.nav-icon{font-size:12px;}
+
+.sidebar-xp-bar{
+  margin:12px;border-radius:8px;
+  background:var(--bg3);border:1px solid var(--border);
+  padding:12px;
+}
+.xp-bar-label{
+  display:flex;justify-content:space-between;
+  font-size:11px;color:var(--text3);margin-bottom:6px;
+  font-family:'JetBrains Mono',monospace;
+}
+.xp-bar-track{height:4px;background:var(--bg);border-radius:2px;}
+.xp-bar-fill{
+  height:100%;border-radius:2px;
+  background:linear-gradient(90deg,var(--gc),var(--blue));
+  transition:width 0.6s cubic-bezier(.4,0,.2,1);
+}
+
+/* ─ Main ─ */
+.main{flex:1;padding:36px 44px;max-width:900px;}
+
+/* ══════════════════════════════════════════
+   DASHBOARD
+══════════════════════════════════════════ */
+.dashboard{animation:fadeUp 0.4s ease both;}
+
+.dashboard-hero{
+  border-radius:16px;overflow:hidden;
+  background:linear-gradient(135deg,#0A1F35 0%,#071A2E 60%,#0D1F10 100%);
+  border:1px solid var(--border);
+  padding:44px 48px;margin-bottom:28px;
+  position:relative;
+}
+.dashboard-hero::before{
+  content:'';position:absolute;
+  top:-60px;right:-60px;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,229,160,0.08) 0%,transparent 70%);
+}
+.dashboard-hero::after{
+  content:'';position:absolute;
+  bottom:-40px;left:20%;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,rgba(77,159,255,0.06) 0%,transparent 70%);
+}
+.hero-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--gc);margin-bottom:12px;
+}
+.hero-title{
+  font-family:'Syne',sans-serif;
+  font-size:40px;font-weight:800;
+  line-height:1.1;margin-bottom:12px;
+  color:var(--text);
+}
+.hero-title .gc{color:var(--gc);}
+.hero-title .ai{color:var(--blue);}
+.hero-sub{
+  font-size:15px;color:var(--text2);
+  line-height:1.7;max-width:520px;margin-bottom:28px;
+}
+.hero-cta-row{display:flex;gap:12px;flex-wrap:wrap;}
+
+/* ─ Info cards grid ─ */
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px;}
+.info-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;padding:20px;
+  position:relative;overflow:hidden;transition:border-color 0.2s;
+}
+.info-card:hover{border-color:var(--border2);}
+.info-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+}
+.info-card.gc::before{background:linear-gradient(90deg,var(--gc),transparent);}
+.info-card.ai::before{background:linear-gradient(90deg,var(--blue),transparent);}
+.info-card.gold::before{background:linear-gradient(90deg,var(--gold),transparent);}
+.ic-icon{font-size:24px;margin-bottom:10px;}
+.ic-num{
+  font-family:'Syne',sans-serif;font-size:32px;font-weight:800;
+  margin-bottom:4px;
+}
+.ic-num.gc{color:var(--gc);}
+.ic-num.ai{color:var(--blue);}
+.ic-num.gold{color:var(--gold);}
+.ic-label{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;}
+
+/* ─ Track cards ─ */
+.track-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px;}
+.track-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:14px;padding:28px;cursor:pointer;
+  transition:all 0.2s;position:relative;overflow:hidden;
+}
+.track-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.3);}
+.track-card.gc:hover{border-color:rgba(0,229,160,0.3);}
+.track-card.ai:hover{border-color:rgba(77,159,255,0.3);}
+.track-card-bg{
+  position:absolute;top:-30px;right:-30px;
+  font-size:100px;opacity:0.04;pointer-events:none;
+}
+.tc-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:0.2em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.tc-label.gc{color:var(--gc);}
+.tc-label.ai{color:var(--blue);}
+.tc-title{
+  font-family:'Syne',sans-serif;font-size:20px;font-weight:700;
+  color:var(--text);margin-bottom:8px;
+}
+.tc-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:16px;}
+.tc-progress{display:flex;align-items:center;gap:10px;}
+.tc-prog-bar{flex:1;height:3px;background:var(--bg);border-radius:2px;}
+.tc-prog-fill{height:100%;border-radius:2px;transition:width 0.6s;}
+.gc .tc-prog-fill{background:var(--gc);}
+.ai .tc-prog-fill{background:var(--blue);}
+.tc-prog-text{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);white-space:nowrap;}
+
+/* Badges showcase */
+.badges-row{display:flex;gap:8px;flex-wrap:wrap;}
+.badge-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:20px;
+  font-size:12px;font-weight:500;
+  border:1px solid;transition:all 0.2s;
+}
+.badge-chip.earned{
+  background:rgba(255,184,64,0.1);
+  border-color:rgba(255,184,64,0.3);color:var(--gold);
+}
+.badge-chip.locked{
+  background:rgba(255,255,255,0.03);
+  border-color:var(--border);color:var(--text3);
+}
+
+/* ══════════════════════════════════════════
+   LESSON VIEW
+══════════════════════════════════════════ */
+.lesson-view{animation:fadeUp 0.35s ease both;}
+
+.lesson-top{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:28px;gap:16px;
+}
+.lesson-track-tag{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:0.2em;text-transform:uppercase;
+  margin-bottom:6px;display:flex;align-items:center;gap:6px;
+}
+.lesson-track-tag.gc{color:var(--gc);}
+.lesson-track-tag.ai{color:var(--blue);}
+.lesson-title{
+  font-family:'Syne',sans-serif;
+  font-size:32px;font-weight:800;color:var(--text);
+  line-height:1.15;
+}
+.lesson-meta{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.xp-tag{
+  background:var(--gold-dim);border:1px solid rgba(255,184,64,0.25);
+  color:var(--gold);border-radius:20px;padding:5px 14px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;white-space:nowrap;
+}
+.shield-tag{
+  font-size:10px;color:var(--text3);
+  font-family:'JetBrains Mono',monospace;
+  letter-spacing:0.08em;
+}
+
+/* Objective + example cards */
+.l-card{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;padding:22px 26px;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.l-card-accent{
+  position:absolute;left:0;top:0;bottom:0;
+  width:3px;border-radius:3px 0 0 3px;
+}
+.l-card-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+  margin-bottom:8px;
+}
+.l-card-body{font-size:14px;color:var(--text2);line-height:1.7;}
+.l-card-body strong{color:var(--text);}
+
+/* Facilitator notes */
+.fac-notes{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:12px;padding:20px 24px;margin-bottom:16px;
+}
+.fac-notes-header{
+  display:flex;align-items:center;gap:8px;margin-bottom:12px;
+}
+.fac-badge{
+  background:rgba(167,139,250,0.15);
+  border:1px solid rgba(167,139,250,0.3);
+  color:var(--purple);border-radius:6px;
+  padding:3px 10px;font-size:10px;
+  font-family:'JetBrains Mono',monospace;letter-spacing:0.1em;
+}
+.fac-item{
+  display:flex;gap:10px;margin-bottom:8px;
+  font-size:13px;color:var(--text2);line-height:1.6;
+}
+.fac-bullet{color:var(--purple);margin-top:2px;flex-shrink:0;}
+
+/* Resources */
+.resources-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.resource-chip{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:12px 14px;
+  display:flex;align-items:center;gap:8px;
+  font-size:12px;color:var(--text2);
+}
+.resource-icon{font-size:16px;flex-shrink:0;}
+
+/* ─ Kolb system ─ */
+.kolb-container{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;margin-bottom:16px;
+}
+.kolb-header{
+  padding:18px 24px 0;
+  border-bottom:1px solid var(--border);
+}
+.kolb-header-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:12px;
+}
+.kolb-tabs{display:flex;gap:2px;overflow-x:auto;}
+.k-tab{
+  padding:10px 14px;border:none;background:transparent;
+  font-family:'Outfit',sans-serif;font-size:12px;font-weight:600;
+  color:var(--text3);cursor:pointer;transition:all 0.2s;
+  border-bottom:2px solid transparent;white-space:nowrap;
+  display:flex;align-items:center;gap:5px;
+}
+.k-tab:hover{color:var(--text);}
+.k-tab.active{color:var(--text);border-bottom-color:var(--green);}
+.k-tab.active.ai-track{border-bottom-color:var(--blue);}
+.k-tab.done{color:var(--green);}
+.k-tab.done::after{content:'  ✓';font-size:10px;}
+.k-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+
+.kolb-body{padding:24px;}
+.kolb-stage{display:none;}
+.kolb-stage.active{display:block;animation:fadeUp 0.3s ease both;}
+
+.stage-header{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:20px;margin-bottom:16px;
+}
+.stage-eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:0.18em;text-transform:uppercase;
+  margin-bottom:6px;
+}
+.stage-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.stage-prompt{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* Response area */
+.resp-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:6px;
+}
+textarea.resp-ta{
+  width:100%;min-height:110px;
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:14px;
+  font-family:'Outfit',sans-serif;font-size:14px;
+  color:var(--text);resize:vertical;
+  transition:border-color 0.2s;line-height:1.6;
+}
+textarea.resp-ta:focus{outline:none;border-color:rgba(0,229,160,0.4);}
+textarea.resp-ta:focus.ai-track{border-color:rgba(77,159,255,0.4);}
+textarea.resp-ta:read-only{opacity:0.7;cursor:default;}
+.char-count{text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text3);margin-top:4px;}
+
+/* Upload */
+.upload-row{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg3);border:1px dashed var(--border);
+  border-radius:8px;padding:10px 14px;
+  cursor:pointer;transition:border-color 0.2s;
+  margin:10px 0;font-size:12px;color:var(--text3);
+}
+.upload-row:hover{border-color:var(--border2);color:var(--text2);}
+.upload-row input{display:none;}
+
+/* AI coach bubble */
+.ai-bubble{
+  background:linear-gradient(135deg,rgba(0,229,160,0.06),rgba(77,159,255,0.06));
+  border:1px solid rgba(0,229,160,0.2);
+  border-radius:10px;padding:18px 20px;
+  margin:12px 0;display:none;
+  animation:fadeUp 0.3s ease both;
+}
+.ai-bubble.visible{display:block;}
+.ai-bubble.ai-track{border-color:rgba(77,159,255,0.25);}
+.ai-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.ai-ava{
+  width:26px;height:26px;border-radius:6px;
+  background:linear-gradient(135deg,var(--gc),var(--blue));
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:var(--bg);
+  font-family:'Syne',sans-serif;
+}
+.ai-coach-name{font-size:11px;font-weight:600;color:var(--gc);}
+.ai-coach-name.ai-track{color:var(--blue);}
+.ai-text{font-size:13px;color:var(--text2);line-height:1.75;}
+.ai-text p{margin-bottom:8px;}
+.ai-text p:last-child{margin-bottom:0;}
+
+/* Gate result */
+.gate-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  border-radius:20px;padding:6px 14px;
+  font-size:12px;font-weight:600;
+  margin:8px 0;
+}
+.gate-pill.pass{background:rgba(0,229,160,0.1);border:1px solid rgba(0,229,160,0.3);color:var(--gc);}
+.gate-pill.retry{background:rgba(255,107,91,0.1);border:1px solid rgba(255,107,91,0.3);color:var(--coral);}
+
+/* Assessment card */
+.assessment-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:10px;padding:18px;margin-bottom:16px;
+}
+.assess-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--text3);margin-bottom:8px;
+}
+.assess-q{
+  font-size:13px;color:var(--text);margin-bottom:10px;
+  line-height:1.6;
+}
+textarea.assess-ta{
+  width:100%;min-height:80px;
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:6px;padding:10px 12px;
+  font-family:'Outfit',sans-serif;font-size:13px;
+  color:var(--text);resize:vertical;line-height:1.6;
+  transition:border-color 0.2s;
+}
+textarea.assess-ta:focus{outline:none;border-color:rgba(0,229,160,0.35);}
+
+/* Peer feedback */
+.peer-section{
+  border-top:1px solid var(--border);
+  padding-top:14px;margin-top:8px;
+}
+.peer-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text3);margin-bottom:6px;}
+input.peer-inp{
+  width:100%;background:var(--bg);border:1px solid var(--border);
+  border-radius:6px;padding:9px 12px;
+  font-family:'Outfit',sans-serif;font-size:13px;color:var(--text);
+  transition:border-color 0.2s;margin-bottom:6px;
+}
+input.peer-inp:focus{outline:none;border-color:var(--border2);}
+
+/* ─ Buttons ─ */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:11px 20px;border:none;border-radius:8px;
+  font-family:'Outfit',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all 0.18s;text-decoration:none;
+}
+.btn-gc{background:var(--gc);color:var(--bg);}
+.btn-gc:hover{background:var(--green2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,229,160,0.3);}
+.btn-ai{background:var(--blue);color:var(--bg);}
+.btn-ai:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(77,159,255,0.3);}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text2);}
+.btn-ghost:hover{border-color:var(--border2);color:var(--text);}
+.btn-gold{background:var(--gold);color:var(--bg);}
+.btn-gold:hover{opacity:0.9;transform:translateY(-1px);box-shadow:0 4px 20px rgba(255,184,64,0.3);}
+.btn:disabled{opacity:0.4;cursor:not-allowed;transform:none !important;box-shadow:none !important;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;}
+.btn-full{width:100%;justify-content:center;}
+.spinner{width:14px;height:14px;border:2px solid rgba(0,0,0,0.2);border-top-color:var(--bg);border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;}
+
+/* ─ Completion ─ */
+.lesson-complete-card{
+  background:linear-gradient(135deg,rgba(0,229,160,0.08),rgba(77,159,255,0.08));
+  border:1px solid rgba(0,229,160,0.2);
+  border-radius:12px;padding:28px;margin-bottom:16px;
+  text-align:center;
+}
+.lc-icon{font-size:44px;margin-bottom:12px;}
+.lc-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px;}
+.lc-sub{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:20px;}
+.xp-pop{
+  background:var(--gold-dim);border:1px solid rgba(255,184,64,0.3);
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 20px;border-radius:20px;
+  font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:14px;
+  animation:xpPop 0.5s cubic-bezier(.17,.67,.47,1.6) both;
+}
+@keyframes xpPop{from{transform:scale(0.5);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+/* ─ Portfolio export ─ */
+.portfolio-section{
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;padding:22px;margin-bottom:16px;
+}
+.portfolio-note{
+  font-size:12px;color:var(--text3);line-height:1.6;margin-bottom:12px;
+  font-family:'JetBrains Mono',monospace;
+  background:var(--bg3);border-radius:6px;padding:10px 12px;
+}
+
+/* ─ Badge unlock toast ─ */
+.badge-toast{
+  position:fixed;top:70px;right:20px;z-index:500;
+  background:var(--panel);border:1px solid rgba(255,184,64,0.4);
+  border-radius:10px;padding:14px 18px;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.4);
+  animation:slideIn 0.4s cubic-bezier(.17,.67,.47,1.6) both;
+  max-width:280px;
+}
+@keyframes slideIn{from{transform:translateX(100px);opacity:0;}to{transform:translateX(0);opacity:1;}}
+.toast-icon{font-size:24px;}
+.toast-text strong{display:block;font-size:13px;color:var(--gold);margin-bottom:2px;}
+.toast-text span{font-size:11px;color:var(--text3);}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+.typing-dot{display:inline-flex;gap:3px;vertical-align:middle;}
+.typing-dot i{width:5px;height:5px;border-radius:50%;background:var(--gc);display:inline-block;animation:tdot 1.2s infinite ease-in-out;}
+.typing-dot i:nth-child(2){animation-delay:0.2s;}
+.typing-dot i:nth-child(3){animation-delay:0.4s;}
+@keyframes tdot{0%,80%,100%{transform:translateY(0);}40%{transform:translateY(-4px);}}
+
+/* Responsive */
+@media(max-width:768px){
+  .app{flex-direction:column;}
+  .sidebar{width:100%;height:auto;position:relative;top:0;}
+  .main{padding:20px 16px;}
+  .info-grid{grid-template-columns:1fr 1fr;}
+  .track-cards{grid-template-columns:1fr;}
+  .lesson-title{font-size:24px;}
+  .resources-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-logo">G</div>
+    <div>
+      <div class="brand-text">GrowthCircles</div>
+      <div class="brand-sub">YOUTH FACILITATOR · AI MASTERY</div>
+    </div>
+  </div>
+  <div class="topbar-stats">
+    <div class="stat-chip xp"><span class="chip-icon">⚡</span><span id="xpVal">0 XP</span></div>
+    <div class="stat-chip streak"><span class="chip-icon">🔥</span><span id="streakVal">0 day streak</span></div>
+    <div class="stat-chip level"><span class="chip-icon">🛡</span><span id="levelVal">Learner</span></div>
+  </div>
+</div>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Track</div>
+      <div class="track-toggle">
+        <button class="track-btn gc active" onclick="setTrack('gc')">🌱 GC</button>
+        <button class="track-btn ai" onclick="setTrack('ai')">🤖 AI</button>
+        <button class="track-btn" style="color:var(--text3)" onclick="setTrack('both')">⊕ All</button>
+      </div>
+      <div id="lessonNav"></div>
+    </div>
+    <div class="sidebar-xp-bar">
+      <div class="xp-bar-label">
+        <span>Progress</span>
+        <span id="progressText">0 / 14</span>
+      </div>
+      <div class="xp-bar-track"><div class="xp-bar-fill" id="xpBarFill" style="width:0%"></div></div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main" id="mainArea"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// LESSON DATA
+// ══════════════════════════════════════════════════════════════════════════════
+const TRACKS = {
+  gc: { name:"GrowthCircles Leadership", color:"var(--gc)", short:"GC", icon:"🌱" },
+  ai: { name:"Google AI Mastery", color:"var(--blue)", short:"AI", icon:"🤖" }
+};
+
+const BADGES = [
+  {id:"foundations",name:"Digital Foundations",icon:"🌱",condition:"Complete GC Lessons 1–3"},
+  {id:"firstbot",   name:"First Prompt",       icon:"🤖",condition:"Complete AI Lesson 1"},
+  {id:"coach",      name:"GROWTH Coach",        icon:"🎯",condition:"Complete GC Lessons 4–5"},
+  {id:"gemini",     name:"Gemini Pilot",        icon:"✨",condition:"Complete AI Lessons 2–3"},
+  {id:"architect",  name:"Instructional Architect",icon:"🏛",condition:"Complete GC Lesson 6–7"},
+  {id:"notebooklm", name:"NotebookLM Scholar",  icon:"📚",condition:"Complete AI Lessons 4–5"},
+  {id:"facilitator",name:"Certified Facilitator",icon:"🏅",condition:"Complete all 14 lessons"},
+];
+
+const LESSONS = [
+  // ── GrowthCircles Track ──────────────────────────────────────────────────
+  {
+    id:"gc1", track:"gc", num:1, xp:25, shield:"Bronze",
+    title:"The Facilitator Identity: Who Are You When You Lead?",
+    objectives:[
+      "Articulate a personal facilitation philosophy grounded in your own values and experience.",
+      "Distinguish facilitation from teaching, managing, and advising.",
+      "Map your facilitation strengths and one growth edge for this programme."
+    ],
+    desc:"Facilitation is not a role — it is an identity. Before you can unlock learning in others, you must understand what you believe about how people grow. This lesson builds the foundation of your practice.",
+    example:"Great facilitators are not the smartest person in the room — they are the person who makes everyone else feel smart. Think of someone who unlocked something in you. What did they actually do?",
+    facilitatorNotes:[
+      "This is a vulnerable lesson — create psychological safety before jumping into content.",
+      "The 'facilitation vs. teaching' distinction is more nuanced than it appears: facilitation holds the space; teaching fills it. Both are valuable. Neither is superior.",
+      "Watch for participants who conflate charisma with facilitation skill. Probe gently: 'What does a quiet but powerful facilitator look like?'",
+      "Connect to the GROWTH coaching model they will practice in Lesson 5."
+    ],
+    resources:[
+      {icon:"📖",text:"GrowthCircles Workbook Module 1"},
+      {icon:"🎥",text:"Facilitation vs Teaching (3-min clip)"},
+      {icon:"🔧",text:"Facilitation Strengths Self-Assessment"},
+      {icon:"📋",text:"KNQA Bronze Shield criteria overview"}
+    ],
+    kolb:{
+      experience:{
+        title:"Your Best Learning Moment",
+        prompt:"Think about the best learning experience you have ever had — formal or informal.",
+        q:"Describe it in detail: Where were you? Who was involved? What made it so powerful? What did the facilitator or teacher or mentor actually DO that made the difference?"
+      },
+      reflection:{
+        title:"What Made It Work?",
+        prompt:"Now look beneath the surface of that experience.",
+        q:"What did the person who led that experience believe about you as a learner? How do you know? And what did their belief make possible that might not have happened otherwise?"
+      },
+      conceptualization:{
+        title:"Your Facilitation Philosophy",
+        prompt:"From experience to principle — what do you now believe about facilitation?",
+        q:"Based on what you've reflected on, write your personal facilitation philosophy in 3–5 sentences. What do you believe about how people learn? What is your role as a facilitator? What matters most?"
+      },
+      experimentation:{
+        title:"Your First Facilitation Commitment",
+        prompt:"Philosophy without practice is decoration.",
+        q:"In the next 3 days, you will have at least one opportunity to facilitate something — a conversation, a small group activity, an explanation. Name it specifically. What will you do differently based on what you now believe about facilitation?"
+      }
+    },
+    assessment:{q:"A participant in your first facilitated session crosses their arms, stops engaging, and says 'I already know this.' Write exactly what you would say and do in that moment, and explain the facilitation principle behind your response."}
+  },
+  {
+    id:"gc2", track:"gc", num:2, xp:25, shield:"Bronze",
+    title:"Kolb in Action: How to Design Learning That Sticks",
+    objectives:[
+      "Apply Kolb's Experiential Learning Cycle to design a 20-minute learning session.",
+      "Distinguish between activities that generate experience and those that generate reflection.",
+      "Identify the Kolb stage most commonly skipped in traditional African classroom settings and explain why."
+    ],
+    desc:"You are experiencing Kolb's framework right now — in the structure of this very lesson. By the end, you will not only understand the cycle intellectually: you will have used it, reflected on using it, and designed with it.",
+    example:"Every lesson in this programme follows Kolb's four stages. As you work through this lesson, watch what happens in your own thinking at each stage. The content IS the method.",
+    facilitatorNotes:[
+      "The meta-learning opportunity here is significant: participants are experiencing Kolb while learning about Kolb. Name this explicitly.",
+      "The 'most skipped stage' question almost always produces consensus around Reflection — in time-pressured classroom settings, teachers jump from experience to experimentation and wonder why nothing sticks.",
+      "The 20-minute design task is a deliverable that becomes a Bronze Shield portfolio item.",
+      "Pair participants for the design task if possible — co-design reveals facilitation philosophy differences quickly."
+    ],
+    resources:[
+      {icon:"📐",text:"Kolb's Cycle — 1-page reference card"},
+      {icon:"🎮",text:"This lesson itself — annotated structure"},
+      {icon:"🔧",text:"20-min session design template"},
+      {icon:"📋",text:"Bronze Shield portfolio item 2"}
+    ],
+    kolb:{
+      experience:{
+        title:"Living the Cycle",
+        prompt:"You have been learning through Kolb's model for the last lesson — and in fact for most of this programme.",
+        q:"Looking back at Lesson 1: which of the four stages (Experience, Reflection, Conceptualisation, Experimentation) felt most natural to you? Which felt most uncomfortable? Describe both honestly."
+      },
+      reflection:{
+        title:"Why the Discomfort Matters",
+        prompt:"Discomfort in a learning stage is diagnostic data.",
+        q:"Why do you think you found that stage uncomfortable or unfamiliar? What does that tell you about how you were taught, how you tend to learn, and how you might unconsciously design learning for others?"
+      },
+      conceptualization:{
+        title:"The Cycle as a Design Tool",
+        prompt:"Kolb's model is not a description of how people learn — it is a prescription for how to design learning.",
+        q:"In your own words, explain why skipping any of the four stages weakens the learning. Use a concrete example from education, sports, or a skill you have developed to make the principle tangible."
+      },
+      experimentation:{
+        title:"Design Your First Kolb Session",
+        prompt:"Now design a 20-minute learning session using all four Kolb stages.",
+        q:"Choose a topic from your own experience (a skill, a concept, a life lesson). Design: (1) a 5-min experience activity, (2) a 4-min reflection prompt, (3) a 5-min conceptualisation discussion, (4) a 4-min experimentation task. Write it out clearly enough that another facilitator could run it."
+      }
+    },
+    assessment:{q:"A school leader participant tells you: 'This reflection stuff feels like a waste of time. Can we just get to the practical parts?' Write your response — and explain why Reflection is non-negotiable in Kolb's cycle, using evidence from learning science."}
+  },
+  {
+    id:"gc3", track:"gc", num:3, xp:30, shield:"Bronze",
+    title:"Facilitation Ethics & AI: Who Is Responsible When the Algorithm Advises?",
+    objectives:[
+      "Apply the five AI ethics lenses (Fairness, Accountability, Transparency, Privacy, Human Dignity) to a facilitated learning context.",
+      "Draft a Facilitator AI Ethics Statement for their own practice.",
+      "Identify three specific risks of AI use in youth facilitation and propose mitigations."
+    ],
+    desc:"You are preparing to facilitate AI-powered learning for school leaders and youth. This carries ethical weight. What happens when an AI coach gives bad advice? When data about a learner is misused? When an algorithm makes a biased assessment? You need answers before you facilitate.",
+    example:"In 2023, an AI tutoring system in a US school district was found to consistently give lower-quality feedback to students writing in African American Vernacular English. The algorithm was not designed to be biased — but it was. What would you have done if you were the facilitator?",
+    facilitatorNotes:[
+      "This is the lesson that separates thoughtful facilitators from tool-users. Take it seriously.",
+      "The case study example is deliberately provocative — use it to open discussion about algorithmic bias in the African educational context.",
+      "The Facilitator AI Ethics Statement is a Silver Shield portfolio requirement. Start drafting it here.",
+      "Connect to the school leaders they will eventually facilitate: those leaders need to hear about AI ethics from someone who has thought it through."
+    ],
+    resources:[
+      {icon:"📜",text:"UNESCO AI Ethics Recommendation (excerpts)"},
+      {icon:"🔍",text:"AI bias in education — case study pack"},
+      {icon:"⚖️",text:"Five AI Ethics Lenses reference card"},
+      {icon:"📋",text:"Facilitator AI Ethics Statement template"}
+    ],
+    kolb:{
+      experience:{
+        title:"The Algorithm Got It Wrong",
+        prompt:"AI systems make mistakes. Sometimes those mistakes are random. Sometimes they follow patterns.",
+        q:"Describe a situation — real or imagined — where an automated system, algorithm, or AI tool produced an outcome that felt unfair, wrong, or harmful to someone you know or a group you are part of. What happened? Who was affected?"
+      },
+      reflection:{
+        title:"Fairness Is Not Neutral",
+        prompt:"Most AI systems are designed to be fair — and are still biased. Why?",
+        q:"Looking at the situation you described: whose interests were prioritised by the system? Whose were minimised? What values were embedded in the design — even if the designers did not intend them?"
+      },
+      conceptualization:{
+        title:"Ethics as Facilitation Practice",
+        prompt:"An ethical facilitator is not just someone with good intentions — they are someone who designs ethical systems.",
+        q:"Apply ALL FIVE ethics lenses to the AI tools you will use as a facilitator (this platform, Google Gemini, NotebookLM). For each lens — Fairness, Accountability, Transparency, Privacy, Human Dignity — write one specific risk and one specific mitigation."
+      },
+      experimentation:{
+        title:"Your Facilitator AI Ethics Statement",
+        prompt:"Every professional practice needs an ethical backbone.",
+        q:"Write your personal Facilitator AI Ethics Statement — the principles that will govern how you use AI in your facilitation practice. Minimum 5 specific commitments. Not vague values — concrete commitments you can be held to."
+      }
+    },
+    assessment:{q:"A school leader participant in your cohort uses an AI tool to generate their Bronze Shield Position Paper and submits it without declaring AI use. You suspect this. What do you do? Walk through your decision step by step."}
+  },
+  {
+    id:"gc4", track:"gc", num:4, xp:30, shield:"Silver",
+    title:"The GROWTH Coaching Model: From Theory to Fluency",
+    objectives:[
+      "Apply all six GROWTH stages in a sustained, unscripted coaching conversation.",
+      "Distinguish between coaching questions and advice-giving, in real time.",
+      "Demonstrate the 'What else?' technique and explain its power.",
+      "Conduct a 15-minute peer coaching session on a real professional challenge."
+    ],
+    desc:"Coaching is the most powerful one-to-one facilitation tool you have. But most people who think they are coaching are actually advising, rescuing, or problem-solving. This lesson builds the real skill — staying in the question, holding the space, and trusting the coachee to find their own way.",
+    example:"The most powerful coaching question is often the simplest: 'What else?' Ask it three times after any answer and watch what happens. The first answer is the obvious one. The second is the honest one. The third is the real one.",
+    facilitatorNotes:[
+      "Run a live demonstration before sending participants into coaching pairs — model both good coaching and a common mistake (advice-giving) explicitly.",
+      "The 15-minute coaching session is a Gold Shield portfolio requirement. Ensure it is recorded or has a supervisor observation form.",
+      "Watch for participants who ask multiple questions in one breath — this is the most common rookie mistake. Name it, demonstrate it, give them a word to interrupt themselves.",
+      "The 'What else?' technique feels simple until you try it under social pressure. Practice it explicitly."
+    ],
+    resources:[
+      {icon:"🎯",text:"GROWTH model reference card — all 6 stages"},
+      {icon:"🎬",text:"Good coaching vs advice-giving demo clip"},
+      {icon:"📝",text:"Coaching session observation form (Gold Shield)"},
+      {icon:"🔧",text:"Question bank — 30 GROWTH coaching questions"}
+    ],
+    kolb:{
+      experience:{
+        title:"When You Were Coached",
+        prompt:"Think about a time someone helped you find your own answer — rather than just giving it to you.",
+        q:"Describe the conversation. What did the coach or mentor say? What questions did they ask? How did it feel to reach your own insight? What changed as a result of that conversation?"
+      },
+      reflection:{
+        title:"The Difference Is Not Small",
+        prompt:"The gap between advice and coaching looks small from the outside. From the inside it is enormous.",
+        q:"Thinking about the experience you described: what would have been lost if the other person had simply told you the answer? What did having to find it yourself give you that being told would not have?"
+      },
+      conceptualization:{
+        title:"GROWTH in Your Own Words",
+        prompt:"The GROWTH model gives a structure. But structure without understanding is a script.",
+        q:"In your own words, explain what happens at each of the six GROWTH stages — not the official definition, but what is actually going on in the coachee's mind and in the relationship at each stage. What is the facilitator's most important job at each one?"
+      },
+      experimentation:{
+        title:"Your GROWTH Question Bank",
+        prompt:"Great coaches have great questions — not great advice.",
+        q:"Write 3 original coaching questions for EACH of the 6 GROWTH stages — questions you would genuinely use, that feel natural in your voice, and that you believe would open rather than close thinking. 18 questions total. Do not copy from the reference card."
+      }
+    },
+    assessment:{q:"Mid-way through a coaching session, your coachee says: 'I don't know — what do you think I should do?' This is a trap. Write exactly what you will say and do, and explain the coaching principle that makes your response the right one."}
+  },
+  {
+    id:"gc5", track:"gc", num:5, xp:30, shield:"Silver",
+    title:"Managing Resistance: When Participants Don't Want to Be There",
+    objectives:[
+      "Identify the three types of facilitation resistance (cognitive, emotional, systemic) and their causes.",
+      "Apply at least two evidence-based techniques for de-escalating participant resistance.",
+      "Design a 'resistance prevention' opening sequence for a facilitated session.",
+      "Reflect honestly on their own resistance patterns as a learner."
+    ],
+    desc:"Every facilitator will encounter resistance. The question is not whether it will happen — it is whether you are prepared. Resistance is not your enemy. Handled well, it is the most powerful learning moment in a session.",
+    example:"A principal in your cohort says: 'We've been told to be here. I have 200 students waiting for me. What exactly is the point of this?' This is not rudeness — this is a legitimate question about value. How you answer it will set the tone for the next 4 weeks.",
+    facilitatorNotes:[
+      "This lesson requires facilitator self-honesty. Before teaching resistance management, ask: where do I resist?",
+      "The three resistance types are: cognitive (I don't believe this is useful), emotional (I feel threatened), systemic (I was forced to be here). Each needs a different response.",
+      "The 'resistance prevention' opening is a practical deliverable — it becomes part of the Silver Shield Facilitation Portfolio.",
+      "Model the vulnerability you are asking for: share a moment when you were the resistant participant."
+    ],
+    resources:[
+      {icon:"🧠",text:"Three Types of Resistance — reference card"},
+      {icon:"🗣️",text:"De-escalation script examples"},
+      {icon:"🏗️",text:"Opening sequence design template"},
+      {icon:"📋",text:"Silver Shield Facilitation Portfolio — item 3"}
+    ],
+    kolb:{
+      experience:{
+        title:"When You Were the Resistant One",
+        prompt:"Before you can manage resistance in others, you must understand it in yourself.",
+        q:"Recall a time you were resistant in a learning or work situation — when you did not want to engage, crossed your arms (literally or metaphorically), or went through the motions without real investment. What was going on? What had caused the resistance?"
+      },
+      reflection:{
+        title:"What Would Have Helped",
+        prompt:"Resistance is a message. Most facilitators try to overcome it. The skilled ones try to understand it.",
+        q:"What would the facilitator, teacher, or manager have needed to do to genuinely reach you in that resistant moment? What did they actually do? What was the gap between the two?"
+      },
+      conceptualization:{
+        title:"A Framework for Resistance",
+        prompt:"Not all resistance is the same. A framework helps you respond rather than react.",
+        q:"Based on your experience and reflection, develop a simple framework for categorising participant resistance. Name at least 3 distinct types, describe what each looks like in a facilitated session, and propose the most effective facilitator response to each."
+      },
+      experimentation:{
+        title:"Design Your Resistance-Proof Opening",
+        prompt:"The first 10 minutes of a session determine whether resistance is invited or prevented.",
+        q:"Design a 10-minute opening sequence for a session with school leaders who are mandatory participants. Your opening must: establish psychological safety, give participants a voice before you speak, connect the session to something they actually care about, and set clear norms collaboratively. Write it step by step — what you say, what you ask, what you do."
+      }
+    },
+    assessment:{q:"15 minutes into your first facilitated session with a cohort of principals, one participant — the most senior in the room — begins side-talking with a colleague, checking their phone, and making sighing noises. Three other participants are watching to see what you do. Describe exactly what you do next — and why."}
+  },
+  {
+    id:"gc6", track:"gc", num:6, xp:35, shield:"Gold",
+    title:"Designing Learning Sequences: The Facilitator as Architect",
+    objectives:[
+      "Design a complete 90-minute learning session using Kolb's cycle and the GrowthCircles facilitation framework.",
+      "Embed at least three formative check-in points within the session design.",
+      "Write a full facilitator guide that another facilitator could use without briefing.",
+      "Articulate the connection between session design and KNQA assessment evidence."
+    ],
+    desc:"This is the lesson where everything comes together. Your understanding of facilitation philosophy, Kolb's cycle, AI ethics, coaching, and resistance management all flow into a single design challenge: create a learning session that is rigorous, humane, and evidence-generating.",
+    example:"The best session designs are invisible to participants — they feel like a natural conversation, not a structured event. Your job is to be invisible in your design and present in your facilitation.",
+    facilitatorNotes:[
+      "This is the major practical deliverable of the GrowthCircles track — the 90-minute session design becomes a Gold Shield portfolio item.",
+      "Emphasise: a facilitator guide must be written for someone who has never delivered this content before. If your guide requires you specifically to work, it is not a guide — it is a set of personal notes.",
+      "The KNQA connection: every session design must generate evidence that a KNQA moderator can review. Build this in from the start.",
+      "Allow participants to choose their own topic for the session design — this increases ownership and reveals facilitation instincts."
+    ],
+    resources:[
+      {icon:"🏗️",text:"90-minute session design template"},
+      {icon:"✅",text:"Facilitator guide quality checklist"},
+      {icon:"📋",text:"Gold Shield Facilitation Portfolio — item 1"},
+      {icon:"🔧",text:"Formative check-in methods bank"}
+    ],
+    kolb:{
+      experience:{
+        title:"A Session That Changed Someone",
+        prompt:"You have experienced great facilitation. Now it's time to create it.",
+        q:"Think about a workshop, lesson, or facilitated session that genuinely changed how someone thought, felt, or acted. What did the design of that session make possible? What would not have happened without that specific structure?"
+      },
+      reflection:{
+        title:"Design Intention",
+        prompt:"Every design choice is a belief about learning made visible.",
+        q:"Looking at the session you described: what were the designer's beliefs about participants? About learning? About the facilitator's role? How do you know — what in the design reveals those beliefs?"
+      },
+      conceptualization:{
+        title:"Your Design Principles",
+        prompt:"Before you design a session, you need to know what you stand for.",
+        q:"Write 5 personal session design principles — the non-negotiable beliefs that will guide every learning experience you create. For each, write the principle AND describe what it looks like in practice (a concrete design choice you will always or never make)."
+      },
+      experimentation:{
+        title:"Design Your 90-Minute Session",
+        prompt:"Now build it.",
+        q:"Choose a topic from the GrowthCircles or Google AI Mastery curriculum. Design a complete 90-minute facilitated session: objectives (3), opening hook (5 min), Kolb stage 1 — Experience (15 min), Kolb stage 2 — Reflection (15 min), Kolb stage 3 — Conceptualisation (20 min), Kolb stage 4 — Experimentation (20 min), closing and check-out (10 min), facilitator guide notes, and 3 formative check-in points. Be specific enough that another facilitator could deliver it."
+      }
+    },
+    assessment:{q:"Your co-facilitator cancels 2 hours before your 90-minute session with 15 school leaders. You must facilitate alone. The session was designed for two facilitators. Walk through how you restructure it — what you cut, what you adapt, and what your facilitation priorities become in a solo delivery."}
+  },
+  {
+    id:"gc7", track:"gc", num:7, xp:40, shield:"Platinum",
+    title:"Facilitation Portfolio & Live Defence: Demonstrating Readiness",
+    objectives:[
+      "Compile a complete Facilitation Portfolio meeting KNQA Silver/Gold Shield evidence requirements.",
+      "Deliver a 10-minute portfolio defence explaining the design decisions in their session plan.",
+      "Demonstrate the ability to respond to probing questions about facilitation practice.",
+      "Articulate how their facilitation philosophy has evolved across the GrowthCircles track."
+    ],
+    desc:"The Platinum Shield requires you to show — not just tell — that you are ready to facilitate the GrowthCircles programme with school leaders. This lesson is the culmination: portfolio submission, live defence, and honest reflection on the journey from Lesson 1 to here.",
+    example:"A portfolio without a through-line is just a collection of documents. The assessor needs to see a mind at work — a facilitator who has been thinking, refining, questioning, and growing across seven lessons.",
+    facilitatorNotes:[
+      "This is the summative assessment for the GrowthCircles track. All seven lessons have been building toward this.",
+      "The live defence is 10 minutes of presentation + 5 minutes of questions. The questions will focus on: design decisions, ethical commitments, resistance scenarios, and the coaching moment.",
+      "Participants who are not ready should be told clearly before the defence — not failed in the room.",
+      "The KNQA moderator reviews the portfolio. The facilitator observes the defence. Both records are required for Gold Shield certification."
+    ],
+    resources:[
+      {icon:"📁",text:"Facilitation Portfolio checklist — all items"},
+      {icon:"🎓",text:"Defence question bank (10 most likely questions)"},
+      {icon:"📋",text:"KNQA Gold Shield evidence requirements"},
+      {icon:"✅",text:"Portfolio self-assessment rubric"}
+    ],
+    kolb:{
+      experience:{
+        title:"The Full Arc",
+        prompt:"Seven lessons. Four Kolb cycles each. You have reflected, designed, practiced, and refined.",
+        q:"Looking back across all seven GrowthCircles lessons: which single moment — a reflection you wrote, a coaching conversation you had, a design you built — changed you most as a facilitator? Describe it in detail."
+      },
+      reflection:{
+        title:"Who You Were, Who You Are",
+        prompt:"Growth is only visible in retrospect.",
+        q:"Compare your Lesson 1 facilitation philosophy with where you stand now. What has stayed constant? What has changed? What have you discovered about facilitation that you could not have articulated at the start?"
+      },
+      conceptualization:{
+        title:"Facilitation as a Professional Identity",
+        prompt:"A Platinum Shield is not a certificate — it is a declaration.",
+        q:"Write a 200-word professional biography of yourself as a facilitator — the version you would want a school leader to read before working with you. What do you believe, what do you offer, and what do you ask of participants?"
+      },
+      experimentation:{
+        title:"Your First Real Cohort",
+        prompt:"After certification, you will facilitate your first real cohort of school leaders.",
+        q:"Describe in detail how you will open your first session with a cohort of school leaders who are uncertain about you because you are young. What will you do in the first 15 minutes to earn trust, establish your authority, and create the conditions for genuine learning?"
+      }
+    },
+    assessment:{q:"This is your portfolio defence opening statement. Write the 2-minute spoken introduction you will deliver to the KNQA assessment panel — explaining who you are as a facilitator, what your portfolio demonstrates, and what you are asking them to trust about your practice."}
+  },
+
+  // ── Google AI Mastery Track ───────────────────────────────────────────────
+  {
+    id:"ai1", track:"ai", num:1, xp:25, shield:"Bronze",
+    title:"Prompt Engineering: The Art of Talking to AI",
+    objectives:[
+      "Write prompts that consistently produce high-quality, specific, and useful AI outputs.",
+      "Apply the RSCAP prompt framework (Role, Situation, Context, Action, Parameters).",
+      "Identify the three most common prompt mistakes and correct them in real examples.",
+      "Use Gemini to produce a facilitator resource that would take 2 hours to write manually, in under 10 minutes."
+    ],
+    desc:"The quality of your AI output is entirely determined by the quality of your input. Vague prompts produce generic output. Specific, contextualised prompts produce extraordinary output. Prompt engineering is the most immediately valuable AI skill you will develop in this programme.",
+    example:"'Write a lesson plan' → 5 minutes of generic content you cannot use. 'You are an expert curriculum designer for a youth leadership programme in Kenya. Write a 60-minute lesson plan for 18–24 year old youth facilitators on the topic of AI ethics in education. Use Kolb's learning cycle. Include facilitator notes, timing, and formative check-ins. Tone: practical, not academic.' → something you can actually use tomorrow.",
+    facilitatorNotes:[
+      "The contrast between a bad prompt and a good prompt is the opening activity — run it live so participants feel the difference, not just hear about it.",
+      "RSCAP is one framework — there are others. The important thing is having A framework, not THE framework.",
+      "The 10-minute resource challenge is the assessment: participants must produce something genuinely useful. Evaluators should check: would you actually use this?",
+      "Connect to facilitation: the same principles that make a good prompt make a good coaching question — specificity, context, and an open invitation."
+    ],
+    resources:[
+      {icon:"🤖",text:"Google Gemini — workspace access"},
+      {icon:"📋",text:"RSCAP prompt framework card"},
+      {icon:"🔧",text:"10 bad prompts + corrected versions (examples)"},
+      {icon:"📁",text:"Facilitator Resource Library template"}
+    ],
+    kolb:{
+      experience:{
+        title:"The Bad Prompt Experiment",
+        prompt:"The fastest way to understand prompt engineering is to see what bad prompting produces.",
+        q:"Open Gemini (or any AI assistant available to you). Give it the worst possible prompt for something you actually need: vague, no context, no role, no parameters. Copy the output here. Then describe — honestly — whether you could use that output as a facilitator. What is missing?"
+      },
+      reflection:{
+        title:"What the AI Needed From You",
+        prompt:"Bad output is not the AI's fault. It is communication failure.",
+        q:"Looking at the output you got: what information did the AI not have that it needed to produce something useful? List at least 5 specific things. What does this tell you about what 'context' means in AI communication?"
+      },
+      conceptualization:{
+        title:"Building a Prompt Framework",
+        prompt:"A framework turns art into craft — something repeatable, teachable, and improvable.",
+        q:"Using RSCAP (or your own adaptation), rewrite your bad prompt as a high-quality prompt. Show: the original, each RSCAP element you added, and the new prompt in full. Then explain in your own words why each element improves the output."
+      },
+      experimentation:{
+        title:"The 10-Minute Resource Challenge",
+        prompt:"Your first real test: can you use Gemini to produce something genuinely useful?",
+        q:"Using your improved prompting skills, use Gemini to produce one complete facilitator resource for the GrowthCircles programme (a session plan, a coaching guide, a participant handout, or a reflection prompt set). Copy the final output here. Rate it: would you actually use this as a facilitator? What did you change from the AI's draft, and why?"
+      }
+    },
+    assessment:{q:"A school leader participant in your cohort says: 'This AI just produces generic rubbish. It's useless for real teaching.' They show you their prompt: 'Write a lesson on leadership.' What do you say and show them — in under 5 minutes — to change their mind?"}
+  },
+  {
+    id:"ai2", track:"ai", num:2, xp:25, shield:"Bronze",
+    title:"Google NotebookLM: Your AI Research Partner",
+    objectives:[
+      "Load and interrogate a set of curriculum documents in NotebookLM.",
+      "Generate a lesson planning brief from multiple source documents using AI synthesis.",
+      "Critically evaluate NotebookLM's outputs for accuracy, completeness, and bias.",
+      "Use the Audio Overview feature to create a podcast-style learning resource for participants."
+    ],
+    desc:"NotebookLM does not generate from nothing — it synthesises from YOUR documents. This makes it genuinely safe for educational use: the output is grounded in your sources, and the AI tells you exactly where each piece of information came from. It is the most curriculum-faithful AI tool available to educators.",
+    example:"Load the GrowthCircles Workbook, the KNQA Bronze Shield criteria, and the UNESCO ICT-CFT framework into a single NotebookLM notebook. Ask: 'What are the three most important concepts a youth facilitator must understand before their first session?' Watch what happens.",
+    facilitatorNotes:[
+      "NotebookLM's citation feature is its killer capability for KNQA compliance — every claim is traceable to a source document.",
+      "The Audio Overview is genuinely impressive for learners who prefer listening — it generates a 5–8 minute podcast from your sources.",
+      "Critical evaluation is non-negotiable: NotebookLM occasionally misattributes or oversimplifies. Teach participants to always check the source citation.",
+      "This tool will become part of participants' permanent facilitation practice — invest time in getting it right."
+    ],
+    resources:[
+      {icon:"📚",text:"Google NotebookLM — access link"},
+      {icon:"📂",text:"Starter document pack (3 curriculum sources)"},
+      {icon:"🎙️",text:"Audio Overview feature walkthrough"},
+      {icon:"✅",text:"NotebookLM output evaluation checklist"}
+    ],
+    kolb:{
+      experience:{
+        title:"The Old Way vs The New Way",
+        prompt:"Before NotebookLM, preparing a facilitation session required reading everything manually.",
+        q:"Describe your current process for preparing to facilitate or teach something new. How long does it take? What sources do you read? Where do you get stuck? Be honest about the pain points in your current research process."
+      },
+      reflection:{
+        title:"What You're Actually Looking For",
+        prompt:"NotebookLM is only useful if you know what you need.",
+        q:"When you prepare for a facilitation session, what are the 3–5 key questions you are always trying to answer? Not 'what are the key concepts' — the specific questions a facilitator needs answered: What will learners find hardest? What are the most common misconceptions? What is the most important thing to convey in 5 minutes?"
+      },
+      conceptualization:{
+        title:"The Source-Grounded Advantage",
+        prompt:"NotebookLM's greatest strength is also its greatest constraint.",
+        q:"Explain in your own words: (1) why being grounded in source documents makes NotebookLM safer for educational use than general AI tools, and (2) what it CANNOT do that a general AI tool can. What are the implications for how and when you use it?"
+      },
+      experimentation:{
+        title:"Build Your Facilitation Research Notebook",
+        prompt:"Time to use the tool in a real preparation scenario.",
+        q:"Load at least 3 relevant documents into a NotebookLM notebook (use the starter pack or your own materials). Ask it your 3–5 preparation questions from Stage 2. Copy the most useful response here, evaluate it against the source documents, note any inaccuracies, and describe how you would use this output in your actual session preparation."
+      }
+    },
+    assessment:{q:"A participant asks: 'If NotebookLM just summarises documents I already have, isn't it just a fancy Ctrl+F?' Write a 1-minute response that explains, using a specific example from your own session preparation, why NotebookLM is qualitatively different from search or manual reading."}
+  },
+  {
+    id:"ai3", track:"ai", num:3, xp:30, shield:"Bronze",
+    title:"Gemini for Session Facilitation: Live AI Support",
+    objectives:[
+      "Use Gemini as a live facilitation co-pilot during a session — for real-time question generation, participant scenario responses, and session adaptation.",
+      "Design three specific Gemini prompts that a facilitator would use during (not just before) a live session.",
+      "Critically evaluate the risks of using AI live in front of participants.",
+      "Demonstrate the ability to adapt an AI output in real-time to fit participant context."
+    ],
+    desc:"Most facilitators use AI for preparation. The next frontier is using it live — as a real-time thinking partner during a session. This is more advanced and riskier, but mastered well, it is transformative.",
+    example:"Mid-session, a participant asks a question about AI ethics that you were not expecting. Instead of guessing, you say: 'Great question. Give me 30 seconds.' You prompt Gemini: 'In 3 bullet points, explain [question] in the context of African schools — no jargon.' You get a precise, contextual response in 20 seconds. You adapt it and respond with authority.",
+    facilitatorNotes:[
+      "The 30-second live prompt technique requires practice — participants must be comfortable enough with prompting that they can do it under social pressure.",
+      "Risks: over-reliance, jarring participant experience if overused, potential for AI to generate an inappropriate response in public. All three need to be discussed explicitly.",
+      "The live Gemini demo is the activity — do this with real participants if possible, or simulate it as a role-play.",
+      "Connect to prompt engineering from AI Lesson 1: live prompting requires pre-built RSCAP templates that can be quickly customised."
+    ],
+    resources:[
+      {icon:"⚡",text:"Live facilitation prompt templates (5 scenarios)"},
+      {icon:"⚠️",text:"Risks of live AI use — facilitator guide"},
+      {icon:"🎭",text:"Role-play scenario cards"},
+      {icon:"🔧",text:"30-second prompt technique practice guide"}
+    ],
+    kolb:{
+      experience:{
+        title:"The Unexpected Question",
+        prompt:"Every facilitator's nightmare: an excellent question you cannot fully answer, in front of everyone.",
+        q:"Recall a facilitation, teaching, or presentation moment when you were asked something you did not know how to answer. What did you do? How did it feel? What was the impact on your credibility and the group's trust?"
+      },
+      reflection:{
+        title:"Credibility vs Authenticity",
+        prompt:"Using AI live raises a question about what we owe participants.",
+        q:"Is using Gemini to help you answer a question in a live session dishonest? Where is the line between using a tool and pretending to have knowledge you don't have? Write your genuine position on this — with a rationale."
+      },
+      conceptualization:{
+        title:"The AI Co-Pilot Framework",
+        prompt:"Not all live AI use is equal. A framework helps you decide when it adds value and when it doesn't.",
+        q:"Design a simple decision framework for live AI use in facilitation: when should you use it (what situations, what types of questions, what participant contexts)? When should you definitely NOT use it? What are the must-follow protocols when you do use it in front of participants?"
+      },
+      experimentation:{
+        title:"Build Your Live Prompt Library",
+        prompt:"Pre-building prompts means you can deploy them in seconds when the moment arrives.",
+        q:"Write 5 complete, ready-to-use live facilitation prompts in RSCAP format — for the 5 most common situations where a facilitator might use Gemini during a live session (e.g. unexpected question, participant stuck in reflection, need a quick example, session running short, summarising a discussion). Each prompt should be copy-paste ready."
+      }
+    },
+    assessment:{q:"You are facilitating a session on AI ethics with 12 school leaders. You use Gemini to answer a question live, and it produces a response that includes a factual error about Kenyan education policy. Two participants notice. What do you do — in the next 30 seconds, and then for the rest of the session?"}
+  },
+  {
+    id:"ai4", track:"ai", num:4, xp:35, shield:"Silver",
+    title:"Building AI-Enhanced Formative Assessment",
+    objectives:[
+      "Design a complete AI-assisted formative assessment cycle using the 4-step feedback loop.",
+      "Use Google Forms with AI-generated question banks to build a diagnostic quiz.",
+      "Interpret AI-generated response analytics to identify learning gaps.",
+      "Write a differentiated follow-up plan based on assessment data."
+    ],
+    desc:"Assessment is the engine of learning. AI transforms the assessment cycle by making formative feedback faster, more targeted, and less dependent on facilitator bandwidth. But only if you design it well.",
+    example:"At the end of your first GrowthCircles session, participants complete a 5-question Google Form. Within 2 minutes, the response analytics show you that 70% of participants misunderstand the difference between facilitation and teaching. You open Lesson 2 by addressing exactly that — with evidence from their own responses.",
+    facilitatorNotes:[
+      "The assessment literacy content here is as important as the tool content — many facilitators have never been taught how to design diagnostic questions.",
+      "Google Forms + Sheets analytics is the accessible tool for most participants — do not assume Looker Studio access.",
+      "The 'differentiated follow-up' is where assessment value is realised: data without response is just data.",
+      "This lesson directly supports the Silver Shield assessment framework section."
+    ],
+    resources:[
+      {icon:"📊",text:"Google Forms — question bank guide"},
+      {icon:"📈",text:"Response analytics interpretation guide"},
+      {icon:"🔧",text:"4-step feedback loop reference card"},
+      {icon:"📋",text:"Differentiated follow-up plan template"}
+    ],
+    kolb:{
+      experience:{
+        title:"Assessment That Changed Something",
+        prompt:"Think about an assessment — quiz, test, survey, feedback form — that actually changed what happened next in your learning.",
+        q:"Describe it: what was it assessing? What did the results show? And crucially — what changed in the learning as a result? Why did this one work when most assessments just produce a number and nothing else?"
+      },
+      reflection:{
+        title:"The Gap Between Data and Action",
+        prompt:"Most assessments produce data that goes nowhere.",
+        q:"Why do you think facilitators and teachers rarely change what they do based on assessment data? What gets in the way? Name at least 3 structural, cultural, or practical barriers — and what it would take to remove each one."
+      },
+      conceptualization:{
+        title:"The 4-Step Formative Cycle",
+        prompt:"A formative cycle has four steps: Elicit → Analyse → Respond → Adjust.",
+        q:"Describe what each step looks like in a facilitated session using AI tools. For each step, name: (1) the AI tool or method, (2) what the facilitator sees, (3) what the facilitator does with that information, and (4) what changes in the learning experience as a result."
+      },
+      experimentation:{
+        title:"Build Your Diagnostic Quiz",
+        prompt:"Now build the actual tool.",
+        q:"Design a 6-question Google Forms diagnostic quiz for a specific topic from the GrowthCircles curriculum. Each question must be designed to reveal understanding or misunderstanding — not just recall. For each question, write: the question, the correct answer, the most common wrong answer you expect, and what that wrong answer tells you about the learner's thinking."
+      }
+    },
+    assessment:{q:"Your post-session Google Form shows that 8 of 15 participants cannot distinguish between Kolb's Reflection stage and Conceptualisation stage — they describe both the same way. You have 10 minutes at the start of the next session to address this. Design those 10 minutes, including the specific activity and how it uses their own survey responses."}
+  },
+  {
+    id:"ai5", track:"ai", num:5, xp:35, shield:"Silver",
+    title:"AI-Assisted Curriculum Design: Building With Intelligence",
+    objectives:[
+      "Use AI to audit a curriculum document against KNQA standards and identify alignment gaps.",
+      "Generate and critically evaluate an AI-produced unit of work for the GrowthCircles programme.",
+      "Design a 3-session mini-curriculum using AI as co-designer.",
+      "Demonstrate the ability to maintain curriculum integrity while using AI acceleration."
+    ],
+    desc:"AI can do in 15 minutes what used to take days: map curriculum against standards, identify gaps, generate content, and suggest sequencing. But the facilitator who does not know what good curriculum looks like will accept mediocre AI output. This lesson builds both the tool skills and the curriculum judgment.",
+    example:"Load the GrowthCircles Workbook into NotebookLM. Ask: 'What topics are present in this curriculum that are not explicitly connected to a KNQA Silver Shield learning outcome? Give me 3 gaps.' The output will surprise you — and improve your curriculum.",
+    facilitatorNotes:[
+      "Curriculum judgment is the prerequisite for AI-assisted curriculum design. Do not let participants use AI before they have articulated what good curriculum looks like.",
+      "The 'AI as co-designer' framing is deliberate — the facilitator remains the architect, the AI is the research assistant and drafting tool.",
+      "The critical evaluation of AI-generated curriculum is the most important competency: hallucinations in curriculum content are easy to miss if you are not looking.",
+      "The 3-session mini-curriculum is a Gold Shield portfolio requirement."
+    ],
+    resources:[
+      {icon:"🗺️",text:"KNQA Silver Shield curriculum alignment checklist"},
+      {icon:"🔍",text:"AI-generated curriculum evaluation rubric"},
+      {icon:"🏗️",text:"3-session mini-curriculum template"},
+      {icon:"📋",text:"Gold Shield portfolio — curriculum design item"}
+    ],
+    kolb:{
+      experience:{
+        title:"Curriculum You Wish You Had",
+        prompt:"Think about a subject, skill, or concept you wish had been taught to you better.",
+        q:"Describe the gap — not what was taught, but what was missing. What questions did you have that were never answered? What skills were assumed but never developed? What connections were never made? Be specific."
+      },
+      reflection:{
+        title:"What Makes Curriculum Work",
+        prompt:"Good curriculum is not a sequence of topics. It is a designed journey.",
+        q:"From your experience as a learner and a developing facilitator: what are the 5 most important qualities of well-designed curriculum? Not general education principles — qualities that specifically matter for the kind of facilitated, experiential learning the GrowthCircles programme involves."
+      },
+      conceptualization:{
+        title:"AI as Curriculum Auditor",
+        prompt:"Before AI can improve curriculum, it needs to evaluate it.",
+        q:"Using NotebookLM or Gemini, load at least 2 curriculum documents and ask it to identify: (1) topics present but not aligned to KNQA outcomes, (2) KNQA outcomes not covered, (3) the 3 most likely learning gaps for participants. Copy the output. Then evaluate it: what is accurate? What is missing? What would you add or correct?"
+      },
+      experimentation:{
+        title:"Design Your 3-Session Mini-Curriculum",
+        prompt:"Use AI as your co-designer — not your ghostwriter.",
+        q:"Choose a topic from the GrowthCircles or AI Mastery curriculum that you will facilitate. Use Gemini and/or NotebookLM to help you design a 3-session mini-curriculum. Show: your initial prompt, the AI draft, your critical evaluation and revisions, and the final 3-session design. The final version must be something you would actually deliver."
+      }
+    },
+    assessment:{q:"You discover that an AI tool has generated a unit of work for a school leader cohort that contains a factually incorrect description of Kenya's KNQA Level 5 requirements. The school leader has already used it in a session. What do you do, and what process will you put in place to prevent this happening again?"}
+  },
+  {
+    id:"ai6", track:"ai", num:6, xp:40, shield:"Gold",
+    title:"Building a Staff AI Literacy Plan Using the Tools",
+    objectives:[
+      "Design a differentiated 3-month Staff AI Literacy Development Plan for a specific school.",
+      "Use AI tools to create all supporting materials for the plan.",
+      "Present the plan as if delivering it to a school principal who is sceptical of AI.",
+      "Embed data governance and AI ethics commitments throughout the plan."
+    ],
+    desc:"Your job as a Youth Facilitator is not just to learn these tools — it is to build AI literacy in others. This lesson is the practice: you use all the AI tools from this track to design a real staff development plan, and then you advocate for it to a resistant decision-maker.",
+    example:"Your participant is the principal of a 400-student school with 18 teachers. 3 are enthusiastic about AI. 10 are curious but unsure. 5 are actively resistant. The AI literacy plan must reach all three groups — through different pathways, different tools, and different incentives.",
+    facilitatorNotes:[
+      "This lesson is the practicum for the entire AI Mastery track.",
+      "The sceptical principal roleplay is where facilitation and AI skills merge — participants must use AI tools AND manage resistance simultaneously.",
+      "Data governance and AI ethics must not be afterthoughts — they should be structural elements of the plan, not a final paragraph.",
+      "The completed Staff AI Literacy Plan is a Gold Shield Facilitation Portfolio item."
+    ],
+    resources:[
+      {icon:"📊",text:"Staff AI Literacy Development Plan template"},
+      {icon:"🧑‍🤝‍🧑",text:"Three staff archetype cards"},
+      {icon:"🎭",text:"Sceptical principal roleplay scenario"},
+      {icon:"📋",text:"Gold Shield portfolio — AI Literacy Plan item"}
+    ],
+    kolb:{
+      experience:{
+        title:"Teaching Someone Else a New Technology",
+        prompt:"You have helped someone else learn to use a technology. You know what that experience feels like.",
+        q:"Describe a time you introduced someone to a new tool, app, or technology — and they were resistant, uncertain, or overwhelmed. What happened? What did you learn about how adults respond to new technology — especially when they did not choose to learn it?"
+      },
+      reflection:{
+        title:"The Three Barriers",
+        prompt:"Adult technology resistance has three distinct layers.",
+        q:"Based on your experience and observation: what are the three most common barriers to staff AI adoption in a school setting? For each, describe what it looks like in practice, what is really driving it (beneath the stated objection), and what a facilitator can do to address it at the real level."
+      },
+      conceptualization:{
+        title:"Differentiation Is Not Optional",
+        prompt:"One plan for all staff produces mediocre results for everyone.",
+        q:"Design the architecture of your Staff AI Literacy Plan: How will you differentiate between enthusiasts, curious pragmatists, and resisters? What does each group need from the plan that is different? What is the same across all three? How will you measure progress for each group?"
+      },
+      experimentation:{
+        title:"Build the Full Plan",
+        prompt:"Use every AI tool from this track. This is the real test.",
+        q:"Using Gemini, NotebookLM, and Google Forms (at minimum), produce: (1) a 3-month Staff AI Literacy Development Plan for a specific school (use the template), (2) a 30-minute introductory session for resistant staff (Kolb design), (3) a baseline AI literacy diagnostic quiz (5 questions), and (4) a one-page summary for the school principal. Show evidence of AI tool use — copy at least 2 prompt/response pairs."
+      }
+    },
+    assessment:{q:"You are presenting your Staff AI Literacy Plan to a principal who says: 'My teachers are already overwhelmed. Adding AI training is going to create more stress, not less. Why should I approve this?' Write your 3-minute response — and build it on what you know about resistance, facilitation, and the actual evidence for AI reducing teacher workload."}
+  },
+  {
+    id:"ai7", track:"ai", num:7, xp:45, shield:"Platinum",
+    title:"AI Mastery Portfolio: Defence and Certification",
+    objectives:[
+      "Compile a complete AI Mastery Portfolio meeting KNQA Gold/Platinum Shield evidence requirements.",
+      "Demonstrate live use of at least 3 AI tools in a 15-minute portfolio defence.",
+      "Respond to adversarial questioning about AI ethics, data governance, and educational validity.",
+      "Articulate a personal AI philosophy for facilitation practice."
+    ],
+    desc:"The Platinum Shield for AI Mastery requires you to show — live, under pressure, in front of an assessor — that you can use AI tools fluently, ethically, and pedagogically. This is the final lesson and the final test.",
+    example:"The assessor will ask you to solve a problem live using the AI tools — something you have not prepared for. Your fluency, judgment, and composure are what is being assessed. The tools are just the medium.",
+    facilitatorNotes:[
+      "The live AI demonstration is the defining assessment moment. Participants must be comfortable enough with all tools to use them under pressure.",
+      "Adversarial questions will include: 'How do you know this AI output is accurate?' 'What happens if Gemini is unavailable during a session?' 'Should young facilitators be using AI at all, or does it substitute for real skill development?'",
+      "The personal AI philosophy statement is the through-line that connects all 7 AI Mastery lessons.",
+      "KNQA moderator reviews the full portfolio. The facilitator observes the live defence. Both are required for Platinum Shield certification."
+    ],
+    resources:[
+      {icon:"📁",text:"AI Mastery Portfolio checklist — all 7 items"},
+      {icon:"⚡",text:"Live AI defence — 10 adversarial questions"},
+      {icon:"📋",text:"KNQA Platinum Shield evidence requirements"},
+      {icon:"✅",text:"Portfolio self-assessment rubric — AI track"}
+    ],
+    kolb:{
+      experience:{
+        title:"From Lesson 1 to Here",
+        prompt:"Seven AI lessons. Prompt engineering, NotebookLM, live Gemini, formative assessment, curriculum design, staff development.",
+        q:"Describe the moment in this AI track when you felt most genuinely capable — when you did something with an AI tool that surprised you with its quality, usefulness, or speed. What were you making? What tool were you using? What prompt approach made the difference?"
+      },
+      reflection:{
+        title:"What AI Cannot Do",
+        prompt:"The most powerful insight about AI comes when you find its limits.",
+        q:"What has AI consistently FAILED to do well across this track — despite your best prompting? What does this limitation tell you about where human facilitation remains irreplaceable? Be specific about the capability gap."
+      },
+      conceptualization:{
+        title:"Your AI Philosophy",
+        prompt:"A professional without a philosophy is just a user. A professional with a philosophy is a practitioner.",
+        q:"Write your personal AI philosophy for facilitation practice — 5 core principles that govern when, how, and why you use AI tools. Each principle should be: specific enough to guide a real decision, grounded in your experience in this track, and connected to your facilitation values from the GrowthCircles track."
+      },
+      experimentation:{
+        title:"The Live Portfolio Defence",
+        prompt:"The final test is not a written submission. It is a live demonstration of who you have become.",
+        q:"Prepare your 2-minute opening statement for the AI Mastery Portfolio Defence. It should: introduce your portfolio's through-line, name the 3 AI tools you will demonstrate live, state what you want the assessor to be convinced of by the end, and declare one honest limitation in your current AI practice that you are committed to developing further."
+      }
+    },
+    assessment:{q:"This is your portfolio defence opening statement for the AI Mastery track. Write the 2-minute spoken introduction you will deliver live — covering: your AI philosophy, which tools you have mastered and why, one significant ethical commitment you made during this track, and what you are asking the KNQA panel to trust about your readiness to facilitate AI-powered learning."}
+  }
+];
+
+const TOTAL_XP_MAX = LESSONS.reduce((s,l)=>s+l.xp,0);
+const LEVELS = [
+  {min:0,    name:"Learner",     icon:"📘"},
+  {min:50,   name:"Explorer",    icon:"🧭"},
+  {min:120,  name:"Practitioner",icon:"⚙️"},
+  {min:220,  name:"Coach",       icon:"🎯"},
+  {min:350,  name:"Architect",   icon:"🏛"},
+  {min:500,  name:"Facilitator", icon:"🏅"},
+];
+
+const KOLB_STAGES = ['experience','reflection','conceptualization','experimentation'];
+const KOLB_META = {
+  experience:      {label:"Experience",   icon:"🌱",color:"#00E5A0"},
+  reflection:      {label:"Reflection",   icon:"🔍",color:"#FF6B5B"},
+  conceptualization:{label:"Conceptualise",icon:"💡",color:"#FFB840"},
+  experimentation: {label:"Experiment",   icon:"🚀",color:"#4D9FFF"}
+};
+
+// ══════════════════════════════════════════════════════════════════════════════
+// STATE
+//
+══════════════════════════════════════════════════════════════════════════════
+let S = {
+  xp:0, streak:0, lastDate:null,
+  completed:[], unlocked:["gc1","ai1"],
+  stagesDone:{}, responses:{}, assessResponses:{},
+  earnedBadges:[],
+  currentLesson:null,
+  currentTrack:"gc",
+  currentStage:"experience"
+};
+
+async function saveState(){
+  try{await window.storage.set('yfam_state',JSON.stringify(S));}catch(e){}
+}
+async function loadState(){
+  try{
+    const r=await window.storage.get('yfam_state');
+    if(r){
+      const loaded=JSON.parse(r.value);
+      Object.assign(S,loaded);
+    }
+  }catch(e){}
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// HELPERS
+// ══════════════════════════════════════════════════════════════════════════════
+function getLevel(){
+  let lv=LEVELS[0];
+  for(const l of LEVELS){if(S.xp>=l.min)lv=l;}
+  return lv;
+}
+function renderTopBar(){
+  document.getElementById('xpVal').textContent=`${S.xp} XP`;
+  document.getElementById('streakVal').textContent=`${S.streak} day streak`;
+  const lv=getLevel();
+  document.getElementById('levelVal').textContent=`${lv.icon} ${lv.name}`;
+}
+function renderProgressBar(){
+  const done=S.completed.length;
+  const total=LESSONS.length;
+  document.getElementById('progressText').textContent=`${done} / ${total}`;
+  document.getElementById('xpBarFill').style.width=`${(S.xp/TOTAL_XP_MAX)*100}%`;
+}
+
+function setTrack(track){
+  S.currentTrack=track;
+  document.querySelectorAll('.track-btn').forEach(b=>{
+    b.classList.remove('active');
+    if((track==='both'&&b.textContent.includes('⊕'))||
+       (track==='gc'&&b.classList.contains('gc'))||
+       (track==='ai'&&b.classList.contains('ai')))
+      b.classList.add('active');
+  });
+  renderSidebar();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SIDEBAR
+// ══════════════════════════════════════════════════════════════════════════════
+function renderSidebar(){
+  const nav=document.getElementById('lessonNav');
+  const filtered=S.currentTrack==='both'?LESSONS:LESSONS.filter(l=>l.track===S.currentTrack);
+  nav.innerHTML=filtered.map(l=>{
+    const done=S.completed.includes(l.id);
+    const unlocked=S.unlocked.includes(l.id);
+    const active=S.currentLesson?.id===l.id;
+    const trackCls=l.track==='ai'?'ai-track':'';
+    const icon=done?'✓':(unlocked?'':'🔒');
+    return `<div class="lesson-nav-item ${done?'':''} ${unlocked||done?'':' locked'} ${active?'active':''} ${trackCls}"
+      onclick="${unlocked||done?`showLesson('${l.id}')`:''}"
+      style="${done?'opacity:0.7':''}">
+      <span class="nav-num" style="color:${l.track==='ai'?'var(--blue)':'var(--gc)'}">${l.track.toUpperCase()}${l.num}</span>
+      <span class="nav-title">${l.title}</span>
+      <span class="nav-icon" style="color:${done?'var(--gc)':'var(--text3)'}">${icon}</span>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════════════════════════════════════
+function showDashboard(){
+  S.currentLesson=null;
+  renderSidebar();
+  const gcDone=LESSONS.filter(l=>l.track==='gc'&&S.completed.includes(l.id)).length;
+  const aiDone=LESSONS.filter(l=>l.track==='ai'&&S.completed.includes(l.id)).length;
+  const gcTotal=LESSONS.filter(l=>l.track==='gc').length;
+  const aiTotal=LESSONS.filter(l=>l.track==='ai').length;
+
+  document.getElementById('mainArea').innerHTML=`
+  <div class="dashboard">
+    <div class="dashboard-hero">
+      <div class="hero-eyebrow">Youth Facilitator · AI Mastery Programme</div>
+      <div class="hero-title">Build the Skills.<br>Earn the <span class="gc">Shield</span>.<br>Lead the <span class="ai">Future</span>.</div>
+      <div class="hero-sub">14 lessons across two parallel tracks. AI-coached progression. KNQA-compliant portfolio evidence. The first fully autonomous facilitation certification in East Africa.</div>
+      <div class="hero-cta-row">
+        <button class="btn btn-gc" onclick="showLesson('${getNextLesson('gc')}')">🌱 Continue GC Track</button>
+        <button class="btn btn-ai" onclick="showLesson('${getNextLesson('ai')}')">🤖 Continue AI Track</button>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card gc">
+        <div class="ic-icon">⚡</div>
+        <div class="ic-num gc">${S.xp}</div>
+        <div class="ic-label">Total XP</div>
+      </div>
+      <div class="info-card ai">
+        <div class="ic-icon">📘</div>
+        <div class="ic-num ai">${S.completed.length}</div>
+        <div class="ic-label">Lessons Done</div>
+      </div>
+      <div class="info-card gold">
+        <div class="ic-icon">🏅</div>
+        <div class="ic-num gold">${S.earnedBadges.length}</div>
+        <div class="ic-label">Badges Earned</div>
+      </div>
+    </div>
+
+    <div class="track-cards">
+      <div class="track-card gc" onclick="setTrack('gc');showLesson('${getNextLesson('gc')}')">
+        <div class="track-card-bg">🌱</div>
+        <div class="tc-label gc">GrowthCircles Leadership</div>
+        <div class="tc-title">Facilitation Mastery</div>
+        <div class="tc-desc">7 lessons. Facilitation identity, Kolb design, AI ethics, GROWTH coaching, resistance management, session architecture.</div>
+        <div class="tc-progress">
+          <div class="tc-prog-bar gc"><div class="tc-prog-fill" style="width:${(gcDone/gcTotal)*100}%"></div></div>
+          <span class="tc-prog-text">${gcDone}/${gcTotal}</span>
+        </div>
+      </div>
+      <div class="track-card ai" onclick="setTrack('ai');showLesson('${getNextLesson('ai')}')">
+        <div class="track-card-bg">🤖</div>
+        <div class="tc-label ai">Google AI Mastery</div>
+        <div class="tc-title">Tools Fluency</div>
+        <div class="tc-desc">7 lessons. Prompt engineering, NotebookLM, live Gemini, formative assessment, curriculum design, staff literacy plans.</div>
+        <div class="tc-progress">
+          <div class="tc-prog-bar ai"><div class="tc-prog-fill" style="width:${(aiDone/aiTotal)*100}%"></div></div>
+          <span class="tc-prog-text">${aiDone}/${aiTotal}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="portfolio-section">
+      <div class="assess-label">KNQA Compliance Note</div>
+      <div class="portfolio-note">
+        ⚖️ This system is designed to generate KNQA-auditable portfolio evidence. Every AI-gate decision is logged with the learner's response, the coaching feedback, and the pass/retry outcome. Facilitators can export a full Portfolio Evidence Report at any time. Assessment responses are stored separately from coaching responses and are available for external moderation review.
+      </div>
+      <button class="btn btn-ghost" onclick="exportPortfolio()">📁 Export Portfolio Evidence Report</button>
+    </div>
+
+    <div class="portfolio-section" style="margin-top:0">
+      <div class="assess-label">Badges</div>
+      <div class="badges-row" style="margin-top:8px">
+        ${BADGES.map(b=>`
+          <div class="badge-chip ${S.earnedBadges.includes(b.id)?'earned':'locked'}">
+            ${b.icon} ${b.name}
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function getNextLesson(track){
+  const trackLessons=LESSONS.filter(l=>l.track===track);
+  const next=trackLessons.find(l=>!S.completed.includes(l.id)&&S.unlocked.includes(l.id));
+  return next?next.id:trackLessons[trackLessons.length-1].id;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// LESSON VIEW
+// ══════════════════════════════════════════════════════════════════════════════
+function showLesson(id){
+  const lesson=LESSONS.find(l=>l.id===id);
+  if(!lesson){showDashboard();return;}
+  if(!S.unlocked.includes(id)&&!S.completed.includes(id)){
+    alert('Complete the previous lesson to unlock this one.');return;
+  }
+  S.currentLesson=lesson;
+  if(!S.stagesDone[id])S.stagesDone[id]=[];
+  if(!S.responses[id])S.responses[id]={};
+
+  const doneStages=S.stagesDone[id];
+  const firstIncomplete=KOLB_STAGES.find(s=>!doneStages.includes(s))||'experience';
+  S.currentStage=firstIncomplete;
+
+  renderSidebar();
+  renderLesson();
+}
+
+function renderLesson(){
+  const l=S.currentLesson;
+  const isAI=l.track==='ai';
+  const accentColor=isAI?'var(--blue)':'var(--gc)';
+  const trackCls=isAI?'ai-track':'';
+  const doneStages=S.stagesDone[l.id]||[];
+  const allKolbDone=KOLB_STAGES.every(s=>doneStages.includes(s));
+  const isCompleted=S.completed.includes(l.id);
+
+  const tabs=KOLB_STAGES.map(s=>{
+    const m=KOLB_META[s];
+    const isDone=doneStages.includes(s);
+    const isAct=S.currentStage===s;
+    const idx=KOLB_STAGES.indexOf(s);
+    const canAccess=idx===0||doneStages.includes(KOLB_STAGES[idx-1]);
+    return `<button class="k-tab ${isAct?'active '+trackCls:''} ${isDone?'done':''}"
+      onclick="${canAccess||isDone?`switchKolbStage('${s}')`:''}"
+      style="${!canAccess&&!isDone?'opacity:0.35;cursor:not-allowed':''}"
+      title="${m.label}">
+      ${m.icon} ${m.label}
+    </button>`;
+  }).join('');
+
+  const stages=KOLB_STAGES.map(s=>{
+    const m=KOLB_META[s];
+    const sd=l.kolb[s];
+    const isDone=doneStages.includes(s);
+    const saved=S.responses[l.id]?.[s]||'';
+    return `
+    <div class="kolb-stage ${S.currentStage===s?'active':''}" id="kstage-${s}">
+      <div class="stage-header">
+        <div class="stage-eyebrow" style="color:${m.color}">${m.icon} ${m.label}</div>
+        <div class="stage-title">${sd.title}</div>
+        <div class="stage-prompt">${sd.prompt}</div>
+      </div>
+
+      <div style="margin-bottom:12px">
+        <div class="resp-label">Your response to: <em style="color:var(--text2)">"${sd.q}"</em></div>
+        <textarea class="resp-ta ${trackCls}" id="resp-${s}" rows="5"
+          placeholder="Write your genuine response…" ${isDone?'readonly':''}
+        >${isDone?saved:''}</textarea>
+        <div class="char-count" id="cc-${s}">${isDone?saved.length:0} chars</div>
+      </div>
+
+      <label class="upload-row">
+        <input type="file" id="file-${s}" accept="audio/*,video/*,image/*" onchange="showFilePreview('${s}',this)">
+        <span>📎</span><span>Attach evidence — audio, video, or image (optional)</span>
+      </label>
+      <div id="fprev-${s}" style="display:none;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);margin-bottom:8px;"></div>
+
+      <div class="ai-bubble ${trackCls}" id="ai-${s}">
+        <div class="ai-head">
+          <div class="ai-ava">AI</div>
+          <div class="ai-coach-name ${trackCls}">GrowthCircles AI Coach</div>
+        </div>
+        <div class="ai-text" id="aimsg-${s}"></div>
+      </div>
+      <div id="gate-${s}"></div>
+
+      ${!isDone?`
+      <div class="btn-row">
+        <button class="btn ${isAI?'btn-ai':'btn-gc'}" id="sbtn-${s}" onclick="submitStage('${s}')">Submit Response</button>
+      </div>`:`
+      <div style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:20px;margin-top:10px;">
+        <span style="color:var(--gc)">✓</span>
+        <span style="font-size:12px;color:var(--gc);font-family:'JetBrains Mono',monospace;">STAGE COMPLETE</span>
+      </div>`}
+
+      <div class="peer-section">
+        <div class="peer-label">Peer encouragement (optional)</div>
+        <input class="peer-inp" type="text" placeholder="A peer can leave a note here…">
+        <div class="peer-label" style="margin-top:6px">Facilitator comment (optional)</div>
+        <input class="peer-inp" type="text" placeholder="Facilitator feedback…">
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('mainArea').innerHTML=`
+  <div class="lesson-view">
+    <button class="btn btn-ghost" style="margin-bottom:20px;font-size:12px;" onclick="showDashboard()">← Dashboard</button>
+
+    <div class="lesson-top">
+      <div>
+        <div class="lesson-track-tag ${trackCls}">
+          <span>${TRACKS[l.track].icon}</span>
+          <span>${TRACKS[l.track].name} · Lesson ${l.num}</span>
+        </div>
+        <div class="lesson-title">${l.title}</div>
+      </div>
+      <div class="lesson-meta">
+        <div class="xp-tag">⚡ ${l.xp} XP</div>
+        <div class="shield-tag">${l.shield} Shield</div>
+      </div>
+    </div>
+
+    <div class="l-card">
+      <div class="l-card-accent" style="background:${accentColor}"></div>
+      <div class="l-card-label" style="color:${accentColor}">Lesson Description</div>
+      <div class="l-card-body">${l.desc}</div>
+    </div>
+
+    <div class="l-card">
+      <div class="l-card-accent" style="background:var(--gold)"></div>
+      <div class="l-card-label" style="color:var(--gold)">Objectives</div>
+      <div class="l-card-body"><ul style="padding-left:16px;">${l.objectives.map(o=>`<li style="margin-bottom:4px">${o}</li>`).join('')}</ul></div>
+    </div>
+
+    <div class="l-card">
+      <div class="l-card-accent" style="background:var(--coral)"></div>
+      <div class="l-card-label" style="color:var(--coral)">Anchor Example</div>
+      <div class="l-card-body">${l.example}</div>
+    </div>
+
+    <div class="fac-notes">
+      <div class="fac-notes-header">
+        <span style="font-size:14px">📋</span>
+        <span class="fac-badge">FACILITATOR NOTES</span>
+        <span style="font-size:11px;color:var(--text3)">Visible to facilitators & learners</span>
+      </div>
+      ${l.facilitatorNotes.map(n=>`
+      <div class="fac-item">
+        <span class="fac-bullet">▸</span>
+        <span>${n}</span>
+      </div>`).join('')}
+    </div>
+
+    <div class="resources-grid">
+      ${l.resources.map(r=>`
+      <div class="resource-chip">
+        <span class="resource-icon">${r.icon}</span>
+        <span>${r.text}</span>
+      </div>`).join('')}
+    </div>
+
+    <div class="kolb-container">
+      <div class="kolb-header">
+        <div class="kolb-header-label">Kolb's Experiential Learning Cycle · 4 Stages</div>
+        <div class="kolb-tabs">${tabs}</div>
+      </div>
+      <div class="kolb-body">
+        ${stages}
+      </div>
+    </div>
+
+    <div class="assessment-card">
+      <div class="assess-label">Check for Understanding — Assessment Task</div>
+      <div class="assess-q">${l.assessment.q}</div>
+      <textarea class="assess-ta" id="assessResp" rows="4"
+        placeholder="Write your response to this assessment scenario…"
+        ${isCompleted?'readonly':''}>${S.assessResponses[l.id]||''}</textarea>
+      ${!isCompleted?`<div class="btn-row"><button class="btn btn-ghost" style="font-size:12px" onclick="saveAssessment()">Save Assessment Response</button></div>`:''}
+    </div>
+
+    ${allKolbDone&&!isCompleted?`
+    <div class="lesson-complete-card">
+      <div class="lc-icon">🏆</div>
+      <div class="lc-title">All Four Stages Complete</div>
+      <div class="lc-sub">You've worked through the full Kolb cycle. Claim your XP and unlock the next lesson.</div>
+      <div class="xp-pop">⚡ +${l.xp} XP</div>
+      <div class="btn-row" style="justify-content:center;margin-top:16px;">
+        <button class="btn ${isAI?'btn-ai':'btn-gc'}" onclick="completeLesson('${l.id}')">Claim XP & Continue →</button>
+      </div>
+    </div>`:''}
+
+    ${isCompleted?`
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;">
+      <button class="btn btn-ghost" onclick="showDashboard()">← Dashboard</button>
+      ${getNextUnlocked(l)?`<button class="btn ${l.track==='ai'?'btn-ai':'btn-gc'}" onclick="showLesson('${getNextUnlocked(l).id}')">Next: ${getNextUnlocked(l).title} →</button>`:''}
+    </div>`:''}
+  </div>`;
+
+  // Bind char counters
+  KOLB_STAGES.forEach(s=>{
+    const ta=document.getElementById(`resp-${s}`);
+    if(ta&&!ta.readOnly){
+      ta.addEventListener('input',()=>{
+        const cc=document.getElementById(`cc-${s}`);
+        if(cc)cc.textContent=ta.value.length+' chars';
+      });
+    }
+  });
+}
+
+function getNextUnlocked(lesson){
+  const sameTrack=LESSONS.filter(l=>l.track===lesson.track);
+  const idx=sameTrack.findIndex(l=>l.id===lesson.id);
+  return idx<sameTrack.length-1?sameTrack[idx+1]:null;
+}
+
+function switchKolbStage(s){
+  S.currentStage=s;
+  KOLB_STAGES.forEach(stage=>{
+    const el=document.getElementById(`kstage-${stage}`);
+    if(el)el.classList.toggle('active',stage===s);
+  });
+  const el=document.getElementById(`kstage-${s}`);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function showFilePreview(s,input){
+  if(input.files.length){
+    const el=document.getElementById(`fprev-${s}`);
+    el.textContent=`📎 ${input.files[0].name}`;el.style.display='block';
+  }
+}
+
+function saveAssessment(){
+  const l=S.currentLesson;if(!l)return;
+  const val=document.getElementById('assessResp')?.value||'';
+  S.assessResponses[l.id]=val;
+  saveState();
+  const btn=document.querySelector('.assessment-card .btn-ghost');
+  if(btn){btn.textContent='✓ Saved';setTimeout(()=>{btn.textContent='Save Assessment Response';},2000);}
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// AI SUBMIT + GATE
+// ══════════════════════════════════════════════════════════════════════════════
+async function submitStage(stage){
+  const l=S.currentLesson;
+  const resp=document.getElementById(`resp-${stage}`)?.value?.trim();
+  if(!resp||resp.length<30){
+    alert("Please write a substantive response — at least 3–4 sentences — before submitting.");return;
+  }
+
+  const btn=document.getElementById(`sbtn-${stage}`);
+  if(btn){btn.disabled=true;btn.innerHTML=`<span class="spinner"></span> Coaching…`;}
+
+  const aiBubble=document.getElementById(`ai-${stage}`);
+  const aiMsg=document.getElementById(`aimsg-${stage}`);
+  aiBubble.classList.add('visible');
+  aiMsg.innerHTML=`<div class="typing-dot"><i></i><i></i><i></i></div> Analysing your response…`;
+
+  if(!S.responses[l.id])S.responses[l.id]={};
+  S.responses[l.id][stage]=resp;
+
+  const priorCtx=KOLB_STAGES
+    .filter(s=>s!==stage&&S.responses[l.id]?.[s])
+    .map(s=>`${KOLB_META[s].label}: "${S.responses[l.id][s].substring(0,200)}…"`)
+    .join('\n');
+
+  const isAI=l.track==='ai';
+  const sysPrompt=`You are a sharp, warm, intellectually rigorous AI coach for the GrowthCircles Youth Facilitator AI Mastery Programme. You coach young people (18–30 years old) who are preparing to facilitate leadership and AI literacy programmes for school leaders in East Africa.
+
+Your coaching style: direct, respectful, specific. You quote back what learners actually wrote. You ask one question that genuinely deepens their thinking. You do not flatter or moralise.
+
+Programme context: ${isAI?'Google AI Mastery track — building practical AI tool fluency':'GrowthCircles track — building facilitation identity and practice'}
+Lesson: "${l.title}"
+Kolb Stage: ${KOLB_META[stage].label} — "${l.kolb[stage].title}"
+Prompt to learner: "${l.kolb[stage].q}"
+${priorCtx?`Prior stage responses:\n${priorCtx}`:''}
+
+COACHING RESPONSE FORMAT:
+- 3–4 short paragraphs, max 180 words total
+- Quote something specific they wrote in paragraph 1
+- Push deeper in paragraph 2 — challenge an assumption or an incompleteness
+- Ask ONE powerful follow-up question in paragraph 3
+- Optional: brief connection to facilitation practice in paragraph 4
+
+GATE ASSESSMENT (required, on its own line at the end):
+GATE: PASS — if the response is substantive, specific, and shows genuine personal engagement (min 30 words, not generic)
+GATE: RETRY — if vague, generic, too short, or clearly not from real experience`;
+
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"claude-sonnet-4-20250514",
+        max_tokens:900,
+        system:sysPrompt,
+        messages:[{role:"user",content:`My ${KOLB_META[stage].label} response:\n\n"${resp}"`}]
+      })
+    });
+    const data=await res.json();
+    const full=data.content?.map(c=>c.type==='text'?c.text:'').join('').trim()||'';
+
+    const gateMatch=full.match(/GATE:\s*(PASS|RETRY)/i);
+    const gate=gateMatch?gateMatch[1].toUpperCase():'RETRY';
+    const coaching=full.replace(/\n?GATE:\s*(PASS|RETRY)\s*$/i,'').trim();
+
+    aiMsg.innerHTML=coaching.split('\n\n').filter(p=>p.trim())
+      .map(p=>`<p>${p.replace(/\n/g,'<br>')}</p>`).join('');
+
+    const gateEl=document.getElementById(`gate-${stage}`);
+    if(gate==='PASS'){
+      gateEl.innerHTML=`<div class="gate-pill pass">✓ Stage passed — well done</div>`;
+
+      if(!S.stagesDone[l.id].includes(stage))S.stagesDone[l.id].push(stage);
+
+      const ta=document.getElementById(`resp-${stage}`);
+      if(ta)ta.readOnly=true;
+      if(btn)btn.closest('.btn-row').innerHTML=`
+        <div style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:20px;">
+          <span style="color:var(--gc)">✓</span>
+          <span style="font-size:12px;color:var(--gc);font-family:'JetBrains Mono',monospace;">STAGE COMPLETE</span>
+        </div>`;
+
+      await saveState();
+
+      const allDone=KOLB_STAGES.every(s=>S.stagesDone[l.id].includes(s));
+      if(allDone){setTimeout(()=>renderLesson(),600);}
+      else{
+        const nextS=KOLB_STAGES[KOLB_STAGES.indexOf(stage)+1];
+        if(nextS)setTimeout(()=>switchKolbStage(nextS),1400);
+      }
+    } else {
+      gateEl.innerHTML=`<div class="gate-pill retry">↩ Read the coaching above and deepen your response</div>`;
+      if(btn){btn.disabled=false;btn.innerHTML='Try Again';}
+    }
+  }catch(err){
+    console.error(err);
+    aiMsg.innerHTML=`<p>Coach temporarily unavailable. Your response is saved — try submitting again.</p>`;
+    if(btn){btn.disabled=false;btn.innerHTML='Submit Response';}
+  }
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// LESSON COMPLETION + BADGE LOGIC
+// ══════════════════════════════════════════════════════════════════════════════
+function completeLesson(id){
+  if(S.completed.includes(id))return;
+  const l=LESSONS.find(ll=>ll.id===id);if(!l)return;
+  S.completed.push(id);
+  S.xp+=l.xp;
+
+  // Unlock next in same track
+  const sameTrack=LESSONS.filter(ll=>ll.track===l.track);
+  const idx=sameTrack.findIndex(ll=>ll.id===id);
+  if(idx<sameTrack.length-1){
+    const nxt=sameTrack[idx+1];
+    if(!S.unlocked.includes(nxt.id))S.unlocked.push(nxt.id);
+  }
+
+  // Streak update
+  const today=new Date().toDateString();
+  if(S.lastDate!==today){
+    const yesterday=new Date(Date.now()-86400000).toDateString();
+    S.streak=S.lastDate===yesterday?S.streak+1:1;
+    S.lastDate=today;
+  }
+
+  // Badge checks
+  checkBadges();
+
+  saveState();
+  renderTopBar();
+  renderProgressBar();
+  renderSidebar();
+  renderLesson();
+}
+
+function checkBadges(){
+  const prev=S.earnedBadges.length;
+  const gcDone=n=>LESSONS.filter(l=>l.track==='gc'&&l.num<=n&&S.completed.includes(l.id)).length===n;
+  const aiDone=n=>LESSONS.filter(l=>l.track==='ai'&&l.num<=n&&S.completed.includes(l.id)).length===n;
+
+  if(gcDone(3)&&!S.earnedBadges.includes('foundations'))S.earnedBadges.push('foundations');
+  if(aiDone(1)&&!S.earnedBadges.includes('firstbot'))S.earnedBadges.push('firstbot');
+  if(gcDone(5)&&!S.earnedBadges.includes('coach'))S.earnedBadges.push('coach');
+  if(aiDone(3)&&!S.earnedBadges.includes('gemini'))S.earnedBadges.push('gemini');
+  if(gcDone(7)&&!S.earnedBadges.includes('architect'))S.earnedBadges.push('architect');
+  if(aiDone(5)&&!S.earnedBadges.includes('notebooklm'))S.earnedBadges.push('notebooklm');
+  if(S.completed.length===LESSONS.length&&!S.earnedBadges.includes('facilitator'))S.earnedBadges.push('facilitator');
+
+  const newBadges=S.earnedBadges.slice(prev);
+  newBadges.forEach(bid=>{
+    const b=BADGES.find(x=>x.id===bid);
+    if(b)showBadgeToast(b);
+  });
+}
+
+function showBadgeToast(badge){
+  const toast=document.createElement('div');
+  toast.className='badge-toast';
+  toast.innerHTML=`
+    <span class="toast-icon">${badge.icon}</span>
+    <div class="toast-text">
+      <strong>Badge Unlocked!</strong>
+      <span>${badge.name}</span>
+    </div>`;
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(),4000);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// PORTFOLIO EXPORT (KNQA compliance)
+// ══════════════════════════════════════════════════════════════════════════════
+function exportPortfolio(){
+  let report=`GROWTHCIRCLES YOUTH FACILITATOR AI MASTERY PROGRAMME\nPORTFOLIO EVIDENCE REPORT\nGenerated: ${new Date().toLocaleString()}\n\n`;
+  report+=`LEARNER SUMMARY\nTotal XP: ${S.xp}\nLessons Completed: ${S.completed.length}/${LESSONS.length}\nBadges Earned: ${S.earnedBadges.join(', ')||'None yet'}\nLevel: ${getLevel().name}\n\n`;
+  report+='='+'='.repeat(60)+'\n\n';
+
+  LESSONS.forEach(l=>{
+    if(!S.completed.includes(l.id)&&!S.stagesDone[l.id]?.length)return;
+    report+=`LESSON: ${l.id.toUpperCase()} — ${l.title}\nTrack: ${TRACKS[l.track].name} | Shield: ${l.shield} | XP: ${l.xp}\nStatus: ${S.completed.includes(l.id)?'COMPLETED':'IN PROGRESS'}\n\n`;
+
+    KOLB_STAGES.forEach(s=>{
+      const resp=S.responses[l.id]?.[s];
+      const done=S.stagesDone[l.id]?.includes(s);
+      if(resp){
+        report+=`  Kolb Stage — ${KOLB_META[s].label} [${done?'PASSED — AI gate approved':'PENDING'}]\n`;
+        report+=`  Prompt: "${l.kolb[s].q}"\n`;
+        report+=`  Response: "${resp}"\n\n`;
+      }
+    });
+
+    const assess=S.assessResponses[l.id];
+    if(assess){
+      report+=`  Assessment Response:\n  Q: "${l.assessment.q}"\n  A: "${assess}"\n\n`;
+    }
+    report+='-'.repeat(60)+'\n\n';
+  });
+
+  const blob=new Blob([report],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`GC_Portfolio_Evidence_${new Date().toISOString().split('T')[0]}.txt`;
+  a.click();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════════════
+async function init(){
+  await loadState();
+  renderTopBar();
+  renderProgressBar();
+  renderSidebar();
+  showDashboard();
+}
+init();
+</script>
+</body>
+</html>
+
