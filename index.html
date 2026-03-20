@@ -1,315 +1,1895 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Growth Circles LMS</title>
-  <link rel="manifest" href="data/manifest.json">
-  <link rel="stylesheet" href="../css/template.css">
-  <style>
-    /* General Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Circles with TechForHer | Architecting Learning Systems for Africa's Knowledge Economy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:    #080F1E;
+  --deep:    #0A1628;
+  --royal:   #122040;
+  --mid:     #1A3A6B;
+  --steel:   #2E6BB0;
+  --sky:     #3D87CC;
+  --ice:     #A8C8E8;
+  --pale:    #D6E8F7;
+  --gold:    #C9A84C;
+  --gold-l:  #E8C96D;
+  --gold-d:  #9A7A2A;
+  --silver:  #B0BEC5;
+  --bronze:  #B87333;
+  --white:   #FFFFFF;
+  --off:     #F2F6FB;
+  --text:    #E2EBF5;
+  --muted:   rgba(168,200,232,0.6);
+  --teal:    #0EA5A0;
+  --green:   #1E7A4A;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      background: #0d0d0d;
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* Donut Menu Container */
-    .menu-container {
-      position: relative;
-      margin: 4rem auto;
-      width: 10px;
-      height: 200px;
-    }
+html { scroll-behavior: smooth; }
 
-    .menu-items {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(50%, 50%);
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+body {
+  background: var(--navy);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
 
-    /* Logo in the Center of the Donut Menu */
-    .menu-logo {
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      background: url('assets/images/logo.png') no-repeat center center;
-      background-size: cover;
-      border-radius: 50%;
-      z-index: ;2
-    }
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--deep); }
+::-webkit-scrollbar-thumb { background: var(--gold-d); }
 
-    /* Circular Menu Items */
-    .menu-item {
-      position: absolute;
-      width: 80px;
-      height: 80px;
-      text-align: center;
-      line-height: 80px;
-      border-radius: 50%;
-      font-size: 14px;
-      font-weight: bold;
-      color: #fff;
-      text-transform: capitalize;
-    }
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+}
 
-    .menu-item a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .menu-item:hover {
-      filter: brightness(1.2);
-      transform: scale(1.1);
-    }
-
-    /* SDG Color Accents */
-    .sdg1 { background: #e5243b; }    /* Red */
-    .sdg4 { background: #19486a; }    /* Blue */
-    .sdg3 { background: #22c55e; }    /* Green */
-    .sdg7 { background: #facc15; color: #111; } /* Yellow */
-    .sdg9 { background: #f97316; }    /* Orange */
-    .sdg10 { background: #c084fc; }   /* Purple */
-    .sdg13 { background: #4c9f38; }   /* Dark Green */
-
-    /* Hero Section */
-    .hero {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem 1rem;
-    }
-
-    .sparkling-text {
-      font-size: 2.5rem;
-      font-weight: bold;
-      background: linear-gradient(
-        270deg,
-        #ff6ec4,
-        #7873f5,
-        #4ade80,
-        #facc15,
-        #f97316,
-        #c084fc
-      );
-      background-size: 1200% 1200%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: gradientShift 20s ease infinite, fadeIn 3s ease forwards;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .line:nth-child(1) { animation-delay: 1s; }
-    .line:nth-child(2) { animation-delay: 2.5s; }
-    .line:nth-child(3) { animation-delay: 4s; }
-    .line:nth-child(4) { animation-delay: 5.5s; }
-
-    /* Banner Styling */
-   
-    .banner {
-      text-align: center;
-      padding: 20px;
-      border-radius: 10px;
-      margin: 2rem auto;
-      color: #fff;
-      font-size: 1.4rem;
-      font-weight: bold;
-      background: linear-gradient(90deg, #e5243b, #19486a, #22c55e, #facc15, #f97316, #c084fc);
-      background-size: 200% 200%;
-      animation: gradientShift 8s ease infinite, glowPulse 2s ease-in-out infinite;
-      box-shadow: 0 0 20px rgba(255,255,255,0.6);
-    }
-
-    @keyframes glowPulse {
-      0% { box-shadow: 0 0 10px rgba(255,255,255,0.5); }
-      50% { box-shadow: 0 0 25px rgba(255,255,255,0.9); }
-      100% { box-shadow: 0 0 10px rgba(255,255,255,0.5); }
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 2rem;
-      text-align: center;
-      padding: 1rem;
-      background: #222;
-      color: #fff;
-      width: 100%;
-    }
-.content-header {
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin: 2rem 0;
+  justify-content: space-between;
+  padding: 0 60px;
+  height: 76px;
+  background: rgba(8, 15, 30, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(201,168,76,0.15);
 }
 
-.badges-image {
-  max-width: 80%;   /* keeps it responsive */
-  height: auto;
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.nav-logo { width: 44px; height: 44px; }
+
+.nav-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.2;
+}
+.nav-name span {
   display: block;
-  box-shadow: 0 0 20px rgba(255,255,255,0.6);
-  border-radius: 12px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 2px;
 }
-.epic-banner {
-  width: 100%;
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--white); }
+
+.nav-cta {
+  padding: 10px 24px;
+  background: var(--gold);
+  color: var(--navy) !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+}
+.nav-cta:hover { background: var(--gold-l) !important; color: var(--navy) !important; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 60px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(26,58,107,0.35) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 80% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 60%),
+    linear-gradient(160deg, #040810 0%, #080F1E 50%, #0A1628 100%);
+}
+
+/* Growth circles SVG watermark */
+.hero-circles {
+  position: absolute;
+  right: -120px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 700px;
+  height: 700px;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 780px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 28px;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(42px, 6vw, 82px);
+  font-weight: 700;
+  line-height: 1.04;
+  color: var(--white);
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--sky);
+}
+.hero-title .gold { color: var(--gold-l); }
+
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ice);
+  margin-bottom: 32px;
+  line-height: 1.5;
+  max-width: 640px;
+}
+
+.hero-desc {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 580px;
+  line-height: 1.9;
+  margin-bottom: 48px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 36px;
+  background: var(--gold);
+  color: var(--navy);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: var(--gold-l); transform: translateY(-2px); }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 36px;
+  background: transparent;
+  color: var(--ice);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid rgba(168,200,232,0.3);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-outline:hover { border-color: var(--ice); color: var(--white); }
+
+/* Credential strip */
+.hero-strip {
+  display: flex;
+  gap: 0;
+  margin-top: 72px;
+  border-top: 1px solid rgba(168,200,232,0.1);
+  padding-top: 32px;
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+}
+
+.strip-item {
+  flex: 1;
+  min-width: 160px;
+  padding-right: 32px;
+  border-right: 1px solid rgba(168,200,232,0.1);
+  margin-right: 32px;
+}
+.strip-item:last-child { border-right: none; margin-right: 0; }
+
+.strip-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 6px;
+}
+.strip-value {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ice);
+}
+
+/* ── SECTION COMMONS ── */
+section { position: relative; }
+
+.section-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 100px 60px;
+}
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.12;
+  margin-bottom: 20px;
+  max-width: 700px;
+}
+.section-title em { font-style: italic; color: var(--sky); }
+
+.section-intro {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  max-width: 660px;
+  line-height: 1.9;
+  margin-bottom: 64px;
+}
+
+/* ── PROGRAMMES ── */
+.programmes-section {
+  background: linear-gradient(180deg, #080F1E 0%, #0A1628 100%);
+  border-top: 1px solid rgba(201,168,76,0.12);
+}
+
+.programmes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: rgba(26,58,107,0.15);
+}
+
+.programme-card {
+  background: var(--deep);
+  padding: 56px 48px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.programme-card:hover { background: #0d1e38; }
+
+.programme-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+}
+.programme-card.architect::before { background: linear-gradient(90deg, var(--gold), var(--gold-l)); }
+.programme-card.engineers::before { background: linear-gradient(90deg, var(--teal), #64D8D3); }
+
+/* Decorative number */
+.card-number {
+  position: absolute;
+  top: 40px;
+  right: 48px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 100px;
+  font-weight: 700;
+  line-height: 1;
+  color: rgba(255,255,255,0.03);
+  pointer-events: none;
+  user-select: none;
+}
+
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.architect .card-badge { border-color: var(--gold-d); color: var(--gold); }
+.engineers .card-badge { border-color: rgba(14,165,160,0.4); color: var(--teal); }
+
+.card-icon {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  border: 1px solid rgba(168,200,232,0.12);
+}
+.architect .card-icon { background: rgba(201,168,76,0.08); }
+.engineers .card-icon { background: rgba(14,165,160,0.08); }
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.card-qualifier {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.architect .card-qualifier { color: var(--gold); }
+.engineers .card-qualifier { color: var(--teal); }
+
+.card-desc {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.85;
+  margin-bottom: 36px;
+}
+
+.card-features {
+  list-style: none;
+  margin-bottom: 40px;
+}
+.card-features li {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(168,200,232,0.75);
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(168,200,232,0.07);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  line-height: 1.5;
+}
+.card-features li::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  flex-shrink: 0;
+}
+.architect .card-features li::before { background: var(--gold); }
+.engineers .card-features li::before { background: var(--teal); }
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: gap 0.2s;
+}
+.architect .card-link { color: var(--gold); }
+.engineers .card-link { color: var(--teal); }
+.card-link:hover { gap: 16px; }
+.card-link svg { flex-shrink: 0; }
+
+/* ── PHASES ── */
+.phases-section {
+  background: #060D1A;
+  border-top: 1px solid rgba(61,135,204,0.1);
+}
+
+.phases-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: rgba(26,58,107,0.1);
+}
+
+.phase-card {
+  background: #0A1628;
+  padding: 36px 28px;
+  position: relative;
+}
+.phase-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.phase-card:nth-child(1)::after { background: var(--bronze); }
+.phase-card:nth-child(2)::after, .phase-card:nth-child(3)::after { background: var(--silver); }
+.phase-card:nth-child(4)::after { background: var(--gold); }
+
+.phase-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.phase-card:nth-child(1) .phase-num { color: var(--bronze); }
+.phase-card:nth-child(2) .phase-num, .phase-card:nth-child(3) .phase-num { color: var(--silver); }
+.phase-card:nth-child(4) .phase-num { color: var(--gold); }
+
+.phase-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+  line-height: 1.25;
+}
+
+.phase-focus {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sky);
+  margin-bottom: 14px;
+}
+
+.phase-shift {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.65;
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.phase-comp {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ice);
+  padding: 8px 12px;
+  background: rgba(61,135,204,0.08);
+  border-left: 2px solid rgba(61,135,204,0.3);
+  line-height: 1.4;
+}
+
+/* ── TECHNOLOGY ── */
+.tech-section {
+  background: linear-gradient(180deg, #060D1A 0%, #080F1E 100%);
+  border-top: 1px solid rgba(61,135,204,0.1);
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(26,58,107,0.1);
+  margin-bottom: 0;
+}
+
+.tech-card {
+  background: #0A1628;
+  padding: 36px 32px;
+  transition: background 0.2s;
+}
+.tech-card:hover { background: #0d1e38; }
+
+.tech-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(61,135,204,0.2);
+  background: rgba(61,135,204,0.06);
+  margin-bottom: 20px;
+}
+
+.tech-name {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ice);
+  margin-bottom: 6px;
+}
+
+.tech-role {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.tech-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+/* ── CREDENTIALS ── */
+.credentials-section {
+  background: var(--navy);
+  border-top: 1px solid rgba(61,135,204,0.08);
+}
+
+.shields-row {
+  display: flex;
+  gap: 2px;
+  background: rgba(26,58,107,0.1);
+  margin-bottom: 80px;
+}
+
+.shield-block {
+  flex: 1;
+  background: #0A1628;
+  padding: 48px 36px;
   text-align: center;
-  padding: 2rem 1rem;
-  margin: 2rem 0;
-  border-radius: 0; /* full-width, no rounded edges */
-  background: linear-gradient(
-    90deg,
-    #e5243b, /* SDG1 Red */
-    #19486a, /* SDG4 Blue */
-    #22c55e, /* SDG3 Green */
-    #facc15, /* SDG7 Yellow */
-    #f97316, /* SDG9 Orange */
-    #c084fc  /* SDG10 Purple */
-  );
-  background-size: 400% 400%;
-  animation: gradientShift 12s ease infinite, glowPulse 3s ease-in-out infinite;
-  box-shadow: 0 0 25px rgba(255,255,255,0.8);
+  position: relative;
+}
+.shield-block::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0.5;
+}
+.shield-block:nth-child(1)::after { background: var(--bronze); }
+.shield-block:nth-child(2)::after { background: var(--silver); }
+.shield-block:nth-child(3)::after { background: var(--gold); }
+
+.shield-icon-wrap {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
 }
 
-.epic-banner h2 {
-  margin: 0;
-  font-size: 2.2rem;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 0 0 15px rgba(255,255,255,0.9);
-  animation: twinkle 2s ease-in-out infinite;
+.shield-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.shield-block:nth-child(1) .shield-name { color: var(--bronze); }
+.shield-block:nth-child(2) .shield-name { color: var(--silver); }
+.shield-block:nth-child(3) .shield-name { color: var(--gold); }
+
+.shield-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.7;
 }
 
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* ── PRICING ── */
+.pricing-section {
+  background: #060D1A;
+  border-top: 1px solid rgba(201,168,76,0.1);
 }
 
-@keyframes glowPulse {
-  0% { box-shadow: 0 0 15px rgba(255,255,255,0.6); }
-  50% { box-shadow: 0 0 35px rgba(255,255,255,1); }
-  100% { box-shadow: 0 0 15px rgba(255,255,255,0.6); }
+.pricing-tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 40px;
+  background: rgba(26,58,107,0.15);
+  border: 1px solid rgba(61,135,204,0.15);
+  padding: 4px;
+  width: fit-content;
+}
+.pricing-tab {
+  padding: 12px 32px;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pricing-tab.active { background: var(--mid); color: var(--white); }
+
+.currency-toggle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 48px;
+}
+.toggle-lbl {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.toggle-lbl.active { color: var(--gold); }
+.toggle-track {
+  width: 46px; height: 24px;
+  background: rgba(61,135,204,0.2);
+  border: 1px solid rgba(61,135,204,0.35);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.toggle-track.usd { background: rgba(201,168,76,0.15); border-color: var(--gold-d); }
+.toggle-thumb {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--steel);
+  transition: transform 0.25s, background 0.2s;
+}
+.toggle-track.usd .toggle-thumb { transform: translateX(22px); background: var(--gold); }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: rgba(26,58,107,0.1);
 }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
+.pricing-card {
+  background: var(--deep);
+  padding: 52px 44px;
+  position: relative;
+}
+.pricing-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+.pricing-card.saas::before { background: var(--steel); }
+.pricing-card.enterprise::before { background: linear-gradient(90deg, var(--gold), var(--gold-l)); }
+.pricing-card.enterprise { background: linear-gradient(145deg, #0d1e38 0%, #1A3A6B 100%); }
+
+.pricing-tier-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--steel);
+  margin-bottom: 8px;
+}
+.enterprise .pricing-tier-label { color: var(--gold); }
+
+.pricing-tier-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 4px;
 }
 
-  </style>
+.pricing-tier-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 32px;
+}
+
+.pricing-amount {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.enterprise .pricing-amount { color: var(--gold-l); }
+
+.pricing-amount-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.pricing-alt {
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  color: rgba(168,200,232,0.35);
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(61,135,204,0.1);
+}
+
+.pricing-features {
+  list-style: none;
+  margin-bottom: 36px;
+}
+.pricing-features li {
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(168,200,232,0.75);
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(61,135,204,0.06);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pricing-features li::before {
+  content: '✦';
+  font-size: 8px;
+  flex-shrink: 0;
+}
+.saas .pricing-features li::before { color: var(--steel); }
+.enterprise .pricing-features li::before { color: var(--gold); }
+
+/* Franchise section */
+.franchise-intro {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  background: rgba(201,168,76,0.05);
+  border: 1px solid rgba(201,168,76,0.15);
+  border-left: 4px solid var(--gold);
+  padding: 32px 36px;
+  margin-bottom: 32px;
+}
+.franchise-icon {
+  width: 52px; height: 52px; min-width: 52px;
+  background: rgba(201,168,76,0.08);
+  border: 1px solid rgba(201,168,76,0.2);
+  display: flex; align-items: center; justify-content: center;
+}
+.franchise-intro-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold-l);
+  margin-bottom: 8px;
+}
+.franchise-intro-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.franchise-table-wrap { overflow-x: auto; border: 1px solid rgba(61,135,204,0.15); }
+.franchise-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+}
+.franchise-table thead tr {
+  background: rgba(10,22,40,0.95);
+  border-bottom: 2px solid rgba(61,135,204,0.2);
+}
+.franchise-table th {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--steel);
+  padding: 16px 20px;
+  text-align: left;
+  white-space: nowrap;
+}
+.franchise-row { border-bottom: 1px solid rgba(61,135,204,0.07); }
+.franchise-row:nth-child(even) td { background: rgba(10,22,40,0.5); }
+.franchise-row td {
+  padding: 18px 20px;
+  background: #0A1628;
+  vertical-align: middle;
+}
+.franchise-row:hover td { background: #0d1e38; }
+.fplan-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  display: block;
+  margin-bottom: 5px;
+}
+.fplan-badge {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border: 1px solid;
+}
+.fplan-for { font-size: 12px; font-weight: 300; color: var(--muted); line-height: 1.5; }
+.col-num { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; color: var(--sky); white-space: nowrap; }
+.col-kes { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 600; color: var(--ice); white-space: nowrap; }
+.col-total { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 600; color: var(--gold-l); white-space: nowrap; }
+
+.pricing-note {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(168,200,232,0.35);
+  line-height: 1.75;
+  max-width: 600px;
+  margin: 32px auto 0;
+  font-style: italic;
+}
+
+/* ── FOUNDER ── */
+.founder-section {
+  background: linear-gradient(160deg, #0A1628 0%, #060D1A 100%);
+  border-top: 1px solid rgba(61,135,204,0.1);
+}
+
+.founder-inner {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.founder-portrait {
+  position: relative;
+}
+.founder-portrait-frame {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: linear-gradient(145deg, #1A3A6B 0%, #0A1628 100%);
+  border: 1px solid rgba(61,135,204,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.founder-portrait-frame::before {
+  content: 'CS';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 120px;
+  font-weight: 700;
+  color: rgba(201,168,76,0.08);
+}
+.portrait-gold-rule {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-l));
+}
+.founder-credential {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: rgba(201,168,76,0.06);
+  border-left: 3px solid var(--gold);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  line-height: 1.8;
+}
+
+.founder-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 8px;
+}
+.founder-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 36px;
+}
+
+.founder-bio {
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+.founder-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 36px;
+}
+.founder-tag {
+  padding: 7px 16px;
+  border: 1px solid rgba(61,135,204,0.25);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ice);
+  background: rgba(61,135,204,0.05);
+}
+
+/* ── CTA ── */
+.cta-section {
+  background: linear-gradient(135deg, #0A1E3F 0%, #1A3A6B 50%, #0A1E3F 100%);
+  border-top: 1px solid rgba(201,168,76,0.2);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-circles {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.cta-inner {
+  padding: 120px 60px;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-overline {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: block;
+}
+
+.cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.08;
+  margin-bottom: 24px;
+}
+.cta-title em { font-style: italic; color: var(--sky); }
+
+.cta-sub {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--ice);
+  max-width: 600px;
+  margin: 0 auto 48px;
+  line-height: 1.85;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #040810;
+  border-top: 1px solid rgba(201,168,76,0.12);
+  padding: 60px;
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid rgba(61,135,204,0.08);
+}
+
+.footer-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.footer-brand-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.2;
+}
+.footer-brand-name span {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  font-weight: 400;
+  color: var(--gold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+.footer-tagline {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 280px;
+}
+
+.footer-col-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 10px; }
+.footer-links a {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--white); }
+
+.footer-bottom {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-copy {
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(168,200,232,0.3);
+}
+.footer-badges {
+  display: flex;
+  gap: 10px;
+}
+.footer-badge {
+  padding: 5px 12px;
+  border: 1px solid rgba(61,135,204,0.2);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--steel);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-content > * {
+  animation: fadeUp 0.7s ease forwards;
+  opacity: 0;
+}
+.hero-content > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-content > *:nth-child(2) { animation-delay: 0.25s; }
+.hero-content > *:nth-child(3) { animation-delay: 0.38s; }
+.hero-content > *:nth-child(4) { animation-delay: 0.5s; }
+.hero-content > *:nth-child(5) { animation-delay: 0.62s; }
+.hero-strip { animation: fadeUp 0.7s 0.75s ease forwards; opacity: 0; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  nav { padding: 0 32px; }
+  .nav-links { gap: 24px; }
+  .hero { padding: 120px 32px 64px; }
+  .section-inner { padding: 80px 32px; }
+  .programmes-grid { grid-template-columns: 1fr; }
+  .phases-grid { grid-template-columns: 1fr 1fr; }
+  .tech-grid { grid-template-columns: 1fr 1fr; }
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .founder-inner { grid-template-columns: 1fr; gap: 48px; }
+}
+@media (max-width: 640px) {
+  nav { padding: 0 16px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 20px 48px; }
+  .section-inner { padding: 64px 20px; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .phases-grid { grid-template-columns: 1fr; }
+  .tech-grid { grid-template-columns: 1fr; }
+  .shields-row { flex-direction: column; gap: 2px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 32px; }
+  footer { padding: 40px 20px; }
+  .cta-inner { padding: 80px 20px; }
+  .strip-item { border-right: none; border-bottom: 1px solid rgba(168,200,232,0.08); padding-bottom: 16px; margin-bottom: 16px; padding-right: 0; margin-right: 0; }
+  .franchise-intro { flex-direction: column; gap: 16px; }
+}
+</style>
 </head>
 <body>
 
-  <!-- Hero Section -->
-  <div class="hero">
-    <div class="sparkling-text line">Dreams Revived</div>
-    <div class="sparkling-text line">Scaled</div>
-    <div class="sparkling-text line">Unleashed into Digital Production</div>
-    <div class="sparkling-text line">We are Youth, Women, and MSME Digital Explorers</div>
-  </div>
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <a class="nav-brand" href="#">
+    <svg class="nav-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="rg1" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#4ECDC4"/><stop offset="35%" stop-color="#3D87CC"/>
+          <stop offset="65%" stop-color="#1A3A6B"/><stop offset="100%" stop-color="#0D2247"/>
+        </linearGradient>
+        <linearGradient id="rg2" x1="200" y1="0" x2="0" y2="200" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#2E6BB0"/><stop offset="50%" stop-color="#1A3A6B"/>
+          <stop offset="100%" stop-color="#0A1628"/>
+        </linearGradient>
+        <linearGradient id="ga" x1="100" y1="0" x2="200" y2="100" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8C96D"/><stop offset="100%" stop-color="#C9A84C"/>
+        </linearGradient>
+        <linearGradient id="gg" x1="60" y1="60" x2="150" y2="150" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#2E7D4F"/><stop offset="100%" stop-color="#1B5E35"/>
+        </linearGradient>
+      </defs>
+      <circle cx="100" cy="100" r="97" fill="none" stroke="url(#rg1)" stroke-width="5"/>
+      <circle cx="100" cy="100" r="88" fill="none" stroke="#3D87CC" stroke-width="2" opacity="0.6"/>
+      <circle cx="100" cy="100" r="80" fill="none" stroke="url(#rg2)" stroke-width="4"/>
+      <circle cx="100" cy="100" r="73" fill="none" stroke="#1A3A6B" stroke-width="2" opacity="0.9"/>
+      <circle cx="100" cy="100" r="72" fill="#0D2247"/>
+      <path d="M 100 28 A 72 72 0 0 1 172 100" fill="none" stroke="url(#ga)" stroke-width="7" stroke-linecap="round"/>
+      <path d="M 148 72 A 52 52 0 1 0 148 128 L 148 108 L 118 108 L 118 98 L 155 98" fill="none" stroke="url(#gg)" stroke-width="26" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <rect x="116" y="86" width="50" height="28" fill="#0D2247"/>
+      <rect x="118" y="97" width="38" height="16" fill="url(#gg)" rx="1"/>
+      <g transform="translate(158,72)"><circle cx="0" cy="0" r="9" fill="#C9A84C"/><circle cx="0" cy="0" r="5" fill="#0D2247"/></g>
+      <g fill="#3D87CC" opacity="0.7">
+        <circle cx="100" cy="3" r="2"/><circle cx="197" cy="100" r="2"/>
+        <circle cx="100" cy="197" r="2"/><circle cx="3" cy="100" r="2"/>
+      </g>
+    </svg>
+    <div class="nav-name">Growth Circles with TechForHer<span>Founded by Caleb Seda</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#programmes">Programmes</a></li>
+    <li><a href="#technology">Technology</a></li>
+    <li><a href="#credentials">Credentials</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#founder">About</a></li>
+    <li><a href="#contact" class="nav-cta">Enrol Now</a></li>
+  </ul>
+</nav>
 
-  <!-- Donut Menu -->
-  <div class="menu-container">
-    <div class="menu-items">
-      <div class="menu-logo"></div>
-      <div class="menu-item sdg1"><a href="menubarpages/home.html">Home</a></div>
-      <div class="menu-item sdg4"><a href="menubarpages/aboutus.html">About Us</a></div>
-      <div class="menu-item sdg3"><a href="menubarpages/services.html">Services</a></div>
-      <div class="menu-item sdg7"><a href="menubarpages/contactus.html">Contact Us</a></div>
-      <div class="menu-item sdg9"><a href="menubarpages/donor-enterprise.html">Donors</a></div>
-      <div class="menu-item sdg10"><a href="menubarpages/signup.html">Sign Up</a></div>
-      <div class="menu-item sdg13"><a href="menubarpages/signin.html">Sign In</a></div>
+<!-- ══════════ HERO ══════════ -->
+<div class="hero" id="home">
+  <div class="hero-bg"></div>
+
+  <!-- Growth circles watermark -->
+  <svg class="hero-circles" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="300" cy="300" r="280" stroke="#3D87CC" stroke-width="1.5"/>
+    <circle cx="300" cy="300" r="220" stroke="#3D87CC" stroke-width="1"/>
+    <circle cx="300" cy="300" r="160" stroke="#3D87CC" stroke-width="1"/>
+    <circle cx="300" cy="300" r="100" stroke="#C9A84C" stroke-width="1.2"/>
+    <circle cx="300" cy="300" r="50"  stroke="#C9A84C" stroke-width="1.5"/>
+    <circle cx="300" cy="300" r="10"  fill="#C9A84C" opacity="0.6"/>
+    <line x1="300" y1="20" x2="300" y2="580" stroke="#3D87CC" stroke-width="0.5" opacity="0.4"/>
+    <line x1="20"  y1="300" x2="580" y2="300" stroke="#3D87CC" stroke-width="0.5" opacity="0.4"/>
+    <line x1="82"  y1="82"  x2="518" y2="518" stroke="#3D87CC" stroke-width="0.4" opacity="0.3"/>
+    <line x1="518" y1="82"  x2="82"  y2="518" stroke="#3D87CC" stroke-width="0.4" opacity="0.3"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">KNQA Level 6 · ACQF Continental Standard</div>
+    <h1 class="hero-title">
+      Architecting Learning Systems<br>
+      for <em>Africa's</em> <span class="gold">Knowledge Economy</span>
+    </h1>
+    <p class="hero-sub">Two Premier Programmes. One Continental Standard.</p>
+    <p class="hero-desc">
+      Growth Circles with TechForHer is building the professional and technical education infrastructure Africa's schools need — a nationally accredited diploma for school leaders, and an engineering pathway for the next generation of community digital practitioners. Both powered by AI, both designed for scale.
+    </p>
+    <div class="hero-actions">
+      <a href="#programmes" class="btn-primary">
+        Explore Programmes
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#pricing" class="btn-outline">View Pricing</a>
     </div>
   </div>
 
-  <!-- Banner -->
+  <div class="hero-strip">
+    <div class="strip-item">
+      <div class="strip-label">Qualification Level</div>
+      <div class="strip-value">KNQA Level 6 — ACQF Recognised</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-label">Programme Structure</div>
+      <div class="strip-value">4 Phases · Stackable Credentials</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-label">Target Cohort</div>
+      <div class="strip-value">School Heads, Deputies & Digital Engineers</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-label">Assessment Mode</div>
+      <div class="strip-value">AI-Gated Portfolio Evidence</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-label">Franchise</div>
+      <div class="strip-value">County · NGO · Faith · Professional Bodies</div>
+    </div>
+  </div>
+</div>
 
-  <div class="banner">
-    🎉 CBO Heads — Join Us in Co‑Creating the Platform! 🎉<br>
-    Transform your CBO into a Growth Circles Hub. <br>
-    Take the Dreamer Start Course now!
+<!-- ══════════ PROGRAMMES ══════════ -->
+<section id="programmes">
+  <div class="section-inner">
+    <div class="section-label">Our Premier Programmes</div>
+    <h2 class="section-title">Two Pathways.<br><em>One Transformational Architecture.</em></h2>
+    <p class="section-intro">Both programmes are designed from the ground up for the African educational context — built on proven pedagogical frameworks, delivered on world-class infrastructure, and validated by AI that refuses to let anyone graduate without genuinely earning it.</p>
   </div>
 
-<!-- Top Banner -->
-<div class="epic-banner top-banner">
-  <h2>WELCOME TO EPIC DIGITAL SKILLING PLATFORM</h2>
-</div>
+  <div style="max-width:1280px;margin:0 auto;padding:0 60px 100px;">
+    <div class="programmes-grid">
 
-<!-- Centered Badges Image -->
-<div class="content-header">
-  <a href="completeStarterCourse.html" class="image-link">
-    <img src="assets/images/badges.png" alt="Curated and Valued Premium Course" class="badges-image">
-  </a>
-</div>
+      <!-- Programme 1: The Instructional Architect -->
+      <div class="programme-card architect">
+        <div class="card-number">01</div>
+        <div class="card-badge">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L12 2z"/></svg>
+          KNQA Level 6 Professional Diploma
+        </div>
+        <div class="card-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+        </div>
+        <h3 class="card-title">The Instructional<br>Architect</h3>
+        <div class="card-qualifier">Professional Diploma · ACQF Aligned</div>
+        <p class="card-desc">A four-phase Professional Diploma that moves serving school heads from institutional management into strategic educational engineering. Built on Kolb's Experiential Learning Cycle and validated by an AI-powered Socratic coaching engine, it is the first qualification of its kind in East Africa.</p>
+        <ul class="card-features">
+          <li>Four cumulative phases — Bronze, Silver, Silver, Gold</li>
+          <li>AI-gated Socratic coaching at every phase checkpoint</li>
+          <li>Kolb-structured lessons with AfL and summative gating</li>
+          <li>Moodle-delivered with auto-compiled Digital Shield Passport</li>
+          <li>CBC instructional design, data intelligence & strategic planning</li>
+          <li>KNQA Level 6 Diploma on successful completion</li>
+        </ul>
+        <a href="#pricing" class="card-link">
+          View Enrolment Options
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
 
-<!-- Bottom Banner -->
-<div class="epic-banner bottom-banner">
-  <h2>
-    LEARNING AND BECOMING EXPERT IN CODING, ROBOTICS, APP DEV, ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING IS NOW FOR ALL
-  </h2>
-</div>
+      <!-- Programme 2: Community Digital Growth Circles Engineers -->
+      <div class="programme-card engineers">
+        <div class="card-number">02</div>
+        <div class="card-badge">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Technical Engineering Programme
+        </div>
+        <div class="card-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0EA5A0" stroke-width="1.6">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Community Digital<br>Growth Circles Engineers</h3>
+        <div class="card-qualifier" style="color:var(--teal)">Engineering Pathway · Community-Embedded</div>
+        <p class="card-desc">A technical engineering programme building a new generation of digitally capable practitioners embedded within Kenya's schools and community organisations. It creates the coding, systems, and infrastructure talent that modern Kenyan institutions urgently need — grown from within communities, deployed for community benefit.</p>
+        <ul class="card-features">
+          <li>Coding, robotics, apps and digital systems curriculum</li>
+          <li>Designed for post-KCSE youth and community practitioners</li>
+          <li>Directly pipelines into DigiSkool Academy advanced tracks</li>
+          <li>Moodle-delivered with competency portfolio evidence</li>
+          <li>Certified engineers deployed as embedded school practitioners</li>
+          <li>Transition pathway for existing EdTech instructors</li>
+        </ul>
+        <a href="#contact" class="card-link" style="color:var(--teal)">
+          Register Interest
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
 
-  <!-- Footer -->
-  <footer>
-    © 2026 Growth Circles Digital Generation
-  </footer>
+    </div>
+  </div>
+</section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const menuItems = document.querySelectorAll('.menu-item');
-      const radius = 200; // Radius of circular menu
-      const centerX = 50;
-      const centerY = 50;
-      const angleIncrement = (2 * Math.PI) / menuItems.length;
+<!-- ══════════ PHASES ══════════ -->
+<section id="phases" class="phases-section">
+  <div class="section-inner">
+    <div class="section-label">The Instructional Architect — Phase Map</div>
+    <h2 class="section-title">Four Phases.<br><em>One Cumulative Transformation.</em></h2>
+    <p class="section-intro">Each phase builds deliberate capacity upon the last — shifting the school leader's operating system from administrative survival to strategic educational engineering. Every phase earns a stackable credential recognised on the KNQA National Qualifications Database.</p>
 
-      menuItems.forEach((item, index) => {
-        const angle = index * angleIncrement;
-        const x = centerX + radius * Math.cos(angle) - item.offsetWidth / 2;
-        const y = centerY + radius * Math.sin(angle) - item.offsetHeight / 2;
+    <div class="phases-grid">
+      <div class="phase-card">
+        <div class="phase-num">Phase 01 · Bronze</div>
+        <div class="phase-title">Mindset Reset</div>
+        <div class="phase-focus">Ethical Governance</div>
+        <div class="phase-shift">From Manager to Architect — reclaiming leadership time and securing the school's digital foundation.</div>
+        <div class="phase-comp">Analytical Thinking &amp; Ethical Leadership</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Phase 02 · Silver</div>
+        <div class="phase-title">Pedagogy by Design</div>
+        <div class="phase-focus">Instructional Architecture</div>
+        <div class="phase-shift">From Overseer to Designer — engineering the classroom environment for CBC excellence and deep learning.</div>
+        <div class="phase-comp">Pedagogical Engineering &amp; Content Curation</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Phase 03 · Silver</div>
+        <div class="phase-title">Intelligence-Led Operations</div>
+        <div class="phase-focus">Data &amp; Systems Management</div>
+        <div class="phase-shift">From Intuition to Evidence — deploying School Management Systems for data-informed growth decisions.</div>
+        <div class="phase-comp">Operational Logic &amp; Data Management</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Phase 04 · Gold</div>
+        <div class="phase-title">Innovation &amp; Scale</div>
+        <div class="phase-focus">Strategic Networks</div>
+        <div class="phase-shift">From Isolation to Impact — leading regional transformation, mentoring peers, and ensuring institutional sustainability.</div>
+        <div class="phase-comp">Strategic Master Planning &amp; Mentorship</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        item.style.transform = `translate(${x}px, ${y}px) rotate(${(angle * 180) / Math.PI}deg)`;
-      });
+<!-- ══════════ TECHNOLOGY ══════════ -->
+<section id="technology" class="tech-section">
+  <div class="section-inner">
+    <div class="section-label">Technology Infrastructure</div>
+    <h2 class="section-title">The Systems That Power<br><em>Every Learning Experience</em></h2>
+    <p class="section-intro">Not built on theory alone — a deliberate stack of proven technologies, each selected to serve a specific pedagogical and operational function. Structured, intelligent, verifiable, and built for continental scale.</p>
 
-      let rotation = 0;
-      setInterval(() => {
-        rotation += 0.5;
-        document.querySelector('.menu-items').style.transform = `rotate(${rotation}deg)`;
-        menuItems.forEach((item) => {
-          item.style.transform += `rotate(-${rotation}deg)`;
-        });
-      }, 100);
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3D87CC" stroke-width="1.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="tech-name">Socratic AI Coaching</div>
+        <div class="tech-role">Assessment Intelligence Layer</div>
+        <p class="tech-desc">An embedded AI coach that interrogates understanding through disciplined Socratic questioning — probing reasoning, surfacing gaps, and confirming genuine mastery before progression is granted.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div class="tech-name">Kolb's Learning Cycle</div>
+        <div class="tech-role">Pedagogical Architecture</div>
+        <p class="tech-desc">Every lesson is anchored to all four stages — Concrete Experience, Reflective Observation, Abstract Conceptualisation, and Active Experimentation — ensuring each concept is integrated into practice before the next begins.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0EA5A0" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="tech-name">Moodle LMS</div>
+        <div class="tech-role">Delivery &amp; Portfolio Platform</div>
+        <p class="tech-desc">The full programme is hosted on Moodle — managing AfL gating, summative submissions, progress tracking, and the automated compilation of each candidate's Digital Shield Passport portfolio for KNQA review.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B87333" stroke-width="1.6"><path d="M9 12l2 2 4-4"/><path d="M12 2L3 7v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7L12 2z"/></svg>
+        </div>
+        <div class="tech-name">Digital Shield Badges</div>
+        <div class="tech-role">Credentialling &amp; Recognition</div>
+        <p class="tech-desc">Bronze, Silver, and Gold Shields are verifiable digital credentials issued at each milestone — encoding competencies, artefacts submitted, and institutional context in a form meaningful to KNQA reviewers and county directorates.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B0BEC5" stroke-width="1.6"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+        </div>
+        <div class="tech-name">Google Cloud</div>
+        <div class="tech-role">Infrastructure &amp; Scalability</div>
+        <p class="tech-desc">Google Cloud provides reliable delivery, secure data storage, and the scalability to serve cohorts from 10 to 500 leaders simultaneously — compliant with data governance requirements across the ACQF region.</p>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2E6BB0" stroke-width="1.6"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        </div>
+        <div class="tech-name">AfL Gating Architecture</div>
+        <div class="tech-role">Assessment for Learning</div>
+        <p class="tech-desc">Assessment for Learning is a structural gate — not an afterthought. Every candidate passes a formative AfL checkpoint confirming readiness before any summative artefact is unlocked and before KNQA evidence is compiled.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CREDENTIALS ══════════ -->
+<section id="credentials" class="credentials-section">
+  <div class="section-inner">
+    <div class="section-label">The Modular Credit System</div>
+    <h2 class="section-title">Stackable Credentials That<br><em>Reward Every Stage</em></h2>
+    <p class="section-intro">Every phase delivers a tangible, recognised credential — ensuring institutions receive immediate, verifiable returns on their professional development investment long before the full qualification is conferred.</p>
+
+    <div class="shields-row">
+      <div class="shield-block">
+        <div class="shield-icon-wrap">
+          <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" width="72" height="72">
+            <path d="M36 6 L62 16 L62 38 C62 52 50 64 36 68 C22 64 10 52 10 38 L10 16 Z" fill="#B87333" opacity="0.85"/>
+            <path d="M36 14 L56 22 L56 38 C56 49 47 59 36 62 C25 59 16 49 16 38 L16 22 Z" fill="#C8843A"/>
+            <text x="36" y="44" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="18" font-weight="700" fill="#6B3A1A">I</text>
+          </svg>
+        </div>
+        <div class="shield-name">Bronze Shield</div>
+        <p class="shield-desc">Awarded on completion of Phase 1 — Mindset Reset. Signals a leader who has established ethical governance foundations and ratified an Acceptable Use Policy for their institution.</p>
+      </div>
+      <div class="shield-block">
+        <div class="shield-icon-wrap">
+          <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" width="72" height="72">
+            <path d="M36 6 L62 16 L62 38 C62 52 50 64 36 68 C22 64 10 52 10 38 L10 16 Z" fill="#B0BEC5" opacity="0.9"/>
+            <path d="M36 14 L56 22 L56 38 C56 49 47 59 36 62 C25 59 16 49 16 38 L16 22 Z" fill="#CFD8DC"/>
+            <text x="36" y="44" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="14" font-weight="700" fill="#4A5A65">II</text>
+          </svg>
+        </div>
+        <div class="shield-name">Silver Shield</div>
+        <p class="shield-desc">Awarded on successful implementation of Phases 2 &amp; 3 — Pedagogical Audits and Data Intelligence Systems deployed and evidenced within the candidate's own institution.</p>
+      </div>
+      <div class="shield-block">
+        <div class="shield-icon-wrap">
+          <svg viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" width="72" height="72">
+            <path d="M36 6 L62 16 L62 38 C62 52 50 64 36 68 C22 64 10 52 10 38 L10 16 Z" fill="#C9A84C" opacity="0.9"/>
+            <path d="M36 14 L56 22 L56 38 C56 49 47 59 36 62 C25 59 16 49 16 38 L16 22 Z" fill="#E8C96D"/>
+            <text x="36" y="44" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="12" font-weight="700" fill="#6B4C10">III</text>
+          </svg>
+        </div>
+        <div class="shield-name">Gold Shield — Full Diploma</div>
+        <p class="shield-desc">Awarded upon submission and ratification of the Final Strategic Master Plan. Confers the KNQA Level 6 designation: <strong style="color:var(--gold-l)">Instructional Architect</strong> — a credentialled designer of digital learning systems.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PRICING ══════════ -->
+<section id="pricing" class="pricing-section">
+  <div class="section-inner">
+    <div class="section-label">Investment &amp; Access</div>
+    <h2 class="section-title">Premium Value.<br><em>Every Scale. Every Mission.</em></h2>
+    <p class="section-intro">A premium price point that reflects a KNQA Level 6 qualification aligned to the ACQF framework. Every pathway — from individual enrolment to national franchise — delivers the same credential, the same standard, the same continental recognition.</p>
+
+    <!-- Tabs -->
+    <div class="pricing-tabs">
+      <button class="pricing-tab active" id="tab-direct" onclick="switchTab('direct')">Direct Enrolment</button>
+      <button class="pricing-tab" id="tab-franchise" onclick="switchTab('franchise')">Franchise &amp; Licensing</button>
+    </div>
+
+    <!-- Currency toggle -->
+    <div class="currency-toggle">
+      <span class="toggle-lbl active" id="lbl-kes" onclick="setCurrency('kes')">KES</span>
+      <div class="toggle-track" id="cur-toggle" onclick="toggleCur()"><div class="toggle-thumb"></div></div>
+      <span class="toggle-lbl" id="lbl-usd" onclick="setCurrency('usd')">USD</span>
+    </div>
+
+    <!-- Direct enrolment -->
+    <div id="view-direct">
+      <div class="pricing-grid">
+        <div class="pricing-card saas">
+          <div class="pricing-tier-label">Tier 1 — Self-Enrol</div>
+          <div class="pricing-tier-name">SaaS Access</div>
+          <p class="pricing-tier-desc">For individual school leaders and small clusters ready to begin their Architect's Pathway independently — full platform access, AI coaching, and Moodle delivery from day one.</p>
+          <div class="pricing-amount" id="saas-main">KES 58,000</div>
+          <div class="pricing-amount-sub">per candidate · full programme</div>
+          <div class="pricing-alt" id="saas-alt">≈ USD 450</div>
+          <ul class="pricing-features">
+            <li>Full access to all 4 Phases on Moodle</li>
+            <li>AI-gated Socratic coaching at every checkpoint</li>
+            <li>Kolb-structured lessons with AfL quizzes</li>
+            <li>Digital Shield Passport — auto-compiled portfolio</li>
+            <li>Bronze, Silver &amp; Gold Shield credentials</li>
+            <li>KNQA Level 6 Diploma on successful completion</li>
+            <li>12-month rolling access window</li>
+          </ul>
+          <a href="#contact" class="btn-primary" style="width:100%;justify-content:center;">Enrol Now</a>
+        </div>
+        <div class="pricing-card enterprise">
+          <div class="pricing-tier-label">Tier 2 — Cohort Commission</div>
+          <div class="pricing-tier-name">Enterprise</div>
+          <p class="pricing-tier-desc">For county directorates, school networks, and professional development organisations commissioning the programme for groups of 10 to 500 leaders.</p>
+          <div class="pricing-amount" id="ent-main">KES 48,000</div>
+          <div class="pricing-amount-sub">per candidate · minimum cohort of 10</div>
+          <div class="pricing-alt" id="ent-alt">≈ USD 372 per candidate</div>
+          <ul class="pricing-features">
+            <li>Everything in SaaS Access, for every candidate</li>
+            <li>Dedicated institutional onboarding session</li>
+            <li>Cohort progress dashboard for administrators</li>
+            <li>Branded Moodle environment (cohorts of 50+)</li>
+            <li>Facilitated kick-off and mid-programme reviews</li>
+            <li>Priority support channel for programme leads</li>
+            <li>Volume pricing available for 100+ cohorts</li>
+          </ul>
+          <a href="#contact" class="btn-primary" style="width:100%;justify-content:center;background:var(--gold);">Request Enterprise Brief</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Franchise -->
+    <div id="view-franchise" style="display:none;">
+      <div class="franchise-intro">
+        <div class="franchise-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div>
+          <div class="franchise-intro-title">Deliver The Instructional Architect Under Your Brand</div>
+          <p class="franchise-intro-desc">Franchise partners license the full programme — curriculum, AI coaching engine, Moodle infrastructure, and KNQA accreditation pathway — and deliver it to their own networks under a co-branded or fully white-labelled identity. Every plan includes a fixed annual licence fee plus a per-candidate rate that reduces with volume.</p>
+        </div>
+      </div>
+
+      <div class="franchise-table-wrap">
+        <table class="franchise-table">
+          <thead>
+            <tr>
+              <th>Plan</th>
+              <th>Best For</th>
+              <th>Users / Year</th>
+              <th class="col-kes">Annual Licence</th>
+              <th class="col-kes">Per Candidate</th>
+              <th class="col-total">Est. Annual Investment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="franchise-row">
+              <td><span class="fplan-name">Network</span><span class="fplan-badge" style="color:var(--sky);border-color:var(--steel);">Enterprise</span></td>
+              <td class="fplan-for">School groups, education networks &amp; chains</td>
+              <td class="col-num">10–49</td>
+              <td class="col-kes" data-kes="KES 120,000" data-usd="USD 930">KES 120,000</td>
+              <td class="col-kes" data-kes="KES 52,000" data-usd="USD 403">KES 52,000</td>
+              <td class="col-total" data-kes="KES 640k–2.7M" data-usd="USD 4.9k–20.6k">KES 640k–2.7M</td>
+            </tr>
+            <tr class="franchise-row">
+              <td><span class="fplan-name">County</span><span class="fplan-badge" style="color:var(--gold);border-color:var(--gold-d);">Government</span></td>
+              <td class="fplan-for">County education directorates &amp; TSC sub-regions</td>
+              <td class="col-num">50–199</td>
+              <td class="col-kes" data-kes="KES 280,000" data-usd="USD 2,170">KES 280,000</td>
+              <td class="col-kes" data-kes="KES 46,000" data-usd="USD 356">KES 46,000</td>
+              <td class="col-total" data-kes="KES 2.6M–9.5M" data-usd="USD 20k–73k">KES 2.6M–9.5M</td>
+            </tr>
+            <tr class="franchise-row">
+              <td><span class="fplan-name">Mission</span><span class="fplan-badge" style="color:var(--teal);border-color:rgba(14,165,160,0.4);">CPD Partner</span></td>
+              <td class="fplan-for">NGOs, faith organisations &amp; professional bodies</td>
+              <td class="col-num">20–149</td>
+              <td class="col-kes" data-kes="KES 180,000" data-usd="USD 1,395">KES 180,000</td>
+              <td class="col-kes" data-kes="KES 50,000" data-usd="USD 387">KES 50,000</td>
+              <td class="col-total" data-kes="KES 1.2M–7.6M" data-usd="USD 9.1k–59k">KES 1.2M–7.6M</td>
+            </tr>
+            <tr class="franchise-row">
+              <td><span class="fplan-name">National</span><span class="fplan-badge" style="color:var(--gold);border-color:var(--gold-d);">Strategic</span></td>
+              <td class="fplan-for">National bodies &amp; multi-county programmes</td>
+              <td class="col-num">200+</td>
+              <td class="col-kes" data-kes="KES 480,000" data-usd="USD 3,720">KES 480,000</td>
+              <td class="col-kes" data-kes="KES 40,000" data-usd="USD 310">KES 40,000</td>
+              <td class="col-total" data-kes="From KES 8.5M" data-usd="From USD 65.7k">From KES 8.5M</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <p class="pricing-note">All prices exclusive of VAT where applicable. Enterprise contracts invoiced per cohort agreement. Instalment plans available on request. Exchange rate indicative at time of publication.</p>
+  </div>
+</section>
+
+<!-- ══════════ FOUNDER ══════════ -->
+<section id="founder" class="founder-section">
+  <div class="section-inner">
+    <div class="section-label">The Founder</div>
+    <div class="founder-inner">
+      <div class="founder-portrait">
+        <div class="founder-portrait-frame">
+          <div class="portrait-gold-rule"></div>
+        </div>
+        <div class="founder-credential">
+          Founder &amp; IP Owner<br>
+          Growth Circles with TechForHer<br>
+          Product Architect<br>
+          The Instructional Architect<br>
+          Community Digital Growth Circles Engineers
+        </div>
+      </div>
+      <div>
+        <div class="section-label" style="margin-bottom:8px;">Growth Circles with TechForHer</div>
+        <div class="founder-name">Caleb<br>Seda</div>
+        <div class="founder-title">Founder · IP Owner · Product Architect</div>
+        <p class="founder-bio">Caleb Seda is the founder and sole IP owner of Growth Circles with TechForHer — the initiative building Africa's most ambitious school leadership and community digital engineering education ecosystem. As product architect, Caleb has designed both The Instructional Architect and the Community Digital Growth Circles Engineers programmes from first principles, drawing on deep expertise in instructional design, AI-gated assessment, and continental qualification frameworks.</p>
+        <p class="founder-bio">The initiative is in active incorporation as a private limited company. Caleb is currently building a founding board of strategic partners whose products, networks, and capital will accelerate both programmes to continental scale.</p>
+        <p class="founder-bio">Growth Circles with TechForHer is positioned at the intersection of Kenya's KNQA accreditation framework and the ACQF's continental standard — ensuring that every credential earned is recognised from Nairobi to Accra.</p>
+        <div class="founder-tags">
+          <span class="founder-tag">Instructional Design</span>
+          <span class="founder-tag">KNQA Level 6</span>
+          <span class="founder-tag">ACQF Alignment</span>
+          <span class="founder-tag">AI-Gated Assessment</span>
+          <span class="founder-tag">EdTech Architecture</span>
+          <span class="founder-tag">Franchise Development</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CTA ══════════ -->
+<section id="contact" class="cta-section">
+  <svg class="cta-circles" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="350" cy="350" r="330" stroke="#3D87CC" stroke-width="1"/>
+    <circle cx="350" cy="350" r="260" stroke="#3D87CC" stroke-width="1"/>
+    <circle cx="350" cy="350" r="190" stroke="#3D87CC" stroke-width="1"/>
+    <circle cx="350" cy="350" r="120" stroke="#C9A84C" stroke-width="1"/>
+    <circle cx="350" cy="350" r="60"  stroke="#C9A84C" stroke-width="1.2"/>
+    <circle cx="350" cy="350" r="12"  fill="#C9A84C" opacity="0.5"/>
+  </svg>
+  <div class="cta-inner">
+    <span class="cta-overline">Ready to Commission The Instructional Architect?</span>
+    <h2 class="cta-title">One Standard. Every School.<br><em>Across the Continent.</em></h2>
+    <p class="cta-sub">Whether you are a school leader ready to self-enrol, a county directorate commissioning a cohort, or an organisation licensing the programme for your network — one uncompromising KNQA Level 6 standard, recognised under the ACQF framework.</p>
+    <div class="cta-actions">
+      <a href="mailto:info@growthcircles4rher.africa" class="btn-primary">
+        Start the Conversation
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#pricing" class="btn-outline">View All Pricing</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-logo">
+        <svg width="40" height="40" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="frg1" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#4ECDC4"/><stop offset="100%" stop-color="#0D2247"/>
+            </linearGradient>
+            <linearGradient id="fga" x1="100" y1="0" x2="200" y2="100" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#E8C96D"/><stop offset="100%" stop-color="#C9A84C"/>
+            </linearGradient>
+            <linearGradient id="fgg" x1="60" y1="60" x2="150" y2="150" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#2E7D4F"/><stop offset="100%" stop-color="#1B5E35"/>
+            </linearGradient>
+          </defs>
+          <circle cx="100" cy="100" r="97" fill="none" stroke="url(#frg1)" stroke-width="5"/>
+          <circle cx="100" cy="100" r="72" fill="#0D2247"/>
+          <path d="M 100 28 A 72 72 0 0 1 172 100" fill="none" stroke="url(#fga)" stroke-width="7" stroke-linecap="round"/>
+          <path d="M 148 72 A 52 52 0 1 0 148 128 L 148 108 L 118 108 L 118 98 L 155 98" fill="none" stroke="url(#fgg)" stroke-width="26" stroke-linecap="butt"/>
+          <rect x="116" y="86" width="50" height="28" fill="#0D2247"/>
+          <rect x="118" y="97" width="38" height="16" fill="url(#fgg)" rx="1"/>
+        </svg>
+        <div class="footer-brand-name">
+          Growth Circles with TechForHer
+          <span>Founded by Caleb Seda</span>
+        </div>
+      </div>
+      <p class="footer-tagline">Architecting Learning Systems for Africa's Knowledge Economy. KNQA Level 6 · ACQF Aligned · Built for continental scale.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Programmes</div>
+      <ul class="footer-links">
+        <li><a href="#programmes">The Instructional Architect</a></li>
+        <li><a href="#programmes">Community Digital Growth Circles Engineers</a></li>
+        <li><a href="#phases">Phase Map</a></li>
+        <li><a href="#credentials">Credentials &amp; Shields</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Access</div>
+      <ul class="footer-links">
+        <li><a href="#pricing">SaaS Enrolment</a></li>
+        <li><a href="#pricing">Enterprise Cohorts</a></li>
+        <li><a href="#pricing">Franchise &amp; Licensing</a></li>
+        <li><a href="#contact">Partnership Enquiries</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <ul class="footer-links">
+        <li><a href="mailto:info@growthcircles4rher.africa">info@growthcircles4rher.africa</a></li>
+        <li><a href="#">Nairobi, Kenya</a></li>
+        <li><a href="#">KNQA Accreditation</a></li>
+        <li><a href="#">ACQF Alignment</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Growth Circles with TechForHer. Founded by Caleb Seda. All rights reserved.</div>
+    <div class="footer-badges">
+      <span class="footer-badge">KNQA Level 6</span>
+      <span class="footer-badge">ACQF Aligned</span>
+      <span class="footer-badge">AI-Gated</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════ SCRIPTS ══════════ -->
+<script>
+  // Pricing tab switch
+  function switchTab(tab) {
+    document.getElementById('view-direct').style.display    = tab === 'direct'    ? 'block' : 'none';
+    document.getElementById('view-franchise').style.display = tab === 'franchise' ? 'block' : 'none';
+    document.getElementById('tab-direct').classList.toggle('active',    tab === 'direct');
+    document.getElementById('tab-franchise').classList.toggle('active', tab === 'franchise');
+  }
+
+  // Currency toggle
+  var cur = 'kes';
+  function toggleCur() { setCurrency(cur === 'kes' ? 'usd' : 'kes'); }
+  function setCurrency(c) {
+    cur = c;
+    var track = document.getElementById('cur-toggle');
+    document.getElementById('lbl-kes').classList.toggle('active', c === 'kes');
+    document.getElementById('lbl-usd').classList.toggle('active', c === 'usd');
+    track.classList.toggle('usd', c === 'usd');
+
+    // Direct tiers
+    if (c === 'usd') {
+      document.getElementById('saas-main').textContent = 'USD 450';
+      document.getElementById('saas-alt').textContent  = '≈ KES 58,000';
+      document.getElementById('ent-main').textContent  = 'USD 372';
+      document.getElementById('ent-alt').textContent   = '≈ KES 48,000 per candidate';
+    } else {
+      document.getElementById('saas-main').textContent = 'KES 58,000';
+      document.getElementById('saas-alt').textContent  = '≈ USD 450';
+      document.getElementById('ent-main').textContent  = 'KES 48,000';
+      document.getElementById('ent-alt').textContent   = '≈ USD 372 per candidate';
+    }
+
+    // Franchise table
+    document.querySelectorAll('[data-kes]').forEach(function(el) {
+      el.textContent = el.getAttribute('data-' + c);
     });
-  </script>
+  }
+
+  // Scroll-triggered fade-in
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.programme-card, .phase-card, .tech-card, .shield-block, .pricing-card').forEach(function(el) {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
 
 </body>
 </html>
